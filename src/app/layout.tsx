@@ -19,15 +19,16 @@ export const metadata: Metadata = {
   keywords: ["детейлинг", "полировка авто", "керамическое покрытие", "оклейка PPF", "химчистка салона", "Челябинск", "ЭстетикБро", "детейлинг центр"],
   authors: [{ name: "ЭстетикБро" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
   },
   openGraph: {
     title: "ЭстетикБро — Профессиональный детейлинг в Челябинске",
     description: "Полный цикл детейлинга: от химчистки до бронирования кузова. Запишитесь на услугу!",
-    url: "https://estetbro.ru",
     siteName: "ЭстетикБро",
     type: "website",
     locale: "ru_RU",
+    // url будет добавлен после покупки домена
   },
 };
 

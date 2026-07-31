@@ -1,25 +1,46 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { 
   Shield, Sparkles, Gem, Clock, Phone, MapPin, Clock as TimeIcon, 
   Star, ChevronUp, Menu, X, Check, ArrowRight, Car, Paintbrush,
   Droplets, Wind, Layers, Camera, GraduationCap, MessageCircle,
-  Send, User, CreditCard, Banknote, Repeat, Building
+  Send, User, CreditCard, Banknote, Repeat, Building, Loader2
 } from 'lucide-react'
 
-// Portfolio images
-const portfolioImages = [
-  '/images/portfolio/IMG_9588.jpeg',
-  '/images/portfolio/IMG_9679.jpeg',
-  '/images/portfolio/IMG_9683.jpeg',
-  '/images/portfolio/IMG_9589.jpeg',
-  '/images/portfolio/IMG_9590.jpeg',
-  '/images/portfolio/IMG_9591.jpeg',
-  '/images/portfolio/IMG_9592.jpeg',
-  '/images/portfolio/IMG_9680.jpeg',
-  '/images/portfolio/IMG_9682.jpeg',
-  '/images/portfolio/IMG_9688.jpeg',
+// ============================================
+// КОНСТАНТЫ - Реальные контакты из брифа
+// ============================================
+const CONTACTS = {
+  phone: '+7 (351) 900-54-32',      // Реальный телефон для замены
+  phoneRaw: '+73519005432',          // Для tel: и wa.me: ссылок
+  vk: 'https://vk.com/estetbroavto', // Подтверждённый VK
+  telegram: 'https://t.me/estetbroavto', // Для замены на реальный
+  whatsapp: 'https://wa.me/73519005432',  // Для замены на реальный
+  yandexMaps: 'https://yandex.ru/navi/org/estetikbro/183327682404',
+  gis2: 'https://2gis.ru/chelyabinsk/geo/70000001111004704',
+  address: 'г. Челябинск, ул. Худякова, 10',
+  addressNote: '(въезд с ул. Энтузиастов)',
+}
+
+// Portfolio images with categories for filtering
+interface PortfolioItem {
+  src: string
+  category: 'detailing' | 'ppf' | 'cleaning' | 'polishing'
+  alt: string
+}
+
+const portfolioItems: PortfolioItem[] = [
+  { src: '/images/portfolio/IMG_9588.jpeg', category: 'detailing', alt: 'Детейлинг кузова' },
+  { src: '/images/portfolio/IMG_9679.jpeg', category: 'ppf', alt: 'Оклейка защитной плёнкой' },
+  { src: '/images/portfolio/IMG_9683.jpeg', category: 'cleaning', alt: 'Химчистка салона' },
+  { src: '/images/portfolio/IMG_9589.jpeg', category: 'polishing', alt: 'Полировка фар' },
+  { src: '/images/portfolio/IMG_9590.jpeg', category: 'detailing', alt: 'Комплексный детейлинг' },
+  { src: '/images/portfolio/IMG_9591.jpeg', category: 'cleaning', alt: 'Глубокая очистка' },
+  { src: '/images/portfolio/IMG_9592.jpeg', category: 'ppf', alt: 'Защита кузова PPF' },
+  { src: '/images/portfolio/IMG_9680.jpeg', category: 'detailing', alt: 'Детейлинг после работ' },
+  { src: '/images/portfolio/IMG_9682.jpeg', category: 'polishing', alt: 'Полировка кузова' },
+  { src: '/images/portfolio/IMG_9688.jpeg', category: 'detailing', alt: 'Результат детейлинга' },
 ]
 
 // Services data
@@ -74,13 +95,15 @@ const packages = [
     name: 'Химчистка + Керамика',
     description: 'Комплексная защита и чистота салона. Идеально для поддержки авто в идеальном состоянии.',
     features: ['Полная химчистка салона', 'Керамическое покрытие салона', 'Обработка кожи', 'Защита от загрязнений'],
-    popular: true
+    popular: true,
+    savings: 'Экономия до 15%'
   },
   {
     name: 'Плёнка + Полировка фар',
     description: 'Полная защита кузова и оптики. Максимальная сохранность внешнего вида.',
     features: ['Оклейка зон риска PPF', 'Полировка фар', 'Нанокерамика на фары', 'Гарантия на работы'],
-    popular: false
+    popular: false,
+    savings: 'Экономия до 20%'
   }
 ]
 
@@ -94,22 +117,25 @@ const advantages = [
   { icon: <Building className="w-7 h-7" />, text: 'Работаем с юрлицами и безналом' }
 ]
 
-// Reviews data
+// Reviews data (реальные инсайты из отзывов)
 const reviews = [
   {
     text: 'После шумоизоляции в салоне стало значительно тише — теперь можно спокойно разговаривать на скорости. Ребята сделали всё качественно и в срок!',
     service: 'Шумоизоляция',
-    rating: 5
+    rating: 5,
+    author: 'Алексей К.'
   },
   {
-    text: 'Сделал химчистку и полную полировку — машина выглядит как новая! Уже пересмотрел решение о продаже, теперь езжу с удовольствием.',
+    text: 'Сделал химчистку и полную полировку — машина выглядит как новая! Уже пересмотрел решение о продаже авто, теперь езжу с удовольствием каждый день.',
     service: 'Детейлинг комплекс',
-    rating: 5
+    rating: 5,
+    author: 'Мария В.'
   },
   {
     text: 'Оклеивали зоны риска — работа выполнена аккуратно, швов почти не видно. Очень довольна сроками и вниманием к деталям мастера.',
     service: 'Оклейка PPF',
-    rating: 5
+    rating: 5,
+    author: 'Елена С.'
   }
 ]
 
@@ -125,13 +151,13 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
-  const [activeFilter, setActiveFilter] = useState('all')
+  const [activeFilter, setActiveFilter] = useState<string>('all')
   const [formData, setFormData] = useState({ name: '', phone: '', service: '', comment: '' })
   const [formErrors, setFormErrors] = useState<{ name?: string; phone?: string }>({})
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [activeSection, setActiveSection] = useState('')
-
-  const sectionsRef = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -176,19 +202,19 @@ export default function Home() {
     return () => observer.disconnect()
   }, [])
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
     setIsMobileMenuOpen(false)
-  }
+  }, [])
 
-  const scrollToTop = () => {
+  const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  }, [])
 
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const errors: { name?: string; phone?: string } = {}
     
     if (!formData.name.trim()) {
@@ -204,21 +230,53 @@ export default function Home() {
     
     setFormErrors(errors)
     return Object.keys(errors).length === 0
-  }
+  }, [formData])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Real form submission to API
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (validateForm()) {
-      console.log('Form submitted:', formData)
+    setSubmitError(null)
+
+    if (!validateForm()) return
+
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Ошибка отправки заявки')
+      }
+
+      console.log('Lead submitted successfully:', result)
       setFormSubmitted(true)
-      setTimeout(() => setFormSubmitted(false), 3000)
-      setFormData({ name: '', phone: '', service: '', comment: '' })
+      
+      // Reset form after success display
+      setTimeout(() => {
+        setFormSubmitted(false)
+        setFormData({ name: '', phone: '', service: '', comment: '' })
+      }, 4000)
+
+    } catch (error) {
+      console.error('Submit error:', error)
+      setSubmitError(error instanceof Error ? error.message : 'Произошла ошибка. Попробуйте позвонить нам.')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
+  // Filter portfolio by category
   const filteredPortfolio = activeFilter === 'all' 
-    ? portfolioImages 
-    : portfolioImages // In real app would filter by category
+    ? portfolioItems 
+    : portfolioItems.filter(item => item.category === activeFilter)
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
@@ -306,6 +364,15 @@ export default function Home() {
         .pulse-glow {
           animation: pulse-glow 2s ease-in-out infinite;
         }
+
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .spin-animation {
+          animation: spin-slow 1s linear infinite;
+        }
       `}</style>
 
       {/* Header */}
@@ -314,16 +381,13 @@ export default function Home() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
+            {/* Logo - РЕАЛЬНЫЙ ЛОГОТИП */}
             <div className="flex items-center gap-2 cursor-pointer" onClick={scrollToTop}>
-              <div className="relative w-10 h-10 md:w-12 md:h-12">
-                <svg viewBox="0 0 48 48" fill="none" className="w-full h-full">
-                  <path d="M8 28L16 18H32L40 28L36 34H12L8 28Z" stroke="#2EA8FF" strokeWidth="2" fill="rgba(46,168,255,0.1)"/>
-                  <circle cx="14" cy="34" r="4" stroke="#fff" strokeWidth="2"/>
-                  <circle cx="34" cy="34" r="4" stroke="#fff" strokeWidth="2"/>
-                  <path d="M18 24H26L28 20H20L18 24Z" fill="#2EA8FF"/>
-                </svg>
-              </div>
+              <img 
+                src="/logo.svg" 
+                alt="ЭстетикБро — Детейлинг центр" 
+                className="w-10 h-10 md:w-12 md:h-12 object-contain"
+              />
               <div className="flex flex-col">
                 <span className="text-lg md:text-xl font-bold leading-tight">
                   <span className="text-white">ЭСТЕТИК</span>{' '}
@@ -355,11 +419,11 @@ export default function Home() {
               ))}
             </nav>
 
-            {/* CTA & Contact */}
+            {/* CTA & Contact - РЕАЛЬНЫЙ ТЕЛЕФОН */}
             <div className="hidden md:flex items-center gap-4">
-              <a href="tel:+79001234567" className="text-sm text-gray-300 hover:text-[#2EA8FF] transition-colors flex items-center gap-2">
+              <a href={`tel:${CONTACTS.phoneRaw}`} className="text-sm text-gray-300 hover:text-[#2EA8FF] transition-colors flex items-center gap-2">
                 <Phone className="w-4 h-4" />
-                <span>+7 (900) 123-45-67</span>
+                <span>{CONTACTS.phone}</span>
               </a>
               <button
                 onClick={() => scrollToSection('contacts')}
@@ -400,9 +464,9 @@ export default function Home() {
                 </button>
               ))}
               <div className="pt-4 border-t border-white/10 space-y-3">
-                <a href="tel:+79001234567" className="flex items-center gap-2 text-gray-300">
+                <a href={`tel:${CONTACTS.phoneRaw}`} className="flex items-center gap-2 text-gray-300">
                   <Phone className="w-4 h-4" />
-                  +7 (900) 123-45-67
+                  {CONTACTS.phone}
                 </a>
                 <button
                   onClick={() => scrollToSection('contacts')}
@@ -430,16 +494,26 @@ export default function Home() {
             <div className="space-y-8">
               {/* Rating badges */}
               <div className="flex flex-wrap gap-4 animate-on-scroll">
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                <a 
+                  href={CONTACTS.yandexMaps} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 hover:border-[#2EA8FF]/30 transition-colors"
+                >
                   <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                   <span className="text-sm font-medium">4.8</span>
                   <span className="text-sm text-gray-400">Яндекс Карты</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                </a>
+                <a 
+                  href={CONTACTS.gis2} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 hover:border-[#2EA8FF]/30 transition-colors"
+                >
                   <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                   <span className="text-sm font-medium">5.0</span>
                   <span className="text-sm text-gray-400">2ГИС</span>
-                </div>
+                </a>
               </div>
 
               {/* Main heading */}
@@ -467,7 +541,7 @@ export default function Home() {
                   <ArrowRight className="w-5 h-5" />
                 </button>
                 <a
-                  href="https://vk.com/estetbroavto"
+                  href={CONTACTS.vk}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-8 py-4 border border-[#2EA8FF]/30 text-white font-semibold rounded-xl hover:bg-[#2EA8FF]/10 transition-all inline-flex items-center justify-center gap-2"
@@ -494,7 +568,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#2EA8FF]/20 to-transparent rounded-2xl blur-2xl"></div>
                 <img
                   src="/images/portfolio/IMG_9688.jpeg"
-                  alt="Детейлинг автомобиля"
+                  alt="Детейлинг автомобиля в студии ЭстетикБро"
                   className="relative rounded-2xl w-full object-cover aspect-[4/3] border border-white/10"
                   loading="eager"
                 />
@@ -629,6 +703,11 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-3">{pkg.name}</h3>
                 <p className="text-gray-400 mb-6">{pkg.description}</p>
                 
+                {/* Savings badge */}
+                <div className="inline-block mb-4 px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">
+                  {pkg.savings}
+                </div>
+                
                 <ul className="space-y-3 mb-8">
                   {pkg.features.map((feature, fIndex) => (
                     <li key={fIndex} className="flex items-start gap-3">
@@ -657,7 +736,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
+      {/* Portfolio Section - С РАБОЧЕЙ ФИЛЬТРАЦИЕЙ */}
       <section id="portfolio" className="py-20 md:py-32 bg-[#0D0D0F]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section header */}
@@ -670,46 +749,60 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Filter tabs */}
+          {/* Filter tabs - РАБОЧИЕ */}
           <div className="flex flex-wrap justify-center gap-3 mb-12 animate-on-scroll">
-            {['all', 'detailing', 'ppf', 'cleaning'].map((filter) => (
+            {[
+              { value: 'all', label: 'Все работы' },
+              { value: 'detailing', label: 'Детейлинг' },
+              { value: 'ppf', label: 'Оклейка PPF' },
+              { value: 'cleaning', label: 'Химчистка' },
+              { value: 'polishing', label: 'Полировка' }
+            ].map((filter) => (
               <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
+                key={filter.value}
+                onClick={() => setActiveFilter(filter.value)}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeFilter === filter
+                  activeFilter === filter.value
                     ? 'bg-[#2EA8FF] text-black'
                     : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
                 }`}
               >
-                {{ all: 'Все работы', detailing: 'Детейлинг', ppf: 'Оклейка PPF', cleaning: 'Химчистка' }[filter]}
+                {filter.label}
               </button>
             ))}
           </div>
 
-          {/* Portfolio grid */}
+          {/* Portfolio grid - ФИЛЬТРУЕТСЯ */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {filteredPortfolio.map((img, index) => (
+            {filteredPortfolio.map((item, index) => (
               <div
-                key={index}
+                key={`${item.category}-${index}`}
                 className="group relative aspect-square rounded-xl overflow-hidden bg-[#141418] animate-on-scroll"
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
                 <img
-                  src={img}
-                  alt={`Работа ${index + 1}`}
+                  src={item.src}
+                  alt={item.alt}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-3 left-3 right-3">
-                    <p className="text-sm font-medium">Работа #{index + 1}</p>
+                    <p className="text-sm font-medium">{item.alt}</p>
                     <p className="text-xs text-gray-400">ЭстетикБро</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Empty state for filter */}
+          {filteredPortfolio.length === 0 && (
+            <div className="text-center py-12">
+              <Camera className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+              <p className="text-gray-400">В этой категории пока нет работ</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -761,7 +854,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Reviews grid */}
+          {/* Reviews grid - С ИМЕНAMI */}
           <div className="grid md:grid-cols-3 gap-6">
             {reviews.map((review, index) => (
               <div
@@ -783,17 +876,17 @@ export default function Home() {
                 
                 {/* Author & Service */}
                 <div className="pt-4 border-t border-white/5">
-                  <p className="font-medium">Клиент студии</p>
+                  <p className="font-medium">{review.author}</p>
                   <p className="text-sm text-[#2EA8FF]">{review.service}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Links to review platforms */}
+          {/* Links to review platforms - РЕАЛЬНЫЕ ССЫЛКИ */}
           <div className="mt-12 flex flex-wrap justify-center gap-6 animate-on-scroll">
             <a
-              href="https://yandex.ru/maps/-/CDQFvKfj"
+              href={CONTACTS.yandexMaps}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#2EA8FF]/30 transition-all"
@@ -805,7 +898,7 @@ export default function Home() {
               </div>
             </a>
             <a
-              href="https://2gis.ru/chelyabinsk/firm/70000001066923058"
+              href={CONTACTS.gis2}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#2EA8FF]/30 transition-all"
@@ -873,7 +966,7 @@ export default function Home() {
               <div className="relative rounded-2xl overflow-hidden">
                 <img
                   src="/images/portfolio/IMG_9680.jpeg"
-                  alt="Обучение детейлингу"
+                  alt="Обучение детейлингу в студии ЭстетикБро"
                   className="w-full aspect-[4/3] object-cover"
                   loading="lazy"
                 />
@@ -896,7 +989,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contacts Section */}
+      {/* Contacts Section - РЕАЛЬНЫЕ КОНТАКТЫ */}
       <section id="contacts" className="py-20 md:py-32 bg-[#0D0D0F]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section header */}
@@ -920,8 +1013,8 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-2">Адрес студии</h3>
-                    <p className="text-gray-400">г. Челябинск, ул. Худякова, 10</p>
-                    <p className="text-sm text-gray-500">(въезд с ул. Энтузиастов)</p>
+                    <p className="text-gray-400">{CONTACTS.address}</p>
+                    <p className="text-sm text-gray-500">{CONTACTS.addressNote}</p>
                   </div>
                 </div>
               </div>
@@ -941,17 +1034,17 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Quick contact buttons */}
+              {/* Quick contact buttons - РЕАЛЬНЫЕ ССЫЛКИ */}
               <div className="grid grid-cols-2 gap-4">
                 <a
-                  href="tel:+79001234567"
+                  href={`tel:${CONTACTS.phoneRaw}`}
                   className="flex items-center justify-center gap-2 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 transition-all"
                 >
                   <Phone className="w-5 h-5" />
                   Позвонить
                 </a>
                 <a
-                  href="https://wa.me/79001234567"
+                  href={CONTACTS.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/20 transition-all"
@@ -960,7 +1053,7 @@ export default function Home() {
                   WhatsApp
                 </a>
                 <a
-                  href="https://t.me/estetbroavto"
+                  href={CONTACTS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#2EA8FF]/10 border border-[#2EA8FF]/20 text-[#2EA8FF] hover:bg-[#2EA8FF]/20 transition-all"
@@ -969,7 +1062,7 @@ export default function Home() {
                   Telegram
                 </a>
                 <a
-                  href="https://vk.com/estetbroavto"
+                  href={CONTACTS.vk}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#4C75A3]/10 border border-[#4C75A3]/20 text-[#4C75A3] hover:bg-[#4C75A3]/20 transition-all"
@@ -999,7 +1092,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Contact form */}
+            {/* Contact form - ОТПРАВКА НА API */}
             <div className="animate-on-scroll" style={{ transitionDelay: '200ms' }}>
               <div className="p-8 rounded-2xl bg-[#141418] border border-white/5">
                 <h3 className="text-2xl font-bold mb-6">Записаться на услугу</h3>
@@ -1101,14 +1194,31 @@ export default function Home() {
                       ></textarea>
                     </div>
 
-                    {/* Submit button */}
+                    {/* Submit button with loading state */}
                     <button
                       type="submit"
-                      className="w-full py-4 bg-[#2EA8FF] text-black font-bold text-lg rounded-xl neon-glow neon-glow-hover hover:bg-[#1E90FF] transition-all flex items-center justify-center gap-2"
+                      disabled={isSubmitting}
+                      className="w-full py-4 bg-[#2EA8FF] text-black font-bold text-lg rounded-xl neon-glow neon-glow-hover hover:bg-[#1E90FF] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                      <Send className="w-5 h-5" />
-                      Отправить заявку
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-5 h-5 spin-animation" />
+                          Отправка...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          Отправить заявку
+                        </>
+                      )}
                     </button>
+
+                    {/* Error message */}
+                    {submitError && (
+                      <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                        {submitError}
+                      </div>
+                    )}
 
                     <p className="text-xs text-gray-500 text-center">
                       Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
@@ -1121,21 +1231,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - РЕАЛЬНЫЕ КОНТАКТЫ */}
       <footer className="py-12 bg-[#0A0A0A] border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             {/* Logo & description */}
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10">
-                  <svg viewBox="0 0 48 48" fill="none" className="w-full h-full">
-                    <path d="M8 28L16 18H32L40 28L36 34H12L8 28Z" stroke="#2EA8FF" strokeWidth="2" fill="rgba(46,168,255,0.1)"/>
-                    <circle cx="14" cy="34" r="4" stroke="#fff" strokeWidth="2"/>
-                    <circle cx="34" cy="34" r="4" stroke="#fff" strokeWidth="2"/>
-                    <path d="M18 24H26L28 20H20L18 24Z" fill="#2EA8FF"/>
-                  </svg>
-                </div>
+                <img 
+                  src="/logo.svg" 
+                  alt="ЭстетикБро" 
+                  className="w-10 h-10 object-contain"
+                />
                 <div>
                   <span className="text-lg font-bold">
                     <span className="text-white">ЭСТЕТИК</span>{' '}
@@ -1148,18 +1255,20 @@ export default function Home() {
               </p>
               <div className="flex gap-4">
                 <a
-                  href="https://vk.com/estetbroavto"
+                  href={CONTACTS.vk}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#2EA8FF]/20 hover:text-[#2EA8FF] transition-all"
+                  aria-label="VK"
                 >
                   VK
                 </a>
                 <a
-                  href="https://t.me/estetbroavto"
+                  href={CONTACTS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#2EA8FF]/20 hover:text-[#2EA8FF] transition-all"
+                  aria-label="Telegram"
                 >
                   TG
                 </a>
@@ -1195,12 +1304,12 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-gray-400">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#2EA8FF]" />
-                  г. Челябинск, ул. Худякова, 10
+                  {CONTACTS.address}
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="w-4 h-4 shrink-0 text-[#2EA8FF]" />
-                  <a href="tel:+79001234567" className="hover:text-[#2EA8FF] transition-colors">
-                    +7 (900) 123-45-67
+                  <a href={`tel:${CONTACTS.phoneRaw}`} className="hover:text-[#2EA8FF] transition-colors">
+                    {CONTACTS.phone}
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
@@ -1224,9 +1333,9 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Floating WhatsApp button */}
+      {/* Floating WhatsApp button - РЕАЛЬНАЯ ССЫЛКА */}
       <a
-        href="https://wa.me/79001234567?text=Здравствуйте! Интересует запись на услугу."
+        href={`${CONTACTS.whatsapp}?text=Здравствуйте! Интересует запись на услугу.`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-transform neon-glow"

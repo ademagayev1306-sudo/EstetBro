@@ -9,38 +9,38 @@ import {
 } from 'lucide-react'
 
 // ============================================
-// КОНСТАНТЫ - Реальные контакты из брифа
+// КОНСТАНТЫ - РЕАЛЬНЫЕ КОНТАКТЫ КОМПАНИИ
 // ============================================
 const CONTACTS = {
-  phone: '+7 (351) 900-54-32',      // Реальный телефон для замены
-  phoneRaw: '+73519005432',          // Для tel: и wa.me: ссылок
-  vk: 'https://vk.com/estetbroavto', // Подтверждённый VK
-  telegram: 'https://t.me/estetbroavto', // Для замены на реальный
-  whatsapp: 'https://wa.me/73519005432',  // Для замены на реальный
-  yandexMaps: 'https://yandex.ru/navi/org/estetikbro/183327682404',
+  phone: '+7 (951) 777-78-89',           // РЕАЛЬНЫЙ телефон компании
+  phoneRaw: '+79517777889',               // Для tel:, wa.me: ссылок
+  vk: 'https://m.vk.com/estetbroavto',   // РЕАЛЬНЫЙ VK сообщество
+  whatsapp: 'https://wa.me/79517777889',  // WhatsApp с реальным номером
+  yandexMaps: 'https://yandex.ru/navi/org/estetikbro/183327682404?si=27jg87bq7mr92ynyaq02ge6q9c',
   gis2: 'https://2gis.ru/chelyabinsk/geo/70000001111004704',
-  address: 'г. Челябинск, ул. Худякова, 10',
+  address: '454048, Челябинская обл., г. Челябинск, ул. Худякова, 10',
   addressNote: '(въезд с ул. Энтузиастов)',
 }
 
 // Portfolio images with categories for filtering
 interface PortfolioItem {
   src: string
+  fallback: string
   category: 'detailing' | 'ppf' | 'cleaning' | 'polishing'
   alt: string
 }
 
 const portfolioItems: PortfolioItem[] = [
-  { src: '/images/portfolio/IMG_9588.jpeg', category: 'detailing', alt: 'Детейлинг кузова' },
-  { src: '/images/portfolio/IMG_9679.jpeg', category: 'ppf', alt: 'Оклейка защитной плёнкой' },
-  { src: '/images/portfolio/IMG_9683.jpeg', category: 'cleaning', alt: 'Химчистка салона' },
-  { src: '/images/portfolio/IMG_9589.jpeg', category: 'polishing', alt: 'Полировка фар' },
-  { src: '/images/portfolio/IMG_9590.jpeg', category: 'detailing', alt: 'Комплексный детейлинг' },
-  { src: '/images/portfolio/IMG_9591.jpeg', category: 'cleaning', alt: 'Глубокая очистка' },
-  { src: '/images/portfolio/IMG_9592.jpeg', category: 'ppf', alt: 'Защита кузова PPF' },
-  { src: '/images/portfolio/IMG_9680.jpeg', category: 'detailing', alt: 'Детейлинг после работ' },
-  { src: '/images/portfolio/IMG_9682.jpeg', category: 'polishing', alt: 'Полировка кузова' },
-  { src: '/images/portfolio/IMG_9688.jpeg', category: 'detailing', alt: 'Результат детейлинга' },
+  { src: '/images/portfolio/webp/IMG_9588.webp', fallback: '/images/portfolio/IMG_9588.jpeg', category: 'detailing', alt: 'Детейлинг кузова' },
+  { src: '/images/portfolio/webp/IMG_9679.webp', fallback: '/images/portfolio/IMG_9679.jpeg', category: 'ppf', alt: 'Оклейка защитной плёнкой' },
+  { src: '/images/portfolio/webp/IMG_9683.webp', fallback: '/images/portfolio/IMG_9683.jpeg', category: 'cleaning', alt: 'Химчистка салона' },
+  { src: '/images/portfolio/webp/IMG_9589.webp', fallback: '/images/portfolio/IMG_9589.jpeg', category: 'polishing', alt: 'Полировка фар' },
+  { src: '/images/portfolio/webp/IMG_9590.webp', fallback: '/images/portfolio/IMG_9590.jpeg', category: 'detailing', alt: 'Комплексный детейлинг' },
+  { src: '/images/portfolio/webp/IMG_9591.webp', fallback: '/images/portfolio/IMG_9591.jpeg', category: 'cleaning', alt: 'Глубокая очистка' },
+  { src: '/images/portfolio/webp/IMG_9592.webp', fallback: '/images/portfolio/IMG_9592.jpeg', category: 'ppf', alt: 'Защита кузова PPF' },
+  { src: '/images/portfolio/webp/IMG_9680.webp', fallback: '/images/portfolio/IMG_9680.jpeg', category: 'detailing', alt: 'Детейлинг после работ' },
+  { src: '/images/portfolio/webp/IMG_9682.webp', fallback: '/images/portfolio/IMG_9682.jpeg', category: 'polishing', alt: 'Полировка кузова' },
+  { src: '/images/portfolio/webp/IMG_9688.webp', fallback: '/images/portfolio/IMG_9688.jpeg', category: 'detailing', alt: 'Результат детейлинга' },
 ]
 
 // Services data
@@ -772,7 +772,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Portfolio grid - ФИЛЬТРУЕТСЯ */}
+          {/* Portfolio grid - ФИЛЬТРУЕТСЯ С WebP */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {filteredPortfolio.map((item, index) => (
               <div
@@ -780,12 +780,15 @@ export default function Home() {
                 className="group relative aspect-square rounded-xl overflow-hidden bg-[#141418] animate-on-scroll"
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
+                <picture>
+                  <source srcSet={item.src} type="image/webp" />
+                  <img
+                    src={item.fallback}
+                    alt={item.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                </picture>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-3 left-3 right-3">
                     <p className="text-sm font-medium">{item.alt}</p>
@@ -1053,13 +1056,13 @@ export default function Home() {
                   WhatsApp
                 </a>
                 <a
-                  href={CONTACTS.telegram}
+                  href={CONTACTS.vk}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#2EA8FF]/10 border border-[#2EA8FF]/20 text-[#2EA8FF] hover:bg-[#2EA8FF]/20 transition-all"
+                  className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#4C75A3]/10 border border-[#4C75A3]/20 text-[#4C75A3] hover:bg-[#4C75A3]/20 transition-all"
                 >
-                  <Send className="w-5 h-5" />
-                  Telegram
+                  <MessageCircle className="w-5 h-5" />
+                  ВКонтакте
                 </a>
                 <a
                   href={CONTACTS.vk}
@@ -1264,13 +1267,13 @@ export default function Home() {
                   VK
                 </a>
                 <a
-                  href={CONTACTS.telegram}
+                  href={CONTACTS.vk}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#2EA8FF]/20 hover:text-[#2EA8FF] transition-all"
-                  aria-label="Telegram"
+                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#4C75A3]/20 hover:text-[#4C75A3] transition-all"
+                  aria-label="VK"
                 >
-                  TG
+                  VK
                 </a>
               </div>
             </div>

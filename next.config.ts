@@ -3,9 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   /* config options here */
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // TypeScript errors are now properly handled - no need to ignore
   reactStrictMode: false,
 };
 

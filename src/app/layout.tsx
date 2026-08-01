@@ -28,6 +28,12 @@ export const metadata: Metadata = {
     siteName: "ЭстетикБро",
     type: "website",
     locale: "ru_RU",
+    images: [{
+      url: "/og-image.jpg",
+      width: 1200,
+      height: 630,
+      alt: "ЭстетикБро — Детейлинг центр в Челябинске",
+    }],
     // url будет добавлен после покупки домена
   },
 };

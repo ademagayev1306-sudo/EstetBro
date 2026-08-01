@@ -3,13 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   
-  // Подстраховка: игнорировать ESLint-ошибки в шаблонном коде shadcn/ui
-  // (carousel.tsx, use-mobile.ts) и скриптах оптимизации (scripts/*.js)
-  // Реальный код сайта (src/) компилируется без ошибок TypeScript
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  
+  // В Next.js 16 ESLint больше не запускается автоматически во время `next build`,
+  // поэтому опция eslint.ignoreDuringBuilds здесь не нужна (и ломает типы конфига).
   reactStrictMode: false,
 };
 

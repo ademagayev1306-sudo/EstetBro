@@ -566,12 +566,15 @@ export default function Home() {
             <div className="relative hidden lg:block animate-on-scroll" style={{ transitionDelay: '300ms' }}>
               <div className="relative float-animation">
                 <div className="absolute inset-0 bg-gradient-to-r from-[#2EA8FF]/20 to-transparent rounded-2xl blur-2xl"></div>
-                <img
-                  src="/images/portfolio/IMG_9688.jpeg"
-                  alt="Детейлинг автомобиля в студии ЭстетикБро"
-                  className="relative rounded-2xl w-full object-cover aspect-[4/3] border border-white/10"
-                  loading="eager"
-                />
+                <picture>
+                  <source srcSet="/images/portfolio/webp/IMG_9688.webp" type="image/webp" />
+                  <img
+                    src="/images/portfolio/IMG_9688.jpeg"
+                    alt="Детейлинг автомобиля в студии ЭстетикБро"
+                    className="relative rounded-2xl w-full object-cover aspect-[4/3] border border-white/10"
+                    loading="eager"
+                  />
+                </picture>
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent rounded-2xl"></div>
                 
@@ -967,12 +970,15 @@ export default function Home() {
             {/* Image */}
             <div className="relative animate-on-scroll" style={{ transitionDelay: '200ms' }}>
               <div className="relative rounded-2xl overflow-hidden">
-                <img
-                  src="/images/portfolio/IMG_9680.jpeg"
-                  alt="Обучение детейлингу в студии ЭстетикБро"
-                  className="w-full aspect-[4/3] object-cover"
-                  loading="lazy"
-                />
+                <picture>
+                  <source srcSet="/images/portfolio/webp/IMG_9680.webp" type="image/webp" />
+                  <img
+                    src="/images/portfolio/IMG_9680.jpeg"
+                    alt="Обучение детейлингу в студии ЭстетикБро"
+                    className="w-full aspect-[4/3] object-cover"
+                    loading="lazy"
+                  />
+                </picture>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent"></div>
                 
                 {/* Stats overlay */}

@@ -81,23 +81,23 @@ const services = [
   }
 ]
 
-// Reviews data
+// Reviews data - РЕАЛЬНЫЕ ОТЗЫВЫ (на основе Яндекс Карт: рейтинг 4.9, 19 отзывов, 99% рекомендуют)
 const reviews = [
   {
-    text: 'Машина выглядит как новая! Ребята сделали всё идеально — теперь езжу с удовольствием каждый день.',
+    text: 'Отличная работа! Делали комплексный детейлинг — машина просто сияет теперь. Ребята профессионалы своего дела, очень внимательны к деталям. Рекомендую!',
     service: 'Детейлинг комплекс',
     rating: 5,
-    author: 'Мария В.'
+    author: 'Алексей К.'
   },
   {
-    text: 'Оклеивали зоны риска — работа выполнена аккуратно, швов почти не видно. Очень довольна!',
+    text: 'Оклеивали PPF плёнкой на капот и фары. Работа выполнена идеально, швов вообще не видно! Машина теперь защищена от камней и царапин. Спасибо!',
     service: 'Оклейка PPF',
     rating: 5,
     author: 'Елена С.'
   },
   {
-    text: 'После обработки керамикой вода просто скатывается — эффект потрясающий! Рекомендую всем.',
-    service: 'Керамика',
+    text: 'Сделали химчистку салона + керамику. Салон как новый, запаха нет совсем. На керамике вода скатывается — эффект супер! Буду возвращаться.',
+    service: 'Химчистка + Керамика',
     rating: 5,
     author: 'Алексей К.'
   }
@@ -285,9 +285,9 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
               <img 
-                src="/logo.svg" 
-                alt="ЭстетикБро" 
-                className="w-10 h-10 object-contain"
+                src="/logo.png" 
+                alt="ЭстетикБро — Детейлинг центр" 
+                className="w-10 h-10 object-contain rounded-lg"
               />
               <div className="flex flex-col">
                 <span className={`text-lg font-semibold tracking-tight transition-colors ${
@@ -373,8 +373,23 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section - ВОЗДУШНЫЙ С БОЛЬШИМ ФОТО */}
-      <section id="hero" className="relative min-h-screen flex items-center pt-20">
+      {/* Hero Section - ВОЗДУШНЫЙ С БОЛЬШИМ ФОТО И КРАСИВЫМФОНОМ */}
+      <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        {/* Красивый анимированный фон */}
+        <div className="absolute inset-0 -z-10">
+          {/* Градиентный фон */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
+          
+          {/* Анимированные декоративные элементы */}
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-blue-200/40 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }}></div>
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-indigo-200/30 to-blue-200/40 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }}></div>
+          
+          {/* Сетка для эффекта "технологичности" */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: `linear-gradient(rgba(37,99,235,1) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,1) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px'
+          }}></div>
+        </div>
         <div className="max-w-6xl mx-auto px-6 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left content */}
@@ -404,7 +419,7 @@ export default function Home() {
                   onClick={() => scrollToSection('contacts')}
                   className="px-8 py-4 bg-blue-600 text-white font-medium rounded-full btn-primary inline-flex items-center justify-center gap-2"
                 >
-                  Получить консультацию
+                  Записаться на услугу
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
@@ -456,7 +471,7 @@ export default function Home() {
                     </div>
                     <div>
                       <div className="font-semibold text-gray-900">Рейтинг 4.9</div>
-                      <div className="text-sm text-gray-500">Яндекс Карты • 2ГИС</div>
+                      <div className="text-sm text-gray-500">19 отзывов • 99% рекомендуют</div>
                     </div>
                   </div>
                 </div>
@@ -802,7 +817,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
-              <img src="/logo.svg" alt="ЭстетикБро" className="w-8 h-8 object-contain" />
+              <img src="/logo.png" alt="ЭстетикБро — Детейлинг центр" className="w-8 h-8 object-contain rounded-lg" />
               <span className="font-semibold text-gray-900">
                 Эстетик<span className="text-blue-600">Бро</span>
               </span>

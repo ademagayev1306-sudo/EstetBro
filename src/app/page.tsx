@@ -478,7 +478,7 @@ export default function Home() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 hero-bg">
           <img 
-            src="/IMG_9743.png" 
+            src="/images/hero-bg.png" 
             alt="Детейлинг автомобилей" 
             className="w-full h-full object-cover"
           />
@@ -692,32 +692,9 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Filter tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12 animate-on-scroll">
-            {[
-              { value: 'all', label: 'Все работы' },
-              { value: 'detailing', label: 'Детейлинг' },
-              { value: 'ppf', label: 'PPF' },
-              { value: 'films', label: 'Плёнки 🔥' },
-              { value: 'polishing', label: 'Полировка' }
-            ].map((filter) => (
-              <button
-                key={filter.value}
-                onClick={() => setActiveFilter(filter.value)}
-                className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                  activeFilter === filter.value
-                    ? 'bg-gray-900 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                } ${filter.value === 'films' ? 'ring-2 ring-amber-400 ring-offset-2' : ''}`}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Portfolio grid */}
+          {/* Portfolio grid - Наши Работы */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {filteredPortfolio.map((item, index) => (
+            {portfolioItems.map((item, index) => (
               <div
                 key={`${item.category}-${index}`}
                 className="group relative aspect-[4/3] rounded-3xl overflow-hidden bg-gray-100 animate-on-scroll img-hover shadow-lg"
@@ -742,13 +719,7 @@ export default function Home() {
             ))}
           </div>
 
-          {filteredPortfolio.length === 0 && (
-            <div className="text-center py-16">
-              <Camera className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">В этой категории пока нет работ</p>
-              <p className="text-gray-300 text-sm mt-2">Но мы уже работаем над этим! 🔥</p>
-            </div>
-          )}
+
         </div>
       </section>
 

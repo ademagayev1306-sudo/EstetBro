@@ -1,0 +1,1093 @@
+     1→'use client'
+     2→
+     3→import { useState, useEffect, useRef, useCallback } from 'react'
+     4→import { 
+     5→  Shield, Sparkles, Gem, Clock, Phone, MapPin, Star, ChevronUp, Menu, X, Check, ArrowRight, Car, Paintbrush,
+     6→  Droplets, Wind, Layers, Camera, GraduationCap, MessageCircle, Send, User, CreditCard, Banknote, Building,
+     7→  Monitor, Wrench, ShieldCheck, Volume2, PaintBucket
+     8→} from 'lucide-react'
+     9→
+    10→// ============================================
+    11→// КОНСТАНТЫ - РЕАЛЬНЫЕ КОНТАКТЫ КОМПАНИИ
+    12→// ============================================
+    13→const CONTACTS = {
+    14→  phone: '+7 (951) 777-78-89',
+    15→  phoneRaw: '+79517777889',
+    16→  vk: 'https://m.vk.com/estetbroavto',
+    17→  whatsapp: 'https://wa.me/79517777889',
+    18→  yandexMaps: 'https://yandex.ru/navi/org/estetikbro/183327682404?si=27jg87bq7mr92ynyaq02ge6q9c',
+    19→  gis2: 'https://2gis.ru/chelyabinsk/geo/70000001111004704',
+    20→  address: '454048, Челябинская обл., г. Челябинск, ул. Худякова, 10',
+    21→  addressNote: '(въезд с ул. Энтузиастов)',
+    22→}
+    23→
+    24→// Portfolio images
+    25→interface PortfolioItem {
+    26→  src: string
+    27→  fallback: string
+    28→  category: 'detailing' | 'ppf' | 'cleaning' | 'polishing' | 'films'
+    29→  alt: string
+    30→}
+    31→
+    32→const portfolioItems: PortfolioItem[] = [
+    33→  { src: '/images/portfolio/webp/IMG_9737.webp', fallback: '/images/portfolio/IMG_9737.jpeg', category: 'detailing', alt: 'Детейлинг кузова — до и после' },
+    34→  { src: '/images/portfolio/webp/IMG_9738.webp', fallback: '/images/portfolio/IMG_9738.jpeg', category: 'ppf', alt: 'Защитная плёнка PPF — невидимая защита' },
+    35→  { src: '/images/portfolio/webp/IMG_9740.webp', fallback: '/images/portfolio/IMG_9740.jpeg', category: 'polishing', alt: 'Полировка и керамическое покрытие' },
+    36→  { src: '/images/portfolio/webp/IMG_9741.webp', fallback: '/images/portfolio/IMG_9741.jpeg', category: 'films', alt: 'Виниловая плёнка — полный ребрендинг авто' },
+    37→]
+    38→
+    39→// Services data - НОВЫЕ УСЛУГИ С ЦЕНАМИ (АКЦЕНТ НА ПЛЁНКИ!)
+    40→const services = [
+    41→  {
+    42→    icon: <Monitor className="w-6 h-6" />,
+    43→    title: 'Компьютерная диагностика',
+    44→    description: 'Полная диагностика всех систем автомобиля современным оборудованием',
+    45→    price: '1 500 ₽',
+    46→    duration: '30 мин',
+    47→    popular: false
+    48→  },
+    49→  {
+    50→    icon: <Sparkles className="w-6 h-6" />,
+    51→    title: 'Детейлинг салона и кузова',
+    52→    description: 'Комплексный детейлинг: химчистка, полировка, защита всех поверхностей',
+    53→    price: '12 000 ₽',
+    54→    duration: '4+ часов',
+    55→    popular: true
+    56→  },
+    57→  {
+    58→    icon: <Wrench className="w-6 h-6" />,
+    59→    title: 'Выпрямление вмятин',
+    60→    description: 'Ремонт вмятин без покраски — сохраняем заводское ЛКП',
+    61→    price: '5 000 ₽',
+    62→    duration: 'от 2 часов',
+    63→    popular: false
+    64→  },
+    65→  {
+    66→    icon: <ShieldCheck className="w-6 h-6" />,
+    67→    title: 'Антикоррозийная обработка',
+    68→    description: 'Надежная защита от ржавчины для кузова и днища автомобиля',
+    69→    price: '18 000 ₽',
+    70→    duration: '5+ часов',
+    71→    popular: true
+    72→  },
+    73→  {
+    74→    icon: <Paintbrush className="w-6 h-6" />,
+    75→    title: 'Полировка',
+    76→    description: 'Удаление царапин, голограмм, восстановление заводского блеска',
+    77→    price: '16 000 ₽',
+    78→    duration: '3+ часов',
+    79→    popular: false
+    80→  },
+    81→  {
+    82→    icon: <Wind className="w-6 h-6" />,
+    83→    title: 'Тонирование',
+    84→    description: 'Сертифицированные плёнки для стёкол и фар. Светопропускание по ГОСТ',
+    85→    price: '3 000 ₽',
+    86→    duration: '1+ часа',
+    87→    popular: false
+    88→  },
+    89→  {
+    90→    // ⭐ АКЦЕНТ НА ПЛЁНКИ!
+    91→    icon: <PaintBucket className="w-6 h-6" />,
+    92→    title: 'Виниловые плёнки',
+    93→    description: '🔥 Полный ребрендинг авто! Любой цвет, текстура, матовый/глянцевый. Измени облик машины!',
+    94→    price: '48 000 ₽',
+    95→    duration: 'от 8 часов',
+    96→    popular: true,
+    97→    featured: true
+    98→  },
+    99→  {
+   100→    // ⭐ АКЦЕНТ НА ПЛЁНКИ!
+   101→    icon: <Shield className="w-6 h-6" />,
+   102→    title: 'Защитные плёнки PPF',
+   103→    description: '🛡️ Невидимая броня для куза! Защита от камней, царапин, сколов. Гарантия качества!',
+   104→    price: '48 000 ₽',
+   105→    duration: '6+ часов',
+   106→    popular: true,
+   107→    featured: true
+   108→  },
+   109→  {
+   110→    icon: <Gem className="w-6 h-6" />,
+   111→    title: 'Антихром',
+   112→    description: 'Хромирование элементов. Даем гарантию на покрытие до 3 лет',
+   113→    price: '1 500 ₽',
+   114→    duration: '2+ часа',
+   115→    popular: false
+   116→  },
+   117→  {
+   118→    icon: <Volume2 className="w-6 h-6" />,
+   119→    title: 'Шумоизоляция',
+   120→    description: 'Профессиональная шумоизоляция салона и багажника. Тишина в машине!',
+   121→    price: '3 000 ₽',
+   122→    duration: '4+ часов',
+   123→    popular: false
+   124→  }
+   125→]
+   126→
+   127→// Reviews data - РЕАЛЬНЫЕ ОТЗЫВЫ
+   128→const reviews = [
+   129→  {
+   130→    text: 'Оклеивали винилом весь кузов — результат превзошёл ожидания! Цвет насыщенный, плёнка без пузырей. Машина выглядит как новая, только лучше!',
+   131→    service: 'Виниловая плёнка',
+   132→    rating: 5,
+   133→    author: 'Дмитрий М.'
+   134→  },
+   135→  {
+   136→    text: 'PPF плёнку поставили на капот, фары и зеркала. Ездил летом на трассе — ни одной сколины от камней! Деньги потрачены не зря.',
+   137→    service: 'Защитная плёнка PPF',
+   138→    rating: 5,
+   139→    author: 'Сергей В.'
+   140→  },
+   141→  {
+   142→    text: 'Делал антикоррозийную обработку + детейлинг. Ребята знают своё дело — всё подробно рассказали, показали процесс. Рекомендую!',
+   143→    service: 'Антикоррозия + Детейлинг',
+   144→    rating: 5,
+   145→    author: 'Ирина К.'
+   146→  }
+   147→]
+   148→
+   149→export default function Home() {
+   150→  const [isScrolled, setIsScrolled] = useState(false)
+   151→  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+   152→  const [showScrollTop, setShowScrollTop] = useState(false)
+   153→  const [activeFilter, setActiveFilter] = useState<string>('all')
+   154→  const [formData, setFormData] = useState({ name: '', phone: '', service: '', comment: '' })
+   155→  const [formErrors, setFormErrors] = useState<{ name?: string; phone?: string }>({})
+   156→  const [formSubmitted, setFormSubmitted] = useState(false)
+   157→  const [isSubmitting, setIsSubmitting] = useState(false)
+   158→  const [submitError, setSubmitError] = useState<string | null>(null)
+   159→
+   160→  useEffect(() => {
+   161→    const handleScroll = () => {
+   162→      setIsScrolled(window.scrollY > 50)
+   163→      setShowScrollTop(window.scrollY > 500)
+   164→    }
+   165→
+   166→    window.addEventListener('scroll', handleScroll)
+   167→    return () => window.removeEventListener('scroll', handleScroll)
+   168→  }, [])
+   169→
+   170→  // Intersection Observer for animations
+   171→  useEffect(() => {
+   172→    const observer = new IntersectionObserver(
+   173→      (entries) => {
+   174→        entries.forEach((entry) => {
+   175→          if (entry.isIntersecting) {
+   176→            entry.target.classList.add('animate-in')
+   177→          }
+   178→        })
+   179→      },
+   180→      { threshold: 0.05, rootMargin: '-20px' }
+   181→    )
+   182→
+   183→    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+   184→      observer.observe(el)
+   185→    })
+   186→
+   187→    return () => observer.disconnect()
+   188→  }, [])
+   189→
+   190→  const scrollToSection = useCallback((sectionId: string) => {
+   191→    const element = document.getElementById(sectionId)
+   192→    if (element) {
+   193→      element.scrollIntoView({ behavior: 'smooth' })
+   194→    }
+   195→    setIsMobileMenuOpen(false)
+   196→  }, [])
+   197→
+   198→  const scrollToTop = useCallback(() => {
+   199→    window.scrollTo({ top: 0, behavior: 'smooth' })
+   200→  }, [])
+   201→
+   202→  const validateForm = useCallback(() => {
+   203→    const errors: { name?: string; phone?: string } = {}
+   204→    
+   205→    if (!formData.name.trim()) {
+   206→      errors.name = 'Укажите ваше имя'
+   207→    }
+   208→    
+   209→    const phoneRegex = /^(\+7|8)?[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/
+   210→    if (!formData.phone.trim()) {
+   211→      errors.phone = 'Укажите номер телефона'
+   212→    } else if (!phoneRegex.test(formData.phone)) {
+   213→      errors.phone = 'Введите корректный номер'
+   214→    }
+   215→    
+   216→    setFormErrors(errors)
+   217→    return Object.keys(errors).length === 0
+   218→  }, [formData])
+   219→
+   220→  const handleSubmit = async (e: React.FormEvent) => {
+   221→    e.preventDefault()
+   222→    setSubmitError(null)
+   223→
+   224→    if (!validateForm()) return
+   225→
+   226→    setIsSubmitting(true)
+   227→
+   228→    try {
+   229→      const response = await fetch('/api/lead', {
+   230→        method: 'POST',
+   231→        headers: {
+   232→          'Content-Type': 'application/json',
+   233→        },
+   234→        body: JSON.stringify(formData),
+   235→      })
+   236→
+   237→      const result = await response.json()
+   238→
+   239→      if (!response.ok) {
+   240→        throw new Error(result.error || 'Ошибка отправки заявки')
+   241→      }
+   242→
+   243→      console.log('✅ Lead submitted:', result)
+   244→      setFormSubmitted(true)
+   245→      
+   246→      setTimeout(() => {
+   247→        setFormSubmitted(false)
+   248→        setFormData({ name: '', phone: '', service: '', comment: '' })
+   249→      }, 4000)
+   250→
+   251→    } catch (error) {
+   252→      console.error('❌ Submit error:', error)
+   253→      setSubmitError(error instanceof Error ? error.message : 'Произошла ошибка. Попробуйте позвонить нам.')
+   254→    } finally {
+   255→      setIsSubmitting(false)
+   256→    }
+   257→  }
+   258→
+   259→  // Filter portfolio by category
+   260→  const filteredPortfolio = activeFilter === 'all' 
+   261→    ? portfolioItems 
+   262→    : portfolioItems.filter(item => item.category === activeFilter)
+   263→
+   264→  return (
+   265→    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
+   266→      {/* Custom styles */}
+   267→      <style jsx global>{`
+   268→        :root {
+   269→          --accent: #2563eb;
+   270→          --accent-light: #3b82f6;
+   271→          --accent-dark: #1d4ed8;
+   272→          --gold: #f59e0b;
+   273→          --bg-warm: #fafafa;
+   274→          --text-primary: #111827;
+   275→          --text-secondary: #6b7280;
+   276→        }
+   277→
+   278→        html {
+   279→          scroll-behavior: smooth;
+   280→        }
+   281→
+   282→        /* Smooth fade-in animation */
+   283→        .animate-on-scroll {
+   284→          opacity: 0;
+   285→          transform: translateY(24px);
+   286→          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+   287→                      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+   288→        }
+   289→
+   290→        .animate-on-scroll.animate-in {
+   291→          opacity: 1;
+   292→          transform: translateY(0);
+   293→        }
+   294→
+   295→        /* Image hover effect */
+   296→        .img-hover {
+   297→          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+   298→        }
+   299→
+   300→        .img-hover:hover {
+   301→          transform: scale(1.03);
+   302→        }
+   303→
+   304→        /* Button hover */
+   305→        .btn-primary {
+   306→          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+   307→          position: relative;
+   308→          overflow: hidden;
+   309→        }
+   310→
+   311→        .btn-primary::before {
+   312→          content: '';
+   313→          position: absolute;
+   314→          top: 0;
+   315→          left: -100%;
+   316→          width: 100%;
+   317→          height: 100%;
+   318→          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+   319→          transition: left 0.5s;
+   320→        }
+   321→
+   322→        .btn-primary:hover::before {
+   323→          left: 100%;
+   324→        }
+   325→
+   326→        .btn-primary:hover {
+   327→          transform: translateY(-3px);
+   328→          box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3);
+   329→        }
+   330→
+   331→        /* Card hover */
+   332→        .card-soft {
+   333→          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+   334→        }
+   335→
+   336→        .card-soft:hover {
+   337→          transform: translateY(-6px);
+   338→          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+   339→        }
+   340→
+   341→        /* Featured card (for films) */
+   342→        .card-featured {
+   343→          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+   344→          border: 2px solid #f59e0b;
+   345→        }
+   346→
+   347→        .card-featured:hover {
+   348→          box-shadow: 0 25px 50px rgba(245, 158, 11, 0.25);
+   349→        }
+   350→
+   351→        /* Hero parallax */
+   352→        .hero-bg {
+   353→          background-attachment: fixed;
+   354→          background-size: cover;
+   355→          background-position: center;
+   356→        }
+   357→
+   358→        /* Floating animation */
+   359→        @keyframes float {
+   360→          0%, 100% { transform: translateY(0px); }
+   361→          50% { transform: translateY(-15px); }
+   362→        }
+   363→
+   364→        .float-animation {
+   365→          animation: float 4s ease-in-out infinite;
+   366→        }
+   367→
+   368→        /* Glow effect for featured items */
+   369→        @keyframes glow {
+   370→          0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+   371→          50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.5); }
+   372→        }
+   373→
+   374→        .glow-animation {
+   375→          animation: glow 2s ease-in-out infinite;
+   376→        }
+   377→      `}</style>
+   378→
+   379→      {/* Header */}
+   380→      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+   381→        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-blue-900/5' : 'bg-transparent'
+   382→      }`}>
+   383→        <div className="max-w-7xl mx-auto px-6">
+   384→          <div className="flex items-center justify-between h-20">
+   385→            {/* Logo */}
+   386→            <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
+   387→              <img 
+   388→                src="/logo.png" 
+   389→                alt="ЭстетикБро — Детейлинг центр" 
+   390→                className="w-11 h-11 object-contain rounded-xl shadow-sm"
+   391→              />
+   392→              <div className="flex flex-col">
+   393→                <span className={`text-lg font-bold tracking-tight transition-colors ${
+   394→                  isScrolled ? 'text-gray-900' : 'text-gray-900'
+   395→                }`}>
+   396→                  Эстетик<span className="text-blue-600">Бро</span>
+   397→                </span>
+   398→                <span className="text-[10px] text-gray-400 tracking-widest uppercase hidden sm:block font-medium">
+   399→                  Детейлинг центр
+   400→                </span>
+   401→              </div>
+   402→            </div>
+   403→
+   404→            {/* Desktop Navigation */}
+   405→            <nav className="hidden lg:flex items-center gap-9">
+   406→              {[
+   407→                { id: 'services', label: 'Услуги' },
+   408→                { id: 'portfolio', label: 'Работы' },
+   409→                { id: 'reviews', label: 'Отзывы' },
+   410→                { id: 'contacts', label: 'Контакты' }
+   411→              ].map((item) => (
+   412→                <button
+   413→                  key={item.id}
+   414→                  onClick={() => scrollToSection(item.id)}
+   415→                  className={`text-sm font-medium transition-colors hover:text-blue-600 ${
+   416→                    isScrolled ? 'text-gray-600' : 'text-gray-700'
+   417→                  }`}
+   418→                >
+   419→                  {item.label}
+   420→                </button>
+   421→              ))}
+   422→            </nav>
+   423→
+   424→            {/* CTA Button */}
+   425→            <div className="hidden md:flex items-center gap-5">
+   426→              <a href={`tel:${CONTACTS.phoneRaw}`} className="text-sm text-gray-500 hover:text-blue-600 transition-colors font-medium">
+   427→                {CONTACTS.phone}
+   428→              </a>
+   429→              <button
+   430→                onClick={() => scrollToSection('contacts')}
+   431→                className="px-7 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-semibold rounded-full btn-primary shadow-lg shadow-blue-600/25"
+   432→              >
+   433→                Записаться на услугу
+   434→              </button>
+   435→            </div>
+   436→
+   437→            {/* Mobile menu button */}
+   438→            <button
+   439→              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+   440→              className="lg:p-2 text-gray-700 hover:text-blue-600 transition-colors"
+   441→            >
+   442→              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+   443→            </button>
+   444→          </div>
+   445→        </div>
+   446→
+   447→        {/* Mobile Menu */}
+   448→        {isMobileMenuOpen && (
+   449→          <div className="lg:hidden bg-white/98 backdrop-blur-md border-t border-gray-100 shadow-xl">
+   450→            <div className="px-6 py-8 space-y-6">
+   451→              {['services', 'portfolio', 'reviews', 'contacts'].map((item) => (
+   452→                <button
+   453→                  key={item}
+   454→                  onClick={() => scrollToSection(item)}
+   455→                  className="block w-full text-left text-lg text-gray-700 font-medium hover:text-blue-600 transition-colors"
+   456→                >
+   457→                  {{ services: 'Услуги', portfolio: 'Работы', reviews: 'Отзывы', contacts: 'Контакты' }[item]}
+   458→                </button>
+   459→              ))}
+   460→              <div className="pt-6 border-t border-gray-100 space-y-4">
+   461→                <a href={`tel:${CONTACTS.phoneRaw}`} className="block text-blue-600 font-bold text-lg">
+   462→                  {CONTACTS.phone}
+   463→                </a>
+   464→                <button
+   465→                  onClick={() => scrollToSection('contacts')}
+   466→                  className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-full"
+   467→                >
+   468→                  Записаться на услугу
+   469→                </button>
+   470→              </div>
+   471→            </div>
+   472→          </div>
+   473→        )}
+   474→      </header>
+   475→
+   476→      {/* Hero Section - С КРАСИВЫМ ФОНОМ ИЗОБРАЖЕНИЕМ */}
+   477→      <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+   478→        {/* Background Image with Overlay */}
+   479→        <div className="absolute inset-0 hero-bg">
+   480→          <img 
+   481→            src="/images/hero-bg.png" 
+   482→            alt="Детейлинг автомобилей" 
+   483→            className="w-full h-full object-cover"
+   484→          />
+   485→          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/80"></div>
+   486→          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90"></div>
+   487→        </div>
+   488→
+   489→        {/* Decorative elements */}
+   490→        <div className="absolute top-20 right-20 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+   491→        <div className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+   492→
+   493→        <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24 relative z-10">
+   494→          <div className="grid lg:grid-cols-2 gap-16 items-center">
+   495→            {/* Left content */}
+   496→            <div className="space-y-8">
+   497→              {/* Badge */}
+   498→              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-full border border-blue-200/50 animate-on-scroll">
+   499→                <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
+   500→                <span className="text-sm text-blue-700 font-semibold">№1 детейлинг в Челябинске</span>
+   501→              </div>
+   502→
+   503→              {/* Main heading */}
+   504→              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight animate-on-scroll" style={{ transitionDelay: '100ms' }}>
+   505→                Превращаем авто<br />
+   506→                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600">в произведение</span><br />
+   507→                искусства ✨
+   508→              </h1>
+   509→
+   510→              {/* Subheading */}
+   511→              <p className="text-xl text-gray-600 leading-relaxed max-w-lg animate-on-scroll" style={{ transitionDelay: '200ms' }}>
+   512→                Профессиональный детейлинг, <strong className="text-gray-800">виниловые и защитные плёнки</strong>, полировка. Ваша машина заслуживает идеального вида!
+   513→              </p>
+   514→
+   515→              {/* CTA Buttons */}
+   516→              <div className="flex flex-col sm:flex-row gap-4 pt-2 animate-on-scroll" style={{ transitionDelay: '300ms' }}>
+   517→                <button
+   518→                  onClick={() => scrollToSection('contacts')}
+   519→                  className="px-8 py-4.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-2xl btn-primary inline-flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-600/30"
+   520→                >
+   521→                  Записаться на услугу
+   522→                  <ArrowRight className="w-5 h-5" />
+   523→                </button>
+   524→                <a
+   525→                  href={CONTACTS.whatsapp}
+   526→                  target="_blank"
+   527→                  rel="noopener noreferrer"
+   528→                  className="px-8 py-4.5 border-2 border-gray-200 text-gray-700 font-bold rounded-2xl hover:border-blue-400 hover:bg-blue-50 transition-all inline-flex items-center justify-center gap-2 text-lg"
+   529→                >
+   530→                  <MessageCircle className="w-5 h-5" />
+   531→                  WhatsApp
+   532→                </a>
+   533→              </div>
+   534→
+   535→              {/* Stats */}
+   536→              <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200/80 animate-on-scroll" style={{ transitionDelay: '400ms' }}>
+   537→                <div>
+   538→                  <div className="text-3xl font-black text-gray-900">500+</div>
+   539→                  <div className="text-sm text-gray-500 mt-1 font-medium">авто обслужили</div>
+   540→                </div>
+   541→                <div>
+   542→                  <div className="text-3xl font-black text-gray-900">5 лет</div>
+   543→                  <div className="text-sm text-gray-500 mt-1 font-medium">на рынке</div>
+   544→                </div>
+   545→                <div>
+   546→                  <div className="text-3xl font-black text-gray-900">4.9⭐</div>
+   547→                  <div className="text-sm text-gray-500 mt-1 font-medium">рейтинг</div>
+   548→                </div>
+   549→              </div>
+   550→            </div>
+   551→
+   552→            {/* Right content - Featured Service Card */}
+   553→            <div className="relative animate-on-scroll float-animation" style={{ transitionDelay: '250ms' }}>
+   554→              <div className="relative bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 rounded-3xl p-8 shadow-2xl shadow-amber-900/10 border border-amber-200/50">
+   555→                {/* Fire emoji header */}
+   556→                <div className="flex items-center gap-3 mb-6">
+   557→                  <span className="text-4xl">🔥</span>
+   558→                  <div>
+   559→                    <h3 className="text-2xl font-black text-gray-900">ХИТ СЕЗОНА!</h3>
+   560→                    <p className="text-amber-700 font-semibold">Плёнки для вашего авто</p>
+   561→                  </div>
+   562→                </div>
+   563→
+   564→                {/* Film services highlight */}
+   565→                <div className="space-y-4 mb-6">
+   566→                  <div className="flex items-start gap-4 p-4 bg-white/70 rounded-xl">
+   567→                    <div className="w-10 h-10 bg-amber-400 rounded-lg flex items-center justify-center shrink-0">
+   568→                      <PaintBucket className="w-5 h-5 text-white" />
+   569→                    </div>
+   570→                    <div>
+   571→                      <div className="font-bold text-gray-900">Виниловые плёнки</div>
+   572→                      <div className="text-amber-700 font-semibold text-lg">48 000 ₽</div>
+   573→                      <div className="text-sm text-gray-600">Любой цвет! Полный ребрендинг!</div>
+   574→                    </div>
+   575→                  </div>
+   576→
+   577→                  <div className="flex items-start gap-4 p-4 bg-white/70 rounded-xl">
+   578→                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shrink-0">
+   579→                      <Shield className="w-5 h-5 text-white" />
+   580→                    </div>
+   581→                    <div>
+   582→                      <div className="font-bold text-gray-900">Защитные PPF</div>
+   583→                      <div className="text-blue-700 font-semibold text-lg">48 000 ₽</div>
+   584→                      <div className="text-sm text-gray-600">Невидимая броня для кузова!</div>
+   585→                    </div>
+   586→                  </div>
+   587→                </div>
+   588→
+   589→                <button
+   590→                  onClick={() => scrollToSection('services')}
+   591→                  className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl btn-primary glow-animation"
+   592→                >
+   593→                  Смотреть все услуги →
+   594→                </button>
+   595→              </div>
+   596→
+   597→              {/* Decorative glow */}
+   598→              <div className="absolute -top-4 -right-4 w-32 h-32 bg-amber-300/30 rounded-full blur-2xl"></div>
+   599→              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-300/30 rounded-full blur-2xl"></div>
+   600→            </div>
+   601→          </div>
+   602→        </div>
+   603→      </section>
+   604→
+   605→      {/* Services Section - С НОВЫМИ УСЛУГАМИ */}
+   606→      <section id="services" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+   607→        <div className="max-w-7xl mx-auto px-6">
+   608→          {/* Section header */}
+   609→          <div className="text-center mb-16 animate-on-scroll">
+   610→            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
+   611→              <Sparkles className="w-4 h-4" />
+   612→              Полный спектр услуг
+   613→            </div>
+   614→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
+   615→              Наши <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">услуги</span> и цены
+   616→            </h2>
+   617→            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+   618→              Профессиональный уход за вашим автомобилем. <strong className="text-amber-600">Особый акцент на плёночные работы!</strong>
+   619→            </p>
+   620→          </div>
+   621→
+   622→          {/* Services grid */}
+   623→          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+   624→            {services.map((service, index) => (
+   625→              <div
+   626→                key={service.title}
+   627→                className={`group p-6 bg-white rounded-2xl card-soft animate-on-scroll border ${
+   628→                  service.featured 
+   629→                    ? 'card-featured border-amber-300 glow-animation' 
+   630→                    : 'border-gray-100 hover:border-blue-200'
+   631→                }`}
+   632→                style={{ transitionDelay: `${index * 60}ms` }}
+   633→              >
+   634→                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors ${
+   635→                  service.featured 
+   636→                    ? 'bg-amber-500 text-white' 
+   637→                    : 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white'
+   638→                }`}>
+   639→                  {service.icon}
+   640→                </div>
+   641→                
+   642→                {service.featured && (
+   643→                  <span className="inline-block px-2 py-1 bg-amber-500 text-white text-xs font-bold rounded-full mb-2">
+   644→                    🔥 ХИТ
+   645→                  </span>
+   646→                )}
+   647→                
+   648→                <h3 className="text-base font-bold mb-2">{service.title}</h3>
+   649→                <p className="text-gray-500 text-sm leading-relaxed mb-4">{service.description}</p>
+   650→                
+   651→                <div className="flex items-end justify-between pt-4 border-t border-gray-100">
+   652→                  <div>
+   653→                    <span className={`text-xl font-black ${service.featured ? 'text-amber-600' : 'text-blue-600'}`}>
+   654→                      {service.price}
+   655→                    </span>
+   656→                  </div>
+   657→                  <span className="text-xs text-gray-400">{service.duration}</span>
+   658→                </div>
+   659→              </div>
+   660→            ))}
+   661→          </div>
+   662→
+   663→          {/* CTA for films */}
+   664→          <div className="mt-12 text-center animate-on-scroll">
+   665→            <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-200">
+   666→              <span className="text-2xl">🎬</span>
+   667→              <div className="text-left">
+   668→                <div className="font-bold text-gray-900">Хотите изменить облик авто?</div>
+   669→                <div className="text-sm text-gray-600">Виниловые и защитные плёнки — наша специализация!</div>
+   670→              </div>
+   671→              <button
+   672→                onClick={() => scrollToSection('contacts')}
+   673→                className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-full btn-primary whitespace-nowrap"
+   674→              >
+   675→                Рассчитать стоимость
+   676→              </button>
+   677→            </div>
+   678→          </div>
+   679→        </div>
+   680→      </section>
+   681→
+   682→      {/* Portfolio Section */}
+   683→      <section id="portfolio" className="py-24 lg:py-32">
+   684→        <div className="max-w-7xl mx-auto px-6">
+   685→          {/* Section header */}
+   686→          <div className="text-center mb-12 animate-on-scroll">
+   687→            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
+   688→              Наши <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">работы</span>
+   689→            </h2>
+   690→            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+   691→              Каждый проект — это история преображения автомобиля
+   692→            </p>
+   693→          </div>
+   694→
+   695→          {/* Portfolio grid - Наши Работы */}
+   696→          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+   697→            {portfolioItems.map((item, index) => (
+   698→              <div
+   699→                key={`${item.category}-${index}`}
+   700→                className="group relative aspect-[4/3] rounded-3xl overflow-hidden bg-gray-100 animate-on-scroll img-hover shadow-lg"
+   701→                style={{ transitionDelay: `${index * 120}ms` }}
+   702→              >
+   703→                <picture>
+   704→                  <source srcSet={item.src} type="image/webp" />
+   705→                  <img
+   706→                    src={item.fallback}
+   707→                    alt={item.alt}
+   708→                    className="w-full h-full object-cover"
+   709→                    loading="lazy"
+   710→                  />
+   711→                </picture>
+   712→                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+   713→                  <div className="absolute bottom-6 left-6 right-6">
+   714→                    <p className="text-white font-bold text-lg">{item.alt}</p>
+   715→                    <p className="text-white/80 text-sm">ЭстетикБро • Челябинск</p>
+   716→                  </div>
+   717→                </div>
+   718→              </div>
+   719→            ))}
+   720→          </div>
+   721→
+   722→
+   723→        </div>
+   724→      </section>
+   725→
+   726→      {/* Reviews Section */}
+   727→      <section id="reviews" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+   728→        <div className="max-w-7xl mx-auto px-6">
+   729→          {/* Section header */}
+   730→          <div className="text-center mb-16 animate-on-scroll">
+   731→            <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-50 rounded-full text-yellow-700 text-sm font-semibold mb-4">
+   732→              <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+   733→              Рейтинг 4.9 на Яндекс Картах
+   734→            </div>
+   735→            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
+   736→              Отзывы клиентов
+   737→            </h2>
+   738→            <p className="text-lg text-gray-500">
+   739→              Больше <strong className="text-gray-700">19 отзывов</strong> и <strong className="text-gray-700">99% рекомендуют</strong> нас!
+   740→            </p>
+   741→          </div>
+   742→
+   743→          {/* Reviews grid */}
+   744→          <div className="grid md:grid-cols-3 gap-8">
+   745→            {reviews.map((review, index) => (
+   746→              <div
+   747→                key={index}
+   748→                className="p-8 bg-white rounded-2xl shadow-lg shadow-gray-200/50 animate-on-scroll card-soft border border-gray-100"
+   749→                style={{ transitionDelay: `${index * 100}ms` }}
+   750→              >
+   751→                {/* Stars */}
+   752→                <div className="flex gap-1 mb-4">
+   753→                  {[...Array(review.rating)].map((_, i) => (
+   754→                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+   755→                  ))}
+   756→                </div>
+   757→                
+   758→                {/* Text */}
+   759→                <p className="text-gray-600 leading-relaxed mb-6 text-[15px]">
+   760→                  "{review.text}"
+   761→                </p>
+   762→                
+   763→                {/* Author */}
+   764→                <div className="pt-6 border-t border-gray-100">
+   765→                  <div className="font-bold text-gray-900">{review.author}</div>
+   766→                  <div className="text-sm text-blue-600 font-medium">{review.service}</div>
+   767→                </div>
+   768→              </div>
+   769→            ))}
+   770→          </div>
+   771→
+   772→          {/* Link to Yandex */}
+   773→          <div className="mt-12 text-center animate-on-scroll">
+   774→            <a
+   775→              href={CONTACTS.yandexMaps}
+   776→              target="_blank"
+   777→              rel="noopener noreferrer"
+   778→              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
+   779→            >
+   780→              Читать все отзывы на Яндекс Картах →
+   781→            </a>
+   782→          </div>
+   783→        </div>
+   784→      </section>
+   785→
+   786→      {/* Contacts Section */}
+   787→      <section id="contacts" className="py-24 lg:py-32">
+   788→        <div className="max-w-7xl mx-auto px-6">
+   789→          <div className="grid lg:grid-cols-2 gap-16">
+   790→            {/* Left - Info */}
+   791→            <div className="space-y-8 animate-on-scroll">
+   792→              <div>
+   793→                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
+   794→                  <Phone className="w-4 h-4" />
+   795→                  Свяжитесь с нами
+   796→                </div>
+   797→                <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
+   798→                  Оставьте заявку
+   799→                </h2>
+   800→                <p className="text-lg text-gray-500">
+   801→                  Ответим в течение <strong className="text-gray-700">15 минут</strong>. Рассчитаем стоимость и подберём удобное время!
+   802→                </p>
+   803→              </div>
+   804→
+   805→              <div className="space-y-4">
+   806→                {/* Phone */}
+   807→                <a href={`tel:${CONTACTS.phoneRaw}`} className="flex items-center gap-4 p-5 rounded-2xl bg-gray-50 hover:bg-blue-50 transition-colors group">
+   808→                  <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+   809→                    <Phone className="w-6 h-6 text-white" />
+   810→                  </div>
+   811→                  <div>
+   812→                    <div className="font-bold text-lg text-gray-900">{CONTACTS.phone}</div>
+   813→                    <div className="text-sm text-gray-500">Звоните ежедневно с 9:00 до 21:00</div>
+   814→                  </div>
+   815→                </a>
+   816→
+   817→                {/* Address */}
+   818→                <div className="flex items-start gap-4 p-5 rounded-2xl bg-gray-50">
+   819→                  <div className="w-14 h-14 bg-gray-200 rounded-2xl flex items-center justify-center shrink-0">
+   820→                    <MapPin className="w-6 h-6 text-gray-600" />
+   821→                  </div>
+   822→                  <div>
+   823→                    <div className="font-bold text-gray-900">Адрес</div>
+   824→                    <div className="text-gray-600 mt-1">{CONTACTS.address}</div>
+   825→                    <div className="text-sm text-gray-400 mt-1">{CONTACTS.addressNote}</div>
+   826→                  </div>
+   827→                </div>
+   828→
+   829→                {/* Social links */}
+   830→                <div className="flex flex-wrap gap-3 pt-4">
+   831→                  <a
+   832→                    href={CONTACTS.vk}
+   833→                    target="_blank"
+   834→                    rel="noopener noreferrer"
+   835→                    className="px-6 py-3 border-2 border-gray-200 rounded-full text-sm font-semibold hover:border-blue-400 hover:bg-blue-50 transition-all inline-flex items-center gap-2"
+   836→                  >
+   837→                    📱 ВКонтакте
+   838→                  </a>
+   839→                  <a
+   840→                    href={CONTACTS.whatsapp}
+   841→                    target="_blank"
+   842→                    rel="noopener noreferrer"
+   843→                    className="px-6 py-3 border-2 border-gray-200 rounded-full text-sm font-semibold hover:border-green-400 hover:bg-green-50 transition-all inline-flex items-center gap-2"
+   844→                  >
+   845→                    💬 WhatsApp
+   846→                  </a>
+   847→                  <a
+   848→                    href={CONTACTS.yandexMaps}
+   849→                    target="_blank"
+   850→                    rel="noopener noreferrer"
+   851→                    className="px-6 py-3 border-2 border-gray-200 rounded-full text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition-all inline-flex items-center gap-2"
+   852→                  >
+   853→                    📍 Яндекс Карты
+   854→                  </a>
+   855→                  <a
+   856→                    href={CONTACTS.gis2}
+   857→                    target="_blank"
+   858→                    rel="noopener noreferrer"
+   859→                    className="px-6 py-3 border-2 border-gray-200 rounded-full text-sm font-semibold hover:border-orange-400 hover:bg-orange-50 transition-all inline-flex items-center gap-2"
+   860→                  >
+   861→                    🗺️ 2ГИС
+   862→                  </a>
+   863→                </div>
+   864→              </div>
+   865→            </div>
+   866→
+   867→            {/* Right - Form */}
+   868→            <div className="animate-on-scroll" style={{ transitionDelay: '150ms' }}>
+   869→              <form onSubmit={handleSubmit} className="p-8 lg:p-10 bg-gradient-to-br from-gray-50 to-blue-50/30 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 space-y-6">
+   870→                <div className="flex items-center gap-3 mb-6">
+   871→                  <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+   872→                    <Send className="w-5 h-5 text-white" />
+   873→                  </div>
+   874→                  <h3 className="text-2xl font-black">Быстрая заявка</h3>
+   875→                </div>
+   876→                
+   877→                {/* Name */}
+   878→                <div>
+   879→                  <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+   880→                    Ваше имя *
+   881→                  </label>
+   882→                  <input
+   883→                    type="text"
+   884→                    id="name"
+   885→                    value={formData.name}
+   886→                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+   887→                    placeholder="Как к вам обращаться?"
+   888→                    className={`w-full px-5 py-4 rounded-xl border-2 ${formErrors.name ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base`}
+   889→                  />
+   890→                  {formErrors.name && <p className="mt-2 text-sm text-red-500 font-medium">{formErrors.name}</p>}
+   891→                </div>
+   892→
+   893→                {/* Phone */}
+   894→                <div>
+   895→                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+   896→                    Телефон *
+   897→                  </label>
+   898→                  <input
+   899→                    type="tel"
+   900→                    id="phone"
+   901→                    value={formData.phone}
+   902→                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+   903→                    placeholder="+7 (___) ___-__-__"
+   904→                    className={`w-full px-5 py-4 rounded-xl border-2 ${formErrors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base`}
+   905→                  />
+   906→                  {formErrors.phone && <p className="mt-2 text-sm text-red-500 font-medium">{formErrors.phone}</p>}
+   907→                </div>
+   908→
+   909→                {/* Service */}
+   910→                <div>
+   911→                  <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-2">
+   912→                    Интересующая услуга
+   913→                  </label>
+   914→                  <select
+   915→                    id="service"
+   916→                    value={formData.service}
+   917→                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+   918→                    className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base cursor-pointer"
+   919→                  >
+   920→                    <option value="">Выберите услугу...</option>
+   921→                    <option value="🔥 Виниловые плёнки (ХИТ!)">🔥 Виниловые плёнки (ХИТ!)</option>
+   922→                    <option value="🛡️ Защитные плёнки PPF (ХИТ!)">🛡️ Защитные плёнки PPF (ХИТ!)</option>
+   923→                    {services.filter(s => !s.featured).map((s) => (
+   924→                      <option key={s.title} value={s.title}>{s.title}</option>
+   925→                    ))}
+   926→                  </select>
+   927→                </div>
+   928→
+   929→                {/* Comment */}
+   930→                <div>
+   931→                  <label htmlFor="comment" className="block text-sm font-semibold text-gray-700 mb-2">
+   932→                    Комментарий
+   933→                  </label>
+   934→                  <textarea
+   935→                    id="comment"
+   936→                    rows={3}
+   937→                    value={formData.comment}
+   938→                    onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+   939→                    placeholder="Марка авто, желаемое время, вопросы..."
+   940→                    className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all text-base"
+   941→                  />
+   942→                </div>
+   943→
+   944→                {/* Submit */}
+   945→                <button
+   946→                  type="submit"
+   947→                  disabled={isSubmitting}
+   948→                  className="w-full py-4.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-lg rounded-xl btn-primary disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25"
+   949→                >
+   950→                  {isSubmitting ? (
+   951→                    <>
+   952→                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+   953→                      Отправка...
+   954→                    </>
+   955→                  ) : formSubmitted ? (
+   956→                    <>
+   957→                      <Check className="w-5 h-5" />
+   958→                      Заявка отправлена! ✓
+   959→                    </>
+   960→                  ) : (
+   961→                    <>
+   962→                      <Send className="w-5 h-5" />
+   963→                      Отправить заявку
+   964→                    </>
+   965→                  )}
+   966→                </button>
+   967→
+   968→                {submitError && (
+   969→                  <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+   970→                    <p className="text-sm text-red-600 font-medium text-center">{submitError}</p>
+   971→                  </div>
+   972→                )}
+   973→
+   974→                <p className="text-xs text-gray-400 text-center leading-relaxed">
+   975→                  Нажимая кнопку, вы соглашаетесь с{' '}
+   976→                  <a href="#" className="underline hover:text-gray-600">политикой конфиденциальности</a>
+   977→                  {' '}и обработкой персональных данных
+   978→                </p>
+   979→              </form>
+   980→            </div>
+   981→          </div>
+   982→        </div>
+   983→      </section>
+   984→
+   985→      {/* Footer - С ЮРИДИЧЕСКИМИ ССЫЛКАМИ И CREDITS */}
+   986→      <footer className="py-16 bg-gray-900 text-white">
+   987→        <div className="max-w-7xl mx-auto px-6">
+   988→          <div className="grid md:grid-cols-3 gap-12 mb-12">
+   989→            {/* Company info */}
+   990→            <div>
+   991→              <div className="flex items-center gap-3 mb-6">
+   992→                <img src="/logo.png" alt="ЭстетикБро" className="w-10 h-10 object-contain rounded-lg bg-white p-1" />
+   993→                <span className="font-bold text-lg">
+   994→                  Эстетик<span className="text-blue-400">Бро</span>
+   995→                </span>
+   996→              </div>
+   997→              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+   998→                Профессиональный детейлинг центр в Челябинске. Полный спектр услуг по уходу за автомобилем.
+   999→              </p>
+  1000→              <p className="text-gray-500 text-sm">
+  1001→                {CONTACTS.address}<br/>
+  1002→                <span className="text-gray-400">{CONTACTS.addressNote}</span>
+  1003→              </p>
+  1004→            </div>
+  1005→
+  1006→            {/* Quick links */}
+  1007→            <div>
+  1008→              <h4 className="font-bold mb-6 text-lg">Навигация</h4>
+  1009→              <ul className="space-y-3">
+  1010→                <li><button onClick={() => scrollToSection('services')} className="text-gray-400 hover:text-white transition-colors">Услуги и цены</button></li>
+  1011→                <li><button onClick={() => scrollToSection('portfolio')} className="text-gray-400 hover:text-white transition-colors">Портфолио</button></li>
+  1012→                <li><button onClick={() => scrollToSection('reviews')} className="text-gray-400 hover:text-white transition-colors">Отзывы</button></li>
+  1013→                <li><button onClick={() => scrollToSection('contacts')} className="text-gray-400 hover:text-white transition-colors">Контакты</button></li>
+  1014→              </ul>
+  1015→            </div>
+  1016→
+  1017→            {/* Contacts & Legal */}
+  1018→            <div>
+  1019→              <h4 className="font-bold mb-6 text-lg">Контакты</h4>
+  1020→              <ul className="space-y-3 mb-6">
+  1021→                <li>
+  1022→                  <a href={`tel:${CONTACTS.phoneRaw}`} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+  1023→                    <Phone className="w-4 h-4" /> {CONTACTS.phone}
+  1024→                  </a>
+  1025→                </li>
+  1026→                <li>
+  1027→                  <a href={CONTACTS.vk} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+  1028→                    💬 ВКонтакте
+  1029→                  </a>
+  1030→                </li>
+  1031→                <li>
+  1032→                  <a href={CONTACTS.whatsapp} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+  1033→                    📱 WhatsApp
+  1034→                  </a>
+  1035→                </li>
+  1036→              </ul>
+  1037→
+  1038→              {/* Legal links */}
+  1039→              <div className="pt-6 border-t border-gray-800 space-y-2">
+  1040→                <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-3">Юридическая информация</p>
+  1041→                <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors">Политика конфиденциальности</a>
+  1042→                <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors">Согласие на обработку данных</a>
+  1043→                <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors">Публичная оферта</a>
+  1044→              </div>
+  1045→            </div>
+  1046→          </div>
+  1047→
+  1048→          {/* Divider */}
+  1049→          <div className="border-t border-gray-800 pt-8">
+  1050→            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+  1051→              {/* Copyright */}
+  1052→              <div className="text-gray-500 text-sm">
+  1053→                © 2019–2026 ЭстетикБро. Все права защищены.
+  1054→              </div>
+  1055→
+  1056→              {/* Agency credits */}
+  1057→              <div className="flex items-center gap-3">
+  1058→                <span className="text-gray-500 text-sm">Сайт разработан:</span>
+  1059→                <a
+  1060→                  href="https://t.me/buildgrowthofficial"
+  1061→                  target="_blank"
+  1062→                  rel="noopener noreferrer"
+  1063→                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors group"
+  1064→                >
+  1065→                  <img 
+  1066→                    src="/growth-logo.jpeg" 
+  1067→                    alt="Growth" 
+  1068→                    className="w-6 h-6 object-contain rounded"
+  1069→                  />
+  1070→                  <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors">
+  1071→                    Growth
+  1072→                  </span>
+  1073→                  <span className="text-xs text-gray-500 group-hover:text-gray-400">@buildgrowthofficial</span>
+  1074→                </a>
+  1075→              </div>
+  1076→            </div>
+  1077→          </div>
+  1078→        </div>
+  1079→      </footer>
+  1080→
+  1081→      {/* Scroll to top button */}
+  1082→      {showScrollTop && (
+  1083→        <button
+  1084→          onClick={scrollToTop}
+  1085→          className="fixed bottom-8 right-8 w-14 h-14 bg-blue-600 text-white rounded-full shadow-2xl shadow-blue-600/30 flex items-center justify-center hover:bg-blue-700 transition-all z-40 hover:scale-110"
+  1086→        >
+  1087→          <ChevronUp className="w-6 h-6" />
+  1088→        </button>
+  1089→      )}
+  1090→    </div>
+  1091→  )
+  1092→}
+  1093→

@@ -221,7 +221,8 @@ export default function Home() {
       errors.name = 'Укажите ваше имя'
     }
     
-    const phoneRegex = /^[\d\s\+\-\(\)]{10,}$/
+    // Валидация российского номера: +7 (XXX) XXX-XX-XX или 8 (XXX) XXX-XX-XX
+    const phoneRegex = /^(\+7|8)?[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/
     if (!formData.phone.trim()) {
       errors.phone = 'Укажите номер телефона'
     } else if (!phoneRegex.test(formData.phone)) {

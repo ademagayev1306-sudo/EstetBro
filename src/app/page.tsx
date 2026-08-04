@@ -2,27 +2,25 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { 
-  Shield, Sparkles, Gem, Clock, Phone, MapPin, Clock as TimeIcon, 
-  Star, ChevronUp, Menu, X, Check, ArrowRight, Car, Paintbrush,
-  Droplets, Wind, Layers, Camera, GraduationCap, MessageCircle,
-  Send, User, CreditCard, Banknote, Repeat, Building, Loader2
+  Shield, Sparkles, Gem, Clock, Phone, MapPin, Star, ChevronUp, Menu, X, Check, ArrowRight, Car, Paintbrush,
+  Droplets, Wind, Layers, Camera, GraduationCap, MessageCircle, Send, User, CreditCard, Banknote, Building
 } from 'lucide-react'
 
 // ============================================
 // КОНСТАНТЫ - РЕАЛЬНЫЕ КОНТАКТЫ КОМПАНИИ
 // ============================================
 const CONTACTS = {
-  phone: '+7 (951) 777-78-89',           // РЕАЛЬНЫЙ телефон компании
-  phoneRaw: '+79517777889',               // Для tel:, wa.me: ссылок
-  vk: 'https://m.vk.com/estetbroavto',   // РЕАЛЬНЫЙ VK сообщество
-  whatsapp: 'https://wa.me/79517777889',  // WhatsApp с реальным номером
+  phone: '+7 (951) 777-78-89',
+  phoneRaw: '+79517777889',
+  vk: 'https://m.vk.com/estetbroavto',
+  whatsapp: 'https://wa.me/79517777889',
   yandexMaps: 'https://yandex.ru/navi/org/estetikbro/183327682404?si=27jg87bq7mr92ynyaq02ge6q9c',
   gis2: 'https://2gis.ru/chelyabinsk/geo/70000001111004704',
   address: '454048, Челябинская обл., г. Челябинск, ул. Худякова, 10',
   addressNote: '(въезд с ул. Энтузиастов)',
 }
 
-// Portfolio images with categories for filtering
+// Portfolio images - НОВЫЕ ФОТО
 interface PortfolioItem {
   src: string
   fallback: string
@@ -31,120 +29,78 @@ interface PortfolioItem {
 }
 
 const portfolioItems: PortfolioItem[] = [
-  { src: '/images/portfolio/webp/IMG_9588.webp', fallback: '/images/portfolio/IMG_9588.jpeg', category: 'detailing', alt: 'Детейлинг кузова' },
-  { src: '/images/portfolio/webp/IMG_9679.webp', fallback: '/images/portfolio/IMG_9679.jpeg', category: 'ppf', alt: 'Оклейка защитной плёнкой' },
-  { src: '/images/portfolio/webp/IMG_9683.webp', fallback: '/images/portfolio/IMG_9683.jpeg', category: 'cleaning', alt: 'Химчистка салона' },
-  { src: '/images/portfolio/webp/IMG_9589.webp', fallback: '/images/portfolio/IMG_9589.jpeg', category: 'polishing', alt: 'Полировка фар' },
-  { src: '/images/portfolio/webp/IMG_9590.webp', fallback: '/images/portfolio/IMG_9590.jpeg', category: 'detailing', alt: 'Комплексный детейлинг' },
-  { src: '/images/portfolio/webp/IMG_9591.webp', fallback: '/images/portfolio/IMG_9591.jpeg', category: 'cleaning', alt: 'Глубокая очистка' },
-  { src: '/images/portfolio/webp/IMG_9592.webp', fallback: '/images/portfolio/IMG_9592.jpeg', category: 'ppf', alt: 'Защита кузова PPF' },
-  { src: '/images/portfolio/webp/IMG_9680.webp', fallback: '/images/portfolio/IMG_9680.jpeg', category: 'detailing', alt: 'Детейлинг после работ' },
-  { src: '/images/portfolio/webp/IMG_9682.webp', fallback: '/images/portfolio/IMG_9682.jpeg', category: 'polishing', alt: 'Полировка кузова' },
-  { src: '/images/portfolio/webp/IMG_9688.webp', fallback: '/images/portfolio/IMG_9688.jpeg', category: 'detailing', alt: 'Результат детейлинга' },
+  { src: '/images/portfolio/webp/IMG_9737.webp', fallback: '/images/portfolio/IMG_9737.jpeg', category: 'detailing', alt: 'Детейлинг кузова — до и после' },
+  { src: '/images/portfolio/webp/IMG_9738.webp', fallback: '/images/portfolio/IMG_9738.jpeg', category: 'ppf', alt: 'Защитная плёнка PPF' },
+  { src: '/images/portfolio/webp/IMG_9740.webp', fallback: '/images/portfolio/IMG_9740.jpeg', category: 'polishing', alt: 'Полировка и керамика' },
+  { src: '/images/portfolio/webp/IMG_9741.webp', fallback: '/images/portfolio/IMG_9741.jpeg', category: 'detailing', alt: 'Комплексный детейлинг' },
 ]
 
 // Services data
 const services = [
   {
-    icon: <Car className="w-8 h-8" />,
+    icon: <Car className="w-6 h-6" />,
     title: 'Детейлинг',
-    description: 'Полный комплекс работ по восстановлению и защите автомобиля. От мойки до финишной полировки.',
-    price: '15 000',
-    duration: 'от 4 часов'
+    description: 'Полный комплекс по восстановлению и защите автомобиля',
+    price: 'от 15 000 ₽',
+    duration: '4+ часов'
   },
   {
-    icon: <Paintbrush className="w-8 h-8" />,
+    icon: <Paintbrush className="w-6 h-6" />,
     title: 'Полировка',
-    description: 'Удаление царапин, окислов, голограмм. Восстановление заводского блеска кузова.',
-    price: '15 000',
-    duration: 'от 3 часов'
+    description: 'Удаление царапин и восстановление блеска',
+    price: 'от 15 000 ₽',
+    duration: '3+ часов'
   },
   {
-    icon: <Droplets className="w-8 h-8" />,
-    title: 'Керамическое покрытие',
-    description: 'Нанокерамика 9H для защиты ЛКП от царапин, химии, УФ-излучения. Гарантия до 5 лет.',
-    price: '12 000',
-    duration: 'от 2 часов'
+    icon: <Droplets className="w-6 h-6" />,
+    title: 'Керамика',
+    description: 'Нанокерамика 9H с гарантией до 5 лет',
+    price: 'от 12 000 ₽',
+    duration: '2+ часов'
   },
   {
-    icon: <Layers className="w-8 h-8" />,
-    title: 'Оклейка плёнкой (зоны риска)',
-    description: 'Защитная полиуретановая плёнка для капота, бамперов, порогов. Невидимая броня для кузова.',
-    price: '55 000',
-    duration: 'от 6 часов'
+    icon: <Layers className="w-6 h-6" />,
+    title: 'PPF плёнка',
+    description: 'Невидимая защита для кузова и оптики',
+    price: 'от 55 000 ₽',
+    duration: '6+ часов'
   },
   {
-    icon: <Wind className="w-8 h-8" />,
+    icon: <Wind className="w-6 h-6" />,
     title: 'Тонировка',
-    description: 'Тонирование стёкол и фар. Защита от солнца и посторонних взглядов. Сертифицированные плёнки.',
-    price: '8 000',
-    duration: 'от 1 часа'
+    description: 'Сертифицированные плёнки для стёкол и фар',
+    price: 'от 8 000 ₽',
+    duration: '1+ часа'
   },
   {
-    icon: <Sparkles className="w-8 h-8" />,
-    title: 'Химчистка салона',
-    description: 'Глубокая очистка всех поверхностей салона. Удаление пятен, запахов, аллергенов.',
-    price: '12 000',
-    duration: 'от 3 часов'
+    icon: <Sparkles className="w-6 h-6" />,
+    title: 'Химчистка',
+    description: 'Глубокая очистка салона от пятен и запахов',
+    price: 'от 12 000 ₽',
+    duration: '3+ часов'
   }
 ]
 
-// Packages data
-const packages = [
-  {
-    name: 'Химчистка + Керамика',
-    description: 'Комплексная защита и чистота салона. Идеально для поддержки авто в идеальном состоянии.',
-    features: ['Полная химчистка салона', 'Керамическое покрытие салона', 'Обработка кожи', 'Защита от загрязнений'],
-    popular: true,
-    savings: 'Экономия до 15%'
-  },
-  {
-    name: 'Плёнка + Полировка фар',
-    description: 'Полная защита кузова и оптики. Максимальная сохранность внешнего вида.',
-    features: ['Оклейка зон риска PPF', 'Полировка фар', 'Нанокерамика на фары', 'Гарантия на работы'],
-    popular: false,
-    savings: 'Экономия до 20%'
-  }
-]
-
-// Advantages data
-const advantages = [
-  { icon: <Layers className="w-7 h-7" />, text: 'Широкий спектр услуг под одной крышей' },
-  { icon: <User className="w-7 h-7" />, text: 'Индивидуальный подход к каждому авто' },
-  { icon: <CreditCard className="w-7 h-7" />, text: 'Доступные цены без потери качества' },
-  { icon: <Car className="w-7 h-7" />, text: 'Работаем со всеми марками автомобилей' },
-  { icon: <Banknote className="w-7 h-7" />, text: 'Наличные, карта, СБП, рассрочка' },
-  { icon: <Building className="w-7 h-7" />, text: 'Работаем с юрлицами и безналом' }
-]
-
-// Reviews data (реальные инсайты из отзывов)
+// Reviews data
 const reviews = [
   {
-    text: 'После шумоизоляции в салоне стало значительно тише — теперь можно спокойно разговаривать на скорости. Ребята сделали всё качественно и в срок!',
-    service: 'Шумоизоляция',
-    rating: 5,
-    author: 'Алексей К.'
-  },
-  {
-    text: 'Сделал химчистку и полную полировку — машина выглядит как новая! Уже пересмотрел решение о продаже авто, теперь езжу с удовольствием каждый день.',
+    text: 'Машина выглядит как новая! Ребята сделали всё идеально — теперь езжу с удовольствием каждый день.',
     service: 'Детейлинг комплекс',
     rating: 5,
     author: 'Мария В.'
   },
   {
-    text: 'Оклеивали зоны риска — работа выполнена аккуратно, швов почти не видно. Очень довольна сроками и вниманием к деталям мастера.',
+    text: 'Оклеивали зоны риска — работа выполнена аккуратно, швов почти не видно. Очень довольна!',
     service: 'Оклейка PPF',
     rating: 5,
     author: 'Елена С.'
+  },
+  {
+    text: 'После обработки керамикой вода просто скатывается — эффект потрясающий! Рекомендую всем.',
+    service: 'Керамика',
+    rating: 5,
+    author: 'Алексей К.'
   }
-]
-
-// Hero advantages
-const heroAdvantages = [
-  { icon: <Shield className="w-8 h-8" />, text: 'Защита и уход' },
-  { icon: <Sparkles className="w-8 h-8" />, text: 'Идеальная чистота' },
-  { icon: <Gem className="w-8 h-8" />, text: 'Премиум материалы' },
-  { icon: <Clock className="w-8 h-8" />, text: 'Внимание к деталям' }
 ]
 
 export default function Home() {
@@ -157,25 +113,11 @@ export default function Home() {
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
-  const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
       setShowScrollTop(window.scrollY > 500)
-
-      // Update active section based on scroll position
-      const sections = ['hero', 'services', 'packages', 'portfolio', 'advantages', 'reviews', 'training', 'contacts']
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -192,7 +134,7 @@ export default function Home() {
           }
         })
       },
-      { threshold: 0.1, rootMargin: '-50px' }
+      { threshold: 0.05, rootMargin: '-20px' }
     )
 
     document.querySelectorAll('.animate-on-scroll').forEach((el) => {
@@ -221,7 +163,6 @@ export default function Home() {
       errors.name = 'Укажите ваше имя'
     }
     
-    // Валидация российского номера: +7 (XXX) XXX-XX-XX или 8 (XXX) XXX-XX-XX
     const phoneRegex = /^(\+7|8)?[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/
     if (!formData.phone.trim()) {
       errors.phone = 'Укажите номер телефона'
@@ -233,7 +174,6 @@ export default function Home() {
     return Object.keys(errors).length === 0
   }, [formData])
 
-  // Real form submission to API
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitError(null)
@@ -257,10 +197,8 @@ export default function Home() {
         throw new Error(result.error || 'Ошибка отправки заявки')
       }
 
-      console.log('Lead submitted successfully:', result)
       setFormSubmitted(true)
       
-      // Reset form after success display
       setTimeout(() => {
         setFormSubmitted(false)
         setFormData({ name: '', phone: '', service: '', comment: '' })
@@ -268,7 +206,7 @@ export default function Home() {
 
     } catch (error) {
       console.error('Submit error:', error)
-      setSubmitError(error instanceof Error ? error.message : 'Произошла ошибка. Попробуйте позвонить нам.')
+      setSubmitError(error instanceof Error ? error.message : 'Произошла ошибка')
     } finally {
       setIsSubmitting(false)
     }
@@ -280,67 +218,27 @@ export default function Home() {
     : portfolioItems.filter(item => item.category === activeFilter)
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
-      {/* Custom styles */}
+    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
+      {/* Custom styles - МИНИМАЛИСТИЧНЫЕ */}
       <style jsx global>{`
         :root {
-          --neon-blue: #2EA8FF;
-          --neon-blue-dark: #1E90FF;
-          --bg-dark: #0A0A0A;
-          --bg-dark-secondary: #0D0D0F;
-          --bg-card: #141418;
-          --border-color: rgba(46, 168, 255, 0.15);
+          --accent: #2563eb;
+          --accent-light: #3b82f6;
+          --bg-warm: #fafafa;
+          --text-primary: #111827;
+          --text-secondary: #6b7280;
         }
 
-        * {
-          scrollbar-width: thin;
-          scrollbar-color: var(--neon-blue) var(--bg-dark);
+        html {
+          scroll-behavior: smooth;
         }
 
-        .neon-glow {
-          box-shadow: 0 0 20px rgba(46, 168, 255, 0.3), 0 0 40px rgba(46, 168, 255, 0.1);
-        }
-
-        .neon-glow-hover:hover {
-          box-shadow: 0 0 30px rgba(46, 168, 255, 0.5), 0 0 60px rgba(46, 168, 255, 0.2);
-        }
-
-        .text-gradient {
-          background: linear-gradient(135deg, #ffffff 0%, var(--neon-blue) 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .hero-bg {
-          background: radial-gradient(ellipse at center bottom, rgba(46, 168, 255, 0.08) 0%, transparent 60%),
-                      linear-gradient(180deg, #0A0A0A 0%, #0D0D0F 100%);
-        }
-
-        .diagonal-lines {
-          background-image: repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 50px,
-            rgba(46, 168, 255, 0.03) 50px,
-            rgba(46, 168, 255, 0.03) 51px
-          );
-        }
-
-        .card-hover {
-          transition: all 0.3s ease;
-        }
-
-        .card-hover:hover {
-          transform: translateY(-5px);
-          border-color: rgba(46, 168, 255, 0.4);
-          box-shadow: 0 10px 40px rgba(46, 168, 255, 0.15);
-        }
-
+        /* Smooth fade-in animation */
         .animate-on-scroll {
           opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+          transform: translateY(24px);
+          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .animate-on-scroll.animate-in {
@@ -348,71 +246,74 @@ export default function Home() {
           transform: translateY(0);
         }
 
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+        /* Image hover effect */
+        .img-hover {
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .float-animation {
-          animation: float 3s ease-in-out infinite;
+        .img-hover:hover {
+          transform: scale(1.02);
         }
 
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(46, 168, 255, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(46, 168, 255, 0.6); }
+        /* Button hover */
+        .btn-primary {
+          transition: all 0.3s ease;
         }
 
-        .pulse-glow {
-          animation: pulse-glow 2s ease-in-out infinite;
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
         }
 
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        /* Card hover */
+        .card-soft {
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .spin-animation {
-          animation: spin-slow 1s linear infinite;
+        .card-soft:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
       `}</style>
 
-      {/* Header */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-[#0A0A0A]/95 backdrop-blur-md shadow-lg shadow-black/20' : 'bg-transparent'
+      {/* Header - ЧИСТЫЙ И ПРОЗРАЧНЫЙ */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo - РЕАЛЬНЫЙ ЛОГОТИП */}
-            <div className="flex items-center gap-2 cursor-pointer" onClick={scrollToTop}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
               <img 
                 src="/logo.svg" 
-                alt="ЭстетикБро — Детейлинг центр" 
-                className="w-10 h-10 md:w-12 md:h-12 object-contain"
+                alt="ЭстетикБро" 
+                className="w-10 h-10 object-contain"
               />
               <div className="flex flex-col">
-                <span className="text-lg md:text-xl font-bold leading-tight">
-                  <span className="text-white">ЭСТЕТИК</span>{' '}
-                  <span className="text-[#2EA8FF]">БРО</span>
+                <span className={`text-lg font-semibold tracking-tight transition-colors ${
+                  isScrolled ? 'text-gray-900' : 'text-gray-900'
+                }`}>
+                  Эстетик<span className="text-blue-600">Бро</span>
                 </span>
-                <span className="text-[10px] text-gray-400 tracking-wider hidden sm:block">ДЕТЕЙЛИНГ ЦЕНТР</span>
+                <span className="text-[10px] text-gray-400 tracking-widest uppercase hidden sm:block">
+                  Детейлинг центр
+                </span>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-10">
               {[
                 { id: 'services', label: 'Услуги' },
-                { id: 'packages', label: 'Пакеты' },
-                { id: 'portfolio', label: 'Портфолио' },
+                { id: 'portfolio', label: 'Работы' },
                 { id: 'reviews', label: 'Отзывы' },
-                { id: 'training', label: 'Обучение' },
                 { id: 'contacts', label: 'Контакты' }
               ].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-[#2EA8FF] ${
-                    activeSection === item.id ? 'text-[#2EA8FF]' : 'text-gray-300'
+                  className={`text-sm font-medium transition-colors hover:text-blue-600 ${
+                    isScrolled ? 'text-gray-600' : 'text-gray-700'
                   }`}
                 >
                   {item.label}
@@ -420,15 +321,14 @@ export default function Home() {
               ))}
             </nav>
 
-            {/* CTA & Contact - РЕАЛЬНЫЙ ТЕЛЕФОН */}
+            {/* CTA Button */}
             <div className="hidden md:flex items-center gap-4">
-              <a href={`tel:${CONTACTS.phoneRaw}`} className="text-sm text-gray-300 hover:text-[#2EA8FF] transition-colors flex items-center gap-2">
-                <Phone className="w-4 h-4" />
-                <span>{CONTACTS.phone}</span>
+              <a href={`tel:${CONTACTS.phoneRaw}`} className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
+                {CONTACTS.phone}
               </a>
               <button
                 onClick={() => scrollToSection('contacts')}
-                className="px-5 py-2.5 bg-[#2EA8FF] text-black font-semibold rounded-lg neon-glow neon-glow-hover transition-all hover:bg-[#1E90FF]"
+                className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full btn-primary"
               >
                 Записаться
               </button>
@@ -437,7 +337,7 @@ export default function Home() {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-300 hover:text-white"
+              className="md:p-2 text-gray-700"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -446,32 +346,24 @@ export default function Home() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-[#0D0D0F]/98 backdrop-blur-md border-t border-white/5">
-            <div className="px-4 py-6 space-y-4">
-              {[
-                { id: 'services', label: 'Услуги' },
-                { id: 'packages', label: 'Пакеты' },
-                { id: 'portfolio', label: 'Портфолио' },
-                { id: 'reviews', label: 'Отзывы' },
-                { id: 'training', label: 'Обучение' },
-                { id: 'contacts', label: 'Контакты' }
-              ].map((item) => (
+          <div className="md:hidden bg-white border-t border-gray-100">
+            <div className="px-6 py-8 space-y-6">
+              {['services', 'portfolio', 'reviews', 'contacts'].map((item) => (
                 <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className="block w-full text-left py-2 text-gray-300 hover:text-[#2EA8FF] transition-colors"
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className="block w-full text-left text-lg text-gray-700 font-medium"
                 >
-                  {item.label}
+                  {{ services: 'Услуги', portfolio: 'Работы', reviews: 'Отзывы', contacts: 'Контакты' }[item]}
                 </button>
               ))}
-              <div className="pt-4 border-t border-white/10 space-y-3">
-                <a href={`tel:${CONTACTS.phoneRaw}`} className="flex items-center gap-2 text-gray-300">
-                  <Phone className="w-4 h-4" />
+              <div className="pt-6 border-t border-gray-100 space-y-4">
+                <a href={`tel:${CONTACTS.phoneRaw}`} className="block text-blue-600 font-medium">
                   {CONTACTS.phone}
                 </a>
                 <button
                   onClick={() => scrollToSection('contacts')}
-                  className="w-full py-3 bg-[#2EA8FF] text-black font-semibold rounded-lg"
+                  className="w-full py-4 bg-blue-600 text-white font-medium rounded-full"
                 >
                   Записаться на услугу
                 </button>
@@ -481,141 +373,113 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section */}
-      <section id="hero" className="relative min-h-screen flex items-center hero-bg diagonal-lines pt-20">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#2EA8FF]/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#2EA8FF]/3 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* Hero Section - ВОЗДУШНЫЙ С БОЛЬШИМ ФОТО */}
+      <section id="hero" className="relative min-h-screen flex items-center pt-20">
+        <div className="max-w-6xl mx-auto px-6 py-16 lg:py-24">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left content */}
             <div className="space-y-8">
-              {/* Rating badges */}
-              <div className="flex flex-wrap gap-4 animate-on-scroll">
-                <a 
-                  href={CONTACTS.yandexMaps} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 hover:border-[#2EA8FF]/30 transition-colors"
-                >
-                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  <span className="text-sm font-medium">4.8</span>
-                  <span className="text-sm text-gray-400">Яндекс Карты</span>
-                </a>
-                <a 
-                  href={CONTACTS.gis2} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 hover:border-[#2EA8FF]/30 transition-colors"
-                >
-                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  <span className="text-sm font-medium">5.0</span>
-                  <span className="text-sm text-gray-400">2ГИС</span>
-                </a>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full animate-on-scroll">
+                <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                <span className="text-sm text-blue-700 font-medium">Детейлинг центр в Челябинске</span>
               </div>
 
-              {/* Main heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight animate-on-scroll" style={{ transitionDelay: '100ms' }}>
-                <span className="text-white">Эстетик</span>
-                <span className="text-[#2EA8FF]">Бро</span>
-                <br />
-                <span className="text-xl sm:text-2xl lg:text-3xl text-gray-300 font-normal mt-4 block">
-                  профессиональный детейлинг автомобилей
-                </span>
+              {/* Main heading - ПРОДАЮЩИЙ */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight animate-on-scroll" style={{ transitionDelay: '100ms' }}>
+                Превращаем авто<br />
+                <span className="text-blue-600">в произведение</span><br />
+                искусства
               </h1>
 
-              {/* USP subtitle */}
-              <p className="text-lg text-gray-400 max-w-xl animate-on-scroll" style={{ transitionDelay: '200ms' }}>
-                Доступные цены • Индивидуальный подход • Работаем со всеми марками авто
+              {/* Subheading */}
+              <p className="text-xl text-gray-500 leading-relaxed max-w-lg animate-on-scroll" style={{ transitionDelay: '200ms' }}>
+                Профессиональный детейлинг, полировка и защита кузова. 
+                Ваша машина заслуживает идеального вида.
               </p>
 
-              {/* CTA buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 animate-on-scroll" style={{ transitionDelay: '300ms' }}>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-on-scroll" style={{ transitionDelay: '300ms' }}>
                 <button
                   onClick={() => scrollToSection('contacts')}
-                  className="px-8 py-4 bg-[#2EA8FF] text-black font-bold text-lg rounded-xl neon-glow pulse-glow hover:bg-[#1E90FF] transition-all inline-flex items-center justify-center gap-2"
+                  className="px-8 py-4 bg-blue-600 text-white font-medium rounded-full btn-primary inline-flex items-center justify-center gap-2"
                 >
-                  Записаться на диагностику
-                  <ArrowRight className="w-5 h-5" />
+                  Получить консультацию
+                  <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
-                  href={CONTACTS.vk}
+                  href={CONTACTS.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-4 border border-[#2EA8FF]/30 text-white font-semibold rounded-xl hover:bg-[#2EA8FF]/10 transition-all inline-flex items-center justify-center gap-2"
+                  className="px-8 py-4 border border-gray-200 text-gray-700 font-medium rounded-full hover:border-blue-300 hover:bg-blue-50 transition-all inline-flex items-center justify-center gap-2"
                 >
-                  <MessageCircle className="w-5 h-5" />
-                  VK сообщество
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp
                 </a>
               </div>
 
-              {/* Hero advantages */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 animate-on-scroll" style={{ transitionDelay: '400ms' }}>
-                {heroAdvantages.map((item, index) => (
-                  <div key={index} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <div className="text-[#2EA8FF]">{item.icon}</div>
-                    <span className="text-xs text-gray-400 text-center">{item.text}</span>
-                  </div>
-                ))}
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-100 animate-on-scroll" style={{ transitionDelay: '400ms' }}>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">500+</div>
+                  <div className="text-sm text-gray-500 mt-1">авто обслужили</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">5 лет</div>
+                  <div className="text-sm text-gray-500 mt-1">на рынке</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">98%</div>
+                  <div className="text-sm text-gray-500 mt-1">довольных клиентов</div>
+                </div>
               </div>
             </div>
 
-            {/* Right - Hero image */}
-            <div className="relative hidden lg:block animate-on-scroll" style={{ transitionDelay: '300ms' }}>
-              <div className="relative float-animation">
-                <div className="absolute inset-0 bg-gradient-to-r from-[#2EA8FF]/20 to-transparent rounded-2xl blur-2xl"></div>
+            {/* Right content - Hero Image */}
+            <div className="relative animate-on-scroll" style={{ transitionDelay: '200ms' }}>
+              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-gray-100 shadow-2xl">
                 <picture>
-                  <source srcSet="/images/portfolio/webp/IMG_9688.webp" type="image/webp" />
+                  <source srcSet="/images/portfolio/webp/IMG_9737.webp" type="image/webp" />
                   <img
-                    src="/images/portfolio/IMG_9688.jpeg"
-                    alt="Детейлинг автомобиля в студии ЭстетикБро"
-                    className="relative rounded-2xl w-full object-cover aspect-[4/3] border border-white/10"
+                    src="/images/portfolio/IMG_9737.jpeg"
+                    alt="Результат детейлинга — автомобиль как новый"
+                    className="w-full h-full object-cover img-hover"
                     loading="eager"
                   />
                 </picture>
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent rounded-2xl"></div>
                 
-                {/* Floating badge */}
-                <div className="absolute bottom-6 left-6 right-6 p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-[#2EA8FF]/20 rounded-lg flex items-center justify-center">
-                      <Car className="w-6 h-6 text-[#2EA8FF]" />
+                {/* Floating card */}
+                <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                      <Star className="w-6 h-6 text-blue-600 fill-blue-600" />
                     </div>
                     <div>
-                      <p className="font-semibold">Более 500+ авто</p>
-                      <p className="text-sm text-gray-400">обслужено за год</p>
+                      <div className="font-semibold text-gray-900">Рейтинг 4.9</div>
+                      <div className="text-sm text-gray-500">Яндекс Карты • 2ГИС</div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-[#2EA8FF] rounded-full"></div>
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-72 h-72 bg-blue-100 rounded-full blur-3xl opacity-60 -z-10"></div>
+              <div className="absolute -bottom-4 -left-4 w-48 h-48 bg-blue-50 rounded-full blur-2xl opacity-80 -z-10"></div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 md:py-32 bg-[#0D0D0F] relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] pointer-events-none"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Services Section - МИНИМАЛИСТИЧНЫЙ */}
+      <section id="services" className="py-24 lg:py-32 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-16 animate-on-scroll">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Наши <span className="text-[#2EA8FF]">услуги</span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Наши услуги
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Полный спектр детейлинг-услуг для вашего автомобиля. Работаем с любыми marque и моделями.
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              Полный спектр работ по уходу за вашим автомобилем
             </p>
           </div>
 
@@ -623,152 +487,53 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <div
-                key={index}
-                className="group p-6 md:p-8 rounded-2xl bg-[#141418] border border-white/5 card-hover animate-on-scroll"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                key={service.title}
+                className="group p-8 bg-white rounded-2xl card-soft animate-on-scroll"
+                style={{ transitionDelay: `${index * 80}ms` }}
               >
-                <div className="w-14 h-14 rounded-xl bg-[#2EA8FF]/10 flex items-center justify-center text-[#2EA8FF] mb-6 group-hover:bg-[#2EA8FF]/20 transition-colors">
+                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                   {service.icon}
                 </div>
-                
-                <h3 className="text-xl font-bold mb-3 group-hover:text-[#2EA8FF] transition-colors">
-                  {service.title}
-                </h3>
-                
-                <p className="text-gray-400 text-sm mb-6 line-clamp-2">
-                  {service.description}
-                </p>
-                
-                <div className="flex items-end justify-between pt-4 border-t border-white/5">
-                  <div>
-                    <p className="text-2xl font-bold text-[#2EA8FF]">от {service.price} ₽</p>
-                    <p className="text-xs text-gray-500 mt-1">{service.duration}</p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setFormData(prev => ({ ...prev, service: service.title }))
-                      scrollToSection('contacts')
-                    }}
-                    className="px-4 py-2 text-sm font-medium text-[#2EA8FF] border border-[#2EA8FF]/30 rounded-lg hover:bg-[#2EA8FF]/10 transition-all"
-                  >
-                    Записаться
-                  </button>
+                <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed mb-4">{service.description}</p>
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <span className="font-semibold text-gray-900">{service.price}</span>
+                  <span className="text-xs text-gray-400">{service.duration}</span>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Additional service note */}
-          <div className="mt-8 p-6 rounded-xl bg-[#2EA8FF]/5 border border-[#2EA8FF]/20 text-center animate-on-scroll">
-            <p className="text-gray-300">
-              <span className="text-[#2EA8FF] font-semibold">Дополнительно:</span> Полировка и бронирование фар — уточняйте стоимость при записи
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Packages Section */}
-      <section id="packages" className="py-20 md:py-32 bg-[#0A0A0A] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#2EA8FF]/5 rounded-full blur-3xl pointer-events-none"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Section header */}
-          <div className="text-center mb-16 animate-on-scroll">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EA8FF]/10 rounded-full text-[#2EA8FF] text-sm font-medium mb-4">
-              <Gem className="w-4 h-4" />
-              Выгодные комплекты
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Комплексные <span className="text-[#2EA8FF]">пакеты</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Упаковываем услуги на основе аудита вашего авто. Комплексный подход выгоднее — это знают наши клиенты.
-            </p>
-          </div>
-
-          {/* Packages grid */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {packages.map((pkg, index) => (
-              <div
-                key={index}
-                className={`relative p-8 rounded-2xl border card-hover animate-on-scroll ${
-                  pkg.popular 
-                    ? 'bg-gradient-to-b from-[#2EA8FF]/10 to-[#141418] border-[#2EA8FF]/30' 
-                    : 'bg-[#141418] border-white/5'
-                }`}
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#2EA8FF] text-black text-xs font-bold rounded-full">
-                    ПОПУЛЯРНЫЙ
-                  </div>
-                )}
-                
-                <h3 className="text-2xl font-bold mb-3">{pkg.name}</h3>
-                <p className="text-gray-400 mb-6">{pkg.description}</p>
-                
-                {/* Savings badge */}
-                <div className="inline-block mb-4 px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">
-                  {pkg.savings}
-                </div>
-                
-                <ul className="space-y-3 mb-8">
-                  {pkg.features.map((feature, fIndex) => (
-                    <li key={fIndex} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-[#2EA8FF] shrink-0 mt-0.5" />
-                      <span className="text-gray-300">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
-                <button
-                  onClick={() => {
-                    setFormData(prev => ({ ...prev, service: pkg.name }))
-                    scrollToSection('contacts')
-                  }}
-                  className={`w-full py-4 rounded-xl font-semibold transition-all ${
-                    pkg.popular
-                      ? 'bg-[#2EA8FF] text-black neon-glow hover:bg-[#1E90FF]'
-                      : 'border border-[#2EA8FF]/30 text-[#2EA8FF] hover:bg-[#2EA8FF]/10'
-                  }`}
-                >
-                  Рассчитать стоимость
-                </button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Portfolio Section - С РАБОЧЕЙ ФИЛЬТРАЦИЕЙ */}
-      <section id="portfolio" className="py-20 md:py-32 bg-[#0D0D0F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Portfolio Section - БОЛЬШИЕ ФОТО */}
+      <section id="portfolio" className="py-24 lg:py-32">
+        <div className="max-w-6xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-12 animate-on-scroll">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Портфолио <span className="text-[#2EA8FF]">До / После</span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Наши работы
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Реальные результаты наших работ. Каждое фото — подтверждение качества.
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              Каждый проект — это история преображения автомобиля
             </p>
           </div>
 
-          {/* Filter tabs - РАБОЧИЕ */}
+          {/* Filter tabs */}
           <div className="flex flex-wrap justify-center gap-3 mb-12 animate-on-scroll">
             {[
               { value: 'all', label: 'Все работы' },
               { value: 'detailing', label: 'Детейлинг' },
-              { value: 'ppf', label: 'Оклейка PPF' },
-              { value: 'cleaning', label: 'Химчистка' },
+              { value: 'ppf', label: 'PPF' },
               { value: 'polishing', label: 'Полировка' }
             ].map((filter) => (
               <button
                 key={filter.value}
                 onClick={() => setActiveFilter(filter.value)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
                   activeFilter === filter.value
-                    ? 'bg-[#2EA8FF] text-black'
-                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
                 {filter.label}
@@ -776,98 +541,62 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Portfolio grid - ФИЛЬТРУЕТСЯ С WebP */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {/* Portfolio grid - БОЛЬШИЕ ФОТО */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {filteredPortfolio.map((item, index) => (
               <div
                 key={`${item.category}-${index}`}
-                className="group relative aspect-square rounded-xl overflow-hidden bg-[#141418] animate-on-scroll"
-                style={{ transitionDelay: `${index * 80}ms` }}
+                className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 animate-on-scroll img-hover"
+                style={{ transitionDelay: `${index * 120}ms` }}
               >
                 <picture>
                   <source srcSet={item.src} type="image/webp" />
                   <img
                     src={item.fallback}
                     alt={item.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
                 </picture>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className="text-sm font-medium">{item.alt}</p>
-                    <p className="text-xs text-gray-400">ЭстетикБро</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <p className="text-white font-medium">{item.alt}</p>
+                    <p className="text-white/70 text-sm">ЭстетикБро</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Empty state for filter */}
           {filteredPortfolio.length === 0 && (
-            <div className="text-center py-12">
-              <Camera className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+            <div className="text-center py-16">
+              <Camera className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-400">В этой категории пока нет работ</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* Advantages Section */}
-      <section id="advantages" className="py-20 md:py-32 bg-[#0A0A0A] relative">
-        <div className="absolute inset-0 diagonal-lines opacity-50 pointer-events-none"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Reviews Section - ЧИСТЫЙ */}
+      <section id="reviews" className="py-24 lg:py-32 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-16 animate-on-scroll">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Почему выбирают <span className="text-[#2EA8FF]">нас</span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Отзывы клиентов
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Не просто слова — реальные преимущества для каждого клиента.
+            <p className="text-lg text-gray-500">
+              Что говорят о нас те, кто уже доверил нам свой автомобиль
             </p>
           </div>
 
-          {/* Advantages grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {advantages.map((adv, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-4 p-6 rounded-xl bg-white/[0.02] border border-white/5 card-hover animate-on-scroll"
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="w-12 h-12 shrink-0 rounded-lg bg-[#2EA8FF]/10 flex items-center justify-center text-[#2EA8FF]">
-                  {adv.icon}
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">{adv.text}</h3>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Reviews Section */}
-      <section id="reviews" className="py-20 md:py-32 bg-[#0D0D0F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section header */}
-          <div className="text-center mb-16 animate-on-scroll">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Отзывы <span className="text-[#2EA8FF]]">клиентов</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Что говорят те, кто уже доверил нам свой автомобиль.
-            </p>
-          </div>
-
-          {/* Reviews grid - С ИМЕНAMI */}
-          <div className="grid md:grid-cols-3 gap-6">
+          {/* Reviews grid */}
+          <div className="grid md:grid-cols-3 gap-8">
             {reviews.map((review, index) => (
               <div
                 key={index}
-                className="p-6 md:p-8 rounded-2xl bg-[#141418] border border-white/5 card-hover animate-on-scroll"
-                style={{ transitionDelay: `${index * 150}ms` }}
+                className="p-8 bg-white rounded-2xl animate-on-scroll"
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
@@ -876,492 +605,225 @@ export default function Home() {
                   ))}
                 </div>
                 
-                {/* Review text */}
-                <p className="text-gray-300 mb-6 leading-relaxed">
+                {/* Text */}
+                <p className="text-gray-600 leading-relaxed mb-6">
                   "{review.text}"
                 </p>
                 
-                {/* Author & Service */}
-                <div className="pt-4 border-t border-white/5">
-                  <p className="font-medium">{review.author}</p>
-                  <p className="text-sm text-[#2EA8FF]">{review.service}</p>
+                {/* Author */}
+                <div className="pt-6 border-t border-gray-100">
+                  <div className="font-medium text-gray-900">{review.author}</div>
+                  <div className="text-sm text-gray-500">{review.service}</div>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Links to review platforms - РЕАЛЬНЫЕ ССЫЛКИ */}
-          <div className="mt-12 flex flex-wrap justify-center gap-6 animate-on-scroll">
-            <a
-              href={CONTACTS.yandexMaps}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#2EA8FF]/30 transition-all"
-            >
-              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              <div className="text-left">
-                <p className="text-sm font-medium">Яндекс Карты</p>
-                <p className="text-xs text-gray-400">4.8 · 15 отзывов</p>
-              </div>
-            </a>
-            <a
-              href={CONTACTS.gis2}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#2EA8FF]/30 transition-all"
-            >
-              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              <div className="text-left">
-                <p className="text-sm font-medium">2ГИС</p>
-                <p className="text-xs text-gray-400">5.0 · 24 отзыва</p>
-              </div>
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* Training Section */}
-      <section id="training" className="py-20 md:py-32 bg-[#0A0A0A] relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2EA8FF]/5 via-transparent to-[#2EA8FF]/5 pointer-events-none"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
-            <div className="animate-on-scroll">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EA8FF]/10 rounded-full text-[#2EA8FF] text-sm font-medium mb-6">
-                <GraduationCap className="w-4 h-4" />
-                Обучение
-              </div>
-              
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                Освой <span className="text-[#2EA8FF]">детейлинг</span> профессионально
-              </h2>
-              
-              <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                Студия «ЭстетикБро» проводит обучение детейлингу для тех, кто хочет освоить востребованную профессию. 
-                Теория + практика на реальных автомобилях. Выдаём сертификат по окончании курса.
-              </p>
-              
-              <ul className="space-y-4 mb-8">
-                {[
-                  'Индивидуальный график обучения',
-                  'Практика на реальных проектах',
-                  'Материалы и инструменты включены',
-                  'Помощь в трудоустройстве'
-                ].map((item, index) => (
-                  <li key={index} className="flex items-center gap-3">
-                    <Check className="w-5 h-5 text-[#2EA8FF]" />
-                    <span className="text-gray-300">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              
-              <button
-                onClick={() => {
-                  setFormData(prev => ({ ...prev, service: 'Обучение детейлингу' }))
-                  scrollToSection('contacts')
-                }}
-                className="px-8 py-4 bg-[#2EA8FF] text-black font-bold rounded-xl neon-glow neon-glow-hover hover:bg-[#1E90FF] transition-all inline-flex items-center gap-2"
-              >
-                Узнать про обучение
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Image */}
-            <div className="relative animate-on-scroll" style={{ transitionDelay: '200ms' }}>
-              <div className="relative rounded-2xl overflow-hidden">
-                <picture>
-                  <source srcSet="/images/portfolio/webp/IMG_9680.webp" type="image/webp" />
-                  <img
-                    src="/images/portfolio/IMG_9680.jpeg"
-                    alt="Обучение детейлингу в студии ЭстетикБро"
-                    className="w-full aspect-[4/3] object-cover"
-                    loading="lazy"
-                  />
-                </picture>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent"></div>
-                
-                {/* Stats overlay */}
-                <div className="absolute bottom-6 left-6 right-6 grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-center">
-                    <p className="text-2xl font-bold text-[#2EA8FF]">50+</p>
-                    <p className="text-xs text-gray-400">выпускников</p>
-                  </div>
-                  <div className="p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-center">
-                    <p className="text-2xl font-bold text-[#2EA8FF]">98%</p>
-                    <p className="text-xs text-gray-400">трудоустройство</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contacts Section - РЕАЛЬНЫЕ КОНТАКТЫ */}
-      <section id="contacts" className="py-20 md:py-32 bg-[#0D0D0F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section header */}
-          <div className="text-center mb-16 animate-on-scroll">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Свяжитесь <span className="text-[#2EA8FF]">с нами</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Оставьте заявку или свяжитесь удобным способом. Ответим в течение 15 минут.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact info & map */}
+      {/* Contacts Section - ПРОСТОЙ */}
+      <section id="contacts" className="py-24 lg:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16">
+            {/* Left - Info */}
             <div className="space-y-8 animate-on-scroll">
-              {/* Address card */}
-              <div className="p-6 rounded-2xl bg-[#141418] border border-white/5">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 shrink-0 rounded-xl bg-[#2EA8FF]/10 flex items-center justify-center text-[#2EA8FF]">
-                    <MapPin className="w-6 h-6" />
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+                  Свяжитесь с нами
+                </h2>
+                <p className="text-lg text-gray-500">
+                  Оставьте заявку или позвоните — ответим в течение 15 минут
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {/* Phone */}
+                <a href={`tel:${CONTACTS.phoneRaw}`} className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-2">Адрес студии</h3>
-                    <p className="text-gray-400">{CONTACTS.address}</p>
-                    <p className="text-sm text-gray-500">{CONTACTS.addressNote}</p>
+                    <div className="font-medium">{CONTACTS.phone}</div>
+                    <div className="text-sm text-gray-500">Звоните ежедневно</div>
                   </div>
-                </div>
-              </div>
+                </a>
 
-              {/* Working hours */}
-              <div className="p-6 rounded-2xl bg-[#141418] border border-white/5">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 shrink-0 rounded-xl bg-[#2EA8FF]/10 flex items-center justify-center text-[#2EA8FF]">
-                    <TimeIcon className="w-6 h-6" />
+                {/* Address */}
+                <div className="flex items-start gap-4 p-4 rounded-xl">
+                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
+                    <MapPin className="w-5 h-5 text-gray-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-2">Режим работы</h3>
-                    <p className="text-gray-400">Пн—Пт: 9:00 — 20:00</p>
-                    <p className="text-gray-400">Сб: 10:00 — 18:00</p>
-                    <p className="text-gray-500 text-sm">Вс: по записи</p>
+                    <div className="font-medium">Адрес</div>
+                    <div className="text-sm text-gray-500">{CONTACTS.address}</div>
+                    <div className="text-sm text-gray-400">{CONTACTS.addressNote}</div>
                   </div>
                 </div>
-              </div>
 
-              {/* Quick contact buttons - РЕАЛЬНЫЕ ССЫЛКИ */}
-              <div className="grid grid-cols-2 gap-4">
-                <a
-                  href={`tel:${CONTACTS.phoneRaw}`}
-                  className="flex items-center justify-center gap-2 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 transition-all"
-                >
-                  <Phone className="w-5 h-5" />
-                  Позвонить
-                </a>
-                <a
-                  href={CONTACTS.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/20 transition-all"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  WhatsApp
-                </a>
-                <a
-                  href={CONTACTS.vk}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#4C75A3]/10 border border-[#4C75A3]/20 text-[#4C75A3] hover:bg-[#4C75A3]/20 transition-all"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  ВКонтакте
-                </a>
-                <a
-                  href={CONTACTS.vk}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[#4C75A3]/10 border border-[#4C75A3]/20 text-[#4C75A3] hover:bg-[#4C75A3]/20 transition-all"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  VK
-                </a>
-              </div>
-
-              {/* Payment methods */}
-              <div className="p-6 rounded-2xl bg-[#141418] border border-white/5">
-                <h3 className="font-bold mb-4">Способы оплаты</h3>
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    { icon: <Banknote className="w-5 h-5" />, label: 'Наличные' },
-                    { icon: <CreditCard className="w-5 h-5" />, label: 'Карта' },
-                    { icon: <Repeat className="w-5 h-5" />, label: 'СБП' },
-                    { icon: <CreditCard className="w-5 h-5" />, label: 'Рассрочка' },
-                    { icon: <Building className="w-5 h-5" />, label: 'Безнал' }
-                  ].map((method, index) => (
-                    <div key={index} className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg text-sm text-gray-400">
-                      {method.icon}
-                      {method.label}
-                    </div>
-                  ))}
+                {/* Social links */}
+                <div className="flex gap-4 pt-4">
+                  <a
+                    href={CONTACTS.vk}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-2.5 border border-gray-200 rounded-full text-sm font-medium hover:border-blue-300 hover:bg-blue-50 transition-all"
+                  >
+                    ВКонтакте
+                  </a>
+                  <a
+                    href={CONTACTS.yandexMaps}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-2.5 border border-gray-200 rounded-full text-sm font-medium hover:border-blue-300 hover:bg-blue-50 transition-all"
+                  >
+                    Яндекс Карты
+                  </a>
+                  <a
+                    href={CONTACTS.gis2}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-2.5 border border-gray-200 rounded-full text-sm font-medium hover:border-blue-300 hover:bg-blue-50 transition-all"
+                  >
+                    2ГИС
+                  </a>
                 </div>
               </div>
             </div>
 
-            {/* Contact form - ОТПРАВКА НА API */}
-            <div className="animate-on-scroll" style={{ transitionDelay: '200ms' }}>
-              <div className="p-8 rounded-2xl bg-[#141418] border border-white/5">
-                <h3 className="text-2xl font-bold mb-6">Записаться на услугу</h3>
+            {/* Right - Form */}
+            <div className="animate-on-scroll" style={{ transitionDelay: '150ms' }}>
+              <form onSubmit={handleSubmit} className="p-8 lg:p-10 bg-gray-50 rounded-2xl space-y-6">
+                <h3 className="text-xl font-semibold mb-6">Оставить заявку</h3>
                 
-                {formSubmitted ? (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-8 h-8 text-green-400" />
-                    </div>
-                    <h4 className="text-xl font-bold text-green-400 mb-2">Заявка отправлена!</h4>
-                    <p className="text-gray-400">Мы свяжемся с вами в ближайшее время.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Name field */}
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
-                        Ваше имя *
-                      </label>
-                      <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                        <input
-                          type="text"
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                          placeholder="Как к вам обращаться?"
-                          className={`w-full pl-12 pr-4 py-4 rounded-xl bg-white/5 border ${
-                            formErrors.name ? 'border-red-500' : 'border-white/10'
-                          } text-white placeholder-gray-500 focus:outline-none focus:border-[#2EA8FF] focus:ring-1 focus:ring-[#2EA8FF]/50 transition-all`}
-                        />
-                      </div>
-                      {formErrors.name && (
-                        <p className="mt-1 text-sm text-red-400">{formErrors.name}</p>
-                      )}
-                    </div>
+                {/* Name */}
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Ваше имя
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Как к вам обращаться?"
+                    className={`w-full px-4 py-3 rounded-xl border ${formErrors.name ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all`}
+                  />
+                  {formErrors.name && <p className="mt-1 text-sm text-red-500">{formErrors.name}</p>}
+                </div>
 
-                    {/* Phone field */}
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-400 mb-2">
-                        Телефон *
-                      </label>
-                      <div className="relative">
-                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                        <input
-                          type="tel"
-                          id="phone"
-                          value={formData.phone}
-                          onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                          placeholder="+7 (___) ___-__-__"
-                          className={`w-full pl-12 pr-4 py-4 rounded-xl bg-white/5 border ${
-                            formErrors.phone ? 'border-red-500' : 'border-white/10'
-                          } text-white placeholder-gray-500 focus:outline-none focus:border-[#2EA8FF] focus:ring-1 focus:ring-[#2EA8FF]/50 transition-all`}
-                        />
-                      </div>
-                      {formErrors.phone && (
-                        <p className="mt-1 text-sm text-red-400">{formErrors.phone}</p>
-                      )}
-                    </div>
+                {/* Phone */}
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Телефон
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="+7 (___) ___-__-__"
+                    className={`w-full px-4 py-3 rounded-xl border ${formErrors.phone ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all`}
+                  />
+                  {formErrors.phone && <p className="mt-1 text-sm text-red-500">{formErrors.phone}</p>}
+                </div>
 
-                    {/* Service select */}
-                    <div>
-                      <label htmlFor="service" className="block text-sm font-medium text-gray-400 mb-2">
-                        Интересующая услуга
-                      </label>
-                      <select
-                        id="service"
-                        value={formData.service}
-                        onChange={(e) => setFormData(prev => ({ ...prev, service: e.target.value }))}
-                        className="w-full px-4 py-4 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#2EA8FF] focus:ring-1 focus:ring-[#2EA8FF]/50 transition-all appearance-none cursor-pointer"
-                      >
-                        <option value="" className="bg-[#141418]">Выберите услугу</option>
-                        {services.map((service, index) => (
-                          <option key={index} value={service.title} className="bg-[#141418]">
-                            {service.title}
-                          </option>
-                        ))}
-                        <option value="Обучение детейлингу" className="bg-[#141418]">
-                          Обучение детейлингу
-                        </option>
-                        <option value="Комплексный пакет" className="bg-[#141418]">
-                          Комплексный пакет
-                        </option>
-                      </select>
-                    </div>
+                {/* Service */}
+                <div>
+                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
+                    Интересующая услуга
+                  </label>
+                  <select
+                    id="service"
+                    value={formData.service}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all"
+                  >
+                    <option value="">Выберите услугу</option>
+                    {services.map((s) => (
+                      <option key={s.title} value={s.title}>{s.title}</option>
+                    ))}
+                  </select>
+                </div>
 
-                    {/* Comment field */}
-                    <div>
-                      <label htmlFor="comment" className="block text-sm font-medium text-gray-400 mb-2">
-                        Комментарий
-                      </label>
-                      <textarea
-                        id="comment"
-                        value={formData.comment}
-                        onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))}
-                        rows={3}
-                        placeholder="Опишите вашу задачу или задайте вопрос..."
-                        className="w-full px-4 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#2EA8FF] focus:ring-1 focus:ring-[#2EA8FF]/50 transition-all resize-none"
-                      ></textarea>
-                    </div>
+                {/* Comment */}
+                <div>
+                  <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-2">
+                    Комментарий
+                  </label>
+                  <textarea
+                    id="comment"
+                    rows={3}
+                    value={formData.comment}
+                    onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+                    placeholder="Расскажите подробнее..."
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white resize-none transition-all"
+                  />
+                </div>
 
-                    {/* Submit button with loading state */}
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-4 bg-[#2EA8FF] text-black font-bold text-lg rounded-xl neon-glow neon-glow-hover hover:bg-[#1E90FF] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-5 h-5 spin-animation" />
-                          Отправка...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-5 h-5" />
-                          Отправить заявку
-                        </>
-                      )}
-                    </button>
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-blue-600 text-white font-medium rounded-xl btn-primary disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Отправка...
+                    </>
+                  ) : formSubmitted ? (
+                    <>
+                      <Check className="w-5 h-5" />
+                      Заявка отправлена!
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      Отправить заявку
+                    </>
+                  )}
+                </button>
 
-                    {/* Error message */}
-                    {submitError && (
-                      <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
-                        {submitError}
-                      </div>
-                    )}
-
-                    <p className="text-xs text-gray-500 text-center">
-                      Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-                    </p>
-                  </form>
+                {submitError && (
+                  <p className="text-sm text-red-500 text-center">{submitError}</p>
                 )}
-              </div>
+
+                <p className="text-xs text-gray-400 text-center">
+                  Нажимая кнопку, вы соглашаетесь на обработку персональных данных
+                </p>
+              </form>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer - РЕАЛЬНЫЕ КОНТАКТЫ */}
-      <footer className="py-12 bg-[#0A0A0A] border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
-            {/* Logo & description */}
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <img 
-                  src="/logo.svg" 
-                  alt="ЭстетикБро" 
-                  className="w-10 h-10 object-contain"
-                />
-                <div>
-                  <span className="text-lg font-bold">
-                    <span className="text-white">ЭСТЕТИК</span>{' '}
-                    <span className="text-[#2EA8FF]">БРО</span>
-                  </span>
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm max-w-md mb-4">
-                Профессиональный детейлинг центр в Челябинске. Полный спектр услуг по уходу за автомобилем.
-              </p>
-              <div className="flex gap-4">
-                <a
-                  href={CONTACTS.vk}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#2EA8FF]/20 hover:text-[#2EA8FF] transition-all"
-                  aria-label="VK"
-                >
-                  VK
-                </a>
-                <a
-                  href={CONTACTS.vk}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#4C75A3]/20 hover:text-[#4C75A3] transition-all"
-                  aria-label="VK"
-                >
-                  VK
-                </a>
-              </div>
+      {/* Footer - МИНИМАЛЬНЫЙ */}
+      <footer className="py-12 border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <img src="/logo.svg" alt="ЭстетикБро" className="w-8 h-8 object-contain" />
+              <span className="font-semibold text-gray-900">
+                Эстетик<span className="text-blue-600">Бро</span>
+              </span>
             </div>
-
-            {/* Quick links */}
-            <div>
-              <h4 className="font-bold mb-4">Навигация</h4>
-              <ul className="space-y-2">
-                {[
-                  { id: 'services', label: 'Услуги' },
-                  { id: 'portfolio', label: 'Портфолио' },
-                  { id: 'reviews', label: 'Отзывы' },
-                  { id: 'training', label: 'Обучение' },
-                  { id: 'contacts', label: 'Контакты' }
-                ].map((link) => (
-                  <li key={link.id}>
-                    <button
-                      onClick={() => scrollToSection(link.id)}
-                      className="text-gray-400 hover:text-[#2EA8FF] transition-colors text-sm"
-                    >
-                      {link.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Contacts */}
-            <div>
-              <h4 className="font-bold mb-4">Контакты</h4>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#2EA8FF]" />
-                  {CONTACTS.address}
-                </li>
-                <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 shrink-0 text-[#2EA8FF]" />
-                  <a href={`tel:${CONTACTS.phoneRaw}`} className="hover:text-[#2EA8FF] transition-colors">
-                    {CONTACTS.phone}
-                  </a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <TimeIcon className="w-4 h-4 shrink-0 text-[#2EA8FF]" />
-                  Пн—Пт: 9:00—20:00
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} ЭстетикБро. Все права защищены.
-            </p>
-            <div className="flex gap-6 text-sm text-gray-500">
-              <a href="#" className="hover:text-[#2EA8FF] transition-colors">Политика конфиденциальности</a>
-              <a href="#" className="hover:text-[#2EA8FF] transition-colors">Юридическая информация</a>
+            
+            <div className="flex items-center gap-8 text-sm text-gray-500">
+              <span>© 2024 ЭстетикБро</span>
+              <a href={CONTACTS.vk} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">ВК</a>
+              <a href={CONTACTS.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">WhatsApp</a>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Floating WhatsApp button - РЕАЛЬНАЯ ССЫЛКА */}
-      <a
-        href={`${CONTACTS.whatsapp}?text=Здравствуйте! Интересует запись на услугу.`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-transform neon-glow"
-        aria-label="Написать в WhatsApp"
-      >
-        <MessageCircle className="w-7 h-7 text-white" />
-      </a>
-
       {/* Scroll to top button */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 left-6 z-50 w-12 h-12 bg-[#2EA8FF]/20 backdrop-blur-md border border-[#2EA8FF]/30 rounded-full flex items-center justify-center text-[#2EA8FF] hover:bg-[#2EA8FF]/30 transition-all"
-          aria-label="Наверх"
+          className="fixed bottom-8 right-8 w-12 h-12 bg-gray-900 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-600 transition-colors z-40"
         >
-          <ChevronUp className="w-6 h-6" />
+          <ChevronUp className="w-5 h-5" />
         </button>
       )}
     </div>

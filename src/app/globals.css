@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: #0A0A0A;
-  --color-foreground: #ffffff;
+  --color-background: #ffffff;
+  --color-foreground: #111827;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -21,21 +21,21 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
-  --color-ring: #2EA8FF;
-  --color-input: rgba(255, 255, 255, 0.1);
+  --color-ring: #2563eb;
+  --color-input: #e5e7eb;
   --color-destructive: oklch(0.577 0.245 27.325);
-  --color-accent-foreground: #ffffff;
-  --color-accent: #141418;
-  --color-muted-foreground: #9ca3af;
-  --color-muted: #1a1a1f;
-  --color-secondary-foreground: #ffffff;
-  --color-secondary: #141418;
-  --color-primary-foreground: #000000;
-  --color-primary: #2EA8FF;
-  --color-popover-foreground: #ffffff;
-  --color-popover: #141418;
-  --color-card-foreground: #ffffff;
-  --color-card: #141418;
+  --color-accent-foreground: #111827;
+  --color-accent: #f3f4f6;
+  --color-muted-foreground: #6b7280;
+  --color-muted: #f9fafb;
+  --color-secondary-foreground: #111827;
+  --color-secondary: #f3f4f6;
+  --color-primary-foreground: #ffffff;
+  --color-primary: #2563eb;
+  --color-popover-foreground: #111827;
+  --color-popover: #ffffff;
+  --color-card-foreground: #111827;
+  --color-card: #ffffff;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -43,44 +43,38 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: #0A0A0A;
-  --foreground: #ffffff;
-  --card: #141418;
-  --card-foreground: #ffffff;
-  --popover: #141418;
-  --popover-foreground: #ffffff;
-  --primary: #2EA8FF;
-  --primary-foreground: #000000;
-  --secondary: #141418;
-  --secondary-foreground: #ffffff;
-  --muted: #1a1a1f;
-  --muted-foreground: #9ca3af;
-  --accent: #141418;
-  --accent-foreground: #ffffff;
+  --radius: 0.75rem;
+  --background: #ffffff;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --muted: #f9fafb;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #2EA8FF;
-  --chart-1: #2EA8FF;
-  --chart-2: #1E90FF;
-  --chart-3: #00d4ff;
-  --chart-4: #0099ff;
-  --chart-5: #0066cc;
-  --sidebar: #0D0D0F;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #2EA8FF;
-  --sidebar-primary-foreground: #000000;
-  --sidebar-accent: #141418;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #2EA8FF;
-}
-
-/* Dark mode is default - no light mode toggle needed */
-.dark {
-  --background: #0A0A0A;
-  --foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #2563eb;
+  --chart-1: #2563eb;
+  --chart-2: #3b82f6;
+  --chart-3: #60a5fa;
+  --chart-4: #93c5fd;
+  --chart-5: #bfdbfe;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #111827;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #2563eb;
 }
 
 @layer base {
@@ -94,47 +88,35 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
 
-  /* Selection color */
   ::selection {
-    background-color: rgba(46, 168, 255, 0.3);
-    color: white;
+    background-color: rgba(37, 99, 235, 0.15);
+    color: inherit;
   }
 
-  /* Focus styles for accessibility */
   :focus-visible {
-    outline: 2px solid #2EA8FF;
+    outline: 2px solid #2563eb;
     outline-offset: 2px;
   }
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Smooth scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #f9fafb;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2EA8FF;
-  border-radius: 4px;
+  background: #d1d5db;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1E90FF;
-}
-
-/* Line clamp utility */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  background: #9ca3af;
 }

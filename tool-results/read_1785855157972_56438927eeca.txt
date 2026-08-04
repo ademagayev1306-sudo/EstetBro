@@ -1,0 +1,502 @@
+     1→   501→   501→   501→                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 hover:border-[#2EA8FF]/30 transition-colors"
+     2→   502→   502→   502→                >
+     3→   503→   503→   503→                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+     4→   504→   504→   504→                  <span className="text-sm font-medium">4.8</span>
+     5→   505→   505→   505→                  <span className="text-sm text-gray-400">Яндекс Карты</span>
+     6→   506→   506→   506→                </a>
+     7→   507→   507→   507→                <a 
+     8→   508→   508→   508→                  href={CONTACTS.gis2} 
+     9→   509→   509→   509→                  target="_blank" 
+    10→   510→   510→   510→                  rel="noopener noreferrer"
+    11→   511→   511→   511→                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 hover:border-[#2EA8FF]/30 transition-colors"
+    12→   512→   512→   512→                >
+    13→   513→   513→   513→                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+    14→   514→   514→   514→                  <span className="text-sm font-medium">5.0</span>
+    15→   515→   515→   515→                  <span className="text-sm text-gray-400">2ГИС</span>
+    16→   516→   516→   516→                </a>
+    17→   517→   517→   517→              </div>
+    18→   518→   518→   518→
+    19→   519→   519→   519→              {/* Main heading */}
+    20→   520→   520→   520→              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight animate-on-scroll" style={{ transitionDelay: '100ms' }}>
+    21→   521→   521→   521→                <span className="text-white">Эстетик</span>
+    22→   522→   522→   522→                <span className="text-[#2EA8FF]">Бро</span>
+    23→   523→   523→   523→                <br />
+    24→   524→   524→   524→                <span className="text-xl sm:text-2xl lg:text-3xl text-gray-300 font-normal mt-4 block">
+    25→   525→   525→   525→                  профессиональный детейлинг автомобилей
+    26→   526→   526→   526→                </span>
+    27→   527→   527→   527→              </h1>
+    28→   528→   528→   528→
+    29→   529→   529→   529→              {/* USP subtitle */}
+    30→   530→   530→   530→              <p className="text-lg text-gray-400 max-w-xl animate-on-scroll" style={{ transitionDelay: '200ms' }}>
+    31→   531→   531→   531→                Доступные цены • Индивидуальный подход • Работаем со всеми марками авто
+    32→   532→   532→   532→              </p>
+    33→   533→   533→   533→
+    34→   534→   534→   534→              {/* CTA buttons */}
+    35→   535→   535→   535→              <div className="flex flex-col sm:flex-row gap-4 animate-on-scroll" style={{ transitionDelay: '300ms' }}>
+    36→   536→   536→   536→                <button
+    37→   537→   537→   537→                  onClick={() => scrollToSection('contacts')}
+    38→   538→   538→   538→                  className="px-8 py-4 bg-[#2EA8FF] text-black font-bold text-lg rounded-xl neon-glow pulse-glow hover:bg-[#1E90FF] transition-all inline-flex items-center justify-center gap-2"
+    39→   539→   539→   539→                >
+    40→   540→   540→   540→                  Записаться на диагностику
+    41→   541→   541→   541→                  <ArrowRight className="w-5 h-5" />
+    42→   542→   542→   542→                </button>
+    43→   543→   543→   543→                <a
+    44→   544→   544→   544→                  href={CONTACTS.vk}
+    45→   545→   545→   545→                  target="_blank"
+    46→   546→   546→   546→                  rel="noopener noreferrer"
+    47→   547→   547→   547→                  className="px-8 py-4 border border-[#2EA8FF]/30 text-white font-semibold rounded-xl hover:bg-[#2EA8FF]/10 transition-all inline-flex items-center justify-center gap-2"
+    48→   548→   548→   548→                >
+    49→   549→   549→   549→                  <MessageCircle className="w-5 h-5" />
+    50→   550→   550→   550→                  VK сообщество
+    51→   551→   551→   551→                </a>
+    52→   552→   552→   552→              </div>
+    53→   553→   553→   553→
+    54→   554→   554→   554→              {/* Hero advantages */}
+    55→   555→   555→   555→              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 animate-on-scroll" style={{ transitionDelay: '400ms' }}>
+    56→   556→   556→   556→                {heroAdvantages.map((item, index) => (
+    57→   557→   557→   557→                  <div key={index} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/[0.02] border border-white/5">
+    58→   558→   558→   558→                    <div className="text-[#2EA8FF]">{item.icon}</div>
+    59→   559→   559→   559→                    <span className="text-xs text-gray-400 text-center">{item.text}</span>
+    60→   560→   560→   560→                  </div>
+    61→   561→   561→   561→                ))}
+    62→   562→   562→   562→              </div>
+    63→   563→   563→   563→            </div>
+    64→   564→   564→   564→
+    65→   565→   565→   565→            {/* Right - Hero image */}
+    66→   566→   566→   566→            <div className="relative hidden lg:block animate-on-scroll" style={{ transitionDelay: '300ms' }}>
+    67→   567→   567→   567→              <div className="relative float-animation">
+    68→   568→   568→   568→                <div className="absolute inset-0 bg-gradient-to-r from-[#2EA8FF]/20 to-transparent rounded-2xl blur-2xl"></div>
+    69→   569→   569→   569→                <picture>
+    70→   570→   570→   570→                  <source srcSet="/images/portfolio/webp/IMG_9688.webp" type="image/webp" />
+    71→   571→   571→   571→                  <img
+    72→   572→   572→   572→                    src="/images/portfolio/IMG_9688.jpeg"
+    73→   573→   573→   573→                    alt="Детейлинг автомобиля в студии ЭстетикБро"
+    74→   574→   574→   574→                    className="relative rounded-2xl w-full object-cover aspect-[4/3] border border-white/10"
+    75→   575→   575→   575→                    loading="eager"
+    76→   576→   576→   576→                  />
+    77→   577→   577→   577→                </picture>
+    78→   578→   578→   578→                {/* Overlay gradient */}
+    79→   579→   579→   579→                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent rounded-2xl"></div>
+    80→   580→   580→   580→                
+    81→   581→   581→   581→                {/* Floating badge */}
+    82→   582→   582→   582→                <div className="absolute bottom-6 left-6 right-6 p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10">
+    83→   583→   583→   583→                  <div className="flex items-center gap-3">
+    84→   584→   584→   584→                    <div className="w-12 h-12 bg-[#2EA8FF]/20 rounded-lg flex items-center justify-center">
+    85→   585→   585→   585→                      <Car className="w-6 h-6 text-[#2EA8FF]" />
+    86→   586→   586→   586→                    </div>
+    87→   587→   587→   587→                    <div>
+    88→   588→   588→   588→                      <p className="font-semibold">Более 500+ авто</p>
+    89→   589→   589→   589→                      <p className="text-sm text-gray-400">обслужено за год</p>
+    90→   590→   590→   590→                    </div>
+    91→   591→   591→   591→                  </div>
+    92→   592→   592→   592→                </div>
+    93→   593→   593→   593→              </div>
+    94→   594→   594→   594→            </div>
+    95→   595→   595→   595→          </div>
+    96→   596→   596→   596→        </div>
+    97→   597→   597→   597→
+    98→   598→   598→   598→        {/* Scroll indicator */}
+    99→   599→   599→   599→        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+   100→   600→   600→   600→          <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
+   101→   601→   601→   601→            <div className="w-1.5 h-3 bg-[#2EA8FF] rounded-full"></div>
+   102→   602→   602→   602→          </div>
+   103→   603→   603→   603→        </div>
+   104→   604→   604→   604→      </section>
+   105→   605→   605→   605→
+   106→   606→   606→   606→      {/* Services Section */}
+   107→   607→   607→   607→      <section id="services" className="py-20 md:py-32 bg-[#0D0D0F] relative">
+   108→   608→   608→   608→        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] pointer-events-none"></div>
+   109→   609→   609→   609→        
+   110→   610→   610→   610→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   111→   611→   611→   611→          {/* Section header */}
+   112→   612→   612→   612→          <div className="text-center mb-16 animate-on-scroll">
+   113→   613→   613→   613→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+   114→   614→   614→   614→              Наши <span className="text-[#2EA8FF]">услуги</span>
+   115→   615→   615→   615→            </h2>
+   116→   616→   616→   616→            <p className="text-gray-400 max-w-2xl mx-auto">
+   117→   617→   617→   617→              Полный спектр детейлинг-услуг для вашего автомобиля. Работаем с любыми marque и моделями.
+   118→   618→   618→   618→            </p>
+   119→   619→   619→   619→          </div>
+   120→   620→   620→   620→
+   121→   621→   621→   621→          {/* Services grid */}
+   122→   622→   622→   622→          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+   123→   623→   623→   623→            {services.map((service, index) => (
+   124→   624→   624→   624→              <div
+   125→   625→   625→   625→                key={index}
+   126→   626→   626→   626→                className="group p-6 md:p-8 rounded-2xl bg-[#141418] border border-white/5 card-hover animate-on-scroll"
+   127→   627→   627→   627→                style={{ transitionDelay: `${index * 100}ms` }}
+   128→   628→   628→   628→              >
+   129→   629→   629→   629→                <div className="w-14 h-14 rounded-xl bg-[#2EA8FF]/10 flex items-center justify-center text-[#2EA8FF] mb-6 group-hover:bg-[#2EA8FF]/20 transition-colors">
+   130→   630→   630→   630→                  {service.icon}
+   131→   631→   631→   631→                </div>
+   132→   632→   632→   632→                
+   133→   633→   633→   633→                <h3 className="text-xl font-bold mb-3 group-hover:text-[#2EA8FF] transition-colors">
+   134→   634→   634→   634→                  {service.title}
+   135→   635→   635→   635→                </h3>
+   136→   636→   636→   636→                
+   137→   637→   637→   637→                <p className="text-gray-400 text-sm mb-6 line-clamp-2">
+   138→   638→   638→   638→                  {service.description}
+   139→   639→   639→   639→                </p>
+   140→   640→   640→   640→                
+   141→   641→   641→   641→                <div className="flex items-end justify-between pt-4 border-t border-white/5">
+   142→   642→   642→   642→                  <div>
+   143→   643→   643→   643→                    <p className="text-2xl font-bold text-[#2EA8FF]">от {service.price} ₽</p>
+   144→   644→   644→   644→                    <p className="text-xs text-gray-500 mt-1">{service.duration}</p>
+   145→   645→   645→   645→                  </div>
+   146→   646→   646→   646→                  <button
+   147→   647→   647→   647→                    onClick={() => {
+   148→   648→   648→   648→                      setFormData(prev => ({ ...prev, service: service.title }))
+   149→   649→   649→   649→                      scrollToSection('contacts')
+   150→   650→   650→   650→                    }}
+   151→   651→   651→   651→                    className="px-4 py-2 text-sm font-medium text-[#2EA8FF] border border-[#2EA8FF]/30 rounded-lg hover:bg-[#2EA8FF]/10 transition-all"
+   152→   652→   652→   652→                  >
+   153→   653→   653→   653→                    Записаться
+   154→   654→   654→   654→                  </button>
+   155→   655→   655→   655→                </div>
+   156→   656→   656→   656→              </div>
+   157→   657→   657→   657→            ))}
+   158→   658→   658→   658→          </div>
+   159→   659→   659→   659→
+   160→   660→   660→   660→          {/* Additional service note */}
+   161→   661→   661→   661→          <div className="mt-8 p-6 rounded-xl bg-[#2EA8FF]/5 border border-[#2EA8FF]/20 text-center animate-on-scroll">
+   162→   662→   662→   662→            <p className="text-gray-300">
+   163→   663→   663→   663→              <span className="text-[#2EA8FF] font-semibold">Дополнительно:</span> Полировка и бронирование фар — уточняйте стоимость при записи
+   164→   664→   664→   664→            </p>
+   165→   665→   665→   665→          </div>
+   166→   666→   666→   666→        </div>
+   167→   667→   667→   667→      </section>
+   168→   668→   668→   668→
+   169→   669→   669→   669→      {/* Packages Section */}
+   170→   670→   670→   670→      <section id="packages" className="py-20 md:py-32 bg-[#0A0A0A] relative overflow-hidden">
+   171→   671→   671→   671→        <div className="absolute top-0 right-0 w-96 h-96 bg-[#2EA8FF]/5 rounded-full blur-3xl pointer-events-none"></div>
+   172→   672→   672→   672→        
+   173→   673→   673→   673→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   174→   674→   674→   674→          {/* Section header */}
+   175→   675→   675→   675→          <div className="text-center mb-16 animate-on-scroll">
+   176→   676→   676→   676→            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EA8FF]/10 rounded-full text-[#2EA8FF] text-sm font-medium mb-4">
+   177→   677→   677→   677→              <Gem className="w-4 h-4" />
+   178→   678→   678→   678→              Выгодные комплекты
+   179→   679→   679→   679→            </div>
+   180→   680→   680→   680→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+   181→   681→   681→   681→              Комплексные <span className="text-[#2EA8FF]">пакеты</span>
+   182→   682→   682→   682→            </h2>
+   183→   683→   683→   683→            <p className="text-gray-400 max-w-2xl mx-auto">
+   184→   684→   684→   684→              Упаковываем услуги на основе аудита вашего авто. Комплексный подход выгоднее — это знают наши клиенты.
+   185→   685→   685→   685→            </p>
+   186→   686→   686→   686→          </div>
+   187→   687→   687→   687→
+   188→   688→   688→   688→          {/* Packages grid */}
+   189→   689→   689→   689→          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+   190→   690→   690→   690→            {packages.map((pkg, index) => (
+   191→   691→   691→   691→              <div
+   192→   692→   692→   692→                key={index}
+   193→   693→   693→   693→                className={`relative p-8 rounded-2xl border card-hover animate-on-scroll ${
+   194→   694→   694→   694→                  pkg.popular 
+   195→   695→   695→   695→                    ? 'bg-gradient-to-b from-[#2EA8FF]/10 to-[#141418] border-[#2EA8FF]/30' 
+   196→   696→   696→   696→                    : 'bg-[#141418] border-white/5'
+   197→   697→   697→   697→                }`}
+   198→   698→   698→   698→                style={{ transitionDelay: `${index * 150}ms` }}
+   199→   699→   699→   699→              >
+   200→   700→   700→   700→                {pkg.popular && (
+   201→   701→   701→   701→                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#2EA8FF] text-black text-xs font-bold rounded-full">
+   202→   702→   702→   702→                    ПОПУЛЯРНЫЙ
+   203→   703→   703→   703→                  </div>
+   204→   704→   704→   704→                )}
+   205→   705→   705→   705→                
+   206→   706→   706→   706→                <h3 className="text-2xl font-bold mb-3">{pkg.name}</h3>
+   207→   707→   707→   707→                <p className="text-gray-400 mb-6">{pkg.description}</p>
+   208→   708→   708→   708→                
+   209→   709→   709→   709→                {/* Savings badge */}
+   210→   710→   710→   710→                <div className="inline-block mb-4 px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">
+   211→   711→   711→   711→                  {pkg.savings}
+   212→   712→   712→   712→                </div>
+   213→   713→   713→   713→                
+   214→   714→   714→   714→                <ul className="space-y-3 mb-8">
+   215→   715→   715→   715→                  {pkg.features.map((feature, fIndex) => (
+   216→   716→   716→   716→                    <li key={fIndex} className="flex items-start gap-3">
+   217→   717→   717→   717→                      <Check className="w-5 h-5 text-[#2EA8FF] shrink-0 mt-0.5" />
+   218→   718→   718→   718→                      <span className="text-gray-300">{feature}</span>
+   219→   719→   719→   719→                    </li>
+   220→   720→   720→   720→                  ))}
+   221→   721→   721→   721→                </ul>
+   222→   722→   722→   722→                
+   223→   723→   723→   723→                <button
+   224→   724→   724→   724→                  onClick={() => {
+   225→   725→   725→   725→                    setFormData(prev => ({ ...prev, service: pkg.name }))
+   226→   726→   726→   726→                    scrollToSection('contacts')
+   227→   727→   727→   727→                  }}
+   228→   728→   728→   728→                  className={`w-full py-4 rounded-xl font-semibold transition-all ${
+   229→   729→   729→   729→                    pkg.popular
+   230→   730→   730→   730→                      ? 'bg-[#2EA8FF] text-black neon-glow hover:bg-[#1E90FF]'
+   231→   731→   731→   731→                      : 'border border-[#2EA8FF]/30 text-[#2EA8FF] hover:bg-[#2EA8FF]/10'
+   232→   732→   732→   732→                  }`}
+   233→   733→   733→   733→                >
+   234→   734→   734→   734→                  Рассчитать стоимость
+   235→   735→   735→   735→                </button>
+   236→   736→   736→   736→              </div>
+   237→   737→   737→   737→            ))}
+   238→   738→   738→   738→          </div>
+   239→   739→   739→   739→        </div>
+   240→   740→   740→   740→      </section>
+   241→   741→   741→   741→
+   242→   742→   742→   742→      {/* Portfolio Section - С РАБОЧЕЙ ФИЛЬТРАЦИЕЙ */}
+   243→   743→   743→   743→      <section id="portfolio" className="py-20 md:py-32 bg-[#0D0D0F]">
+   244→   744→   744→   744→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   245→   745→   745→   745→          {/* Section header */}
+   246→   746→   746→   746→          <div className="text-center mb-12 animate-on-scroll">
+   247→   747→   747→   747→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+   248→   748→   748→   748→              Портфолио <span className="text-[#2EA8FF]">До / После</span>
+   249→   749→   749→   749→            </h2>
+   250→   750→   750→   750→            <p className="text-gray-400 max-w-2xl mx-auto">
+   251→   751→   751→   751→              Реальные результаты наших работ. Каждое фото — подтверждение качества.
+   252→   752→   752→   752→            </p>
+   253→   753→   753→   753→          </div>
+   254→   754→   754→   754→
+   255→   755→   755→   755→          {/* Filter tabs - РАБОЧИЕ */}
+   256→   756→   756→   756→          <div className="flex flex-wrap justify-center gap-3 mb-12 animate-on-scroll">
+   257→   757→   757→   757→            {[
+   258→   758→   758→   758→              { value: 'all', label: 'Все работы' },
+   259→   759→   759→   759→              { value: 'detailing', label: 'Детейлинг' },
+   260→   760→   760→   760→              { value: 'ppf', label: 'Оклейка PPF' },
+   261→   761→   761→   761→              { value: 'cleaning', label: 'Химчистка' },
+   262→   762→   762→   762→              { value: 'polishing', label: 'Полировка' }
+   263→   763→   763→   763→            ].map((filter) => (
+   264→   764→   764→   764→              <button
+   265→   765→   765→   765→                key={filter.value}
+   266→   766→   766→   766→                onClick={() => setActiveFilter(filter.value)}
+   267→   767→   767→   767→                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+   268→   768→   768→   768→                  activeFilter === filter.value
+   269→   769→   769→   769→                    ? 'bg-[#2EA8FF] text-black'
+   270→   770→   770→   770→                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+   271→   771→   771→   771→                }`}
+   272→   772→   772→   772→              >
+   273→   773→   773→   773→                {filter.label}
+   274→   774→   774→   774→              </button>
+   275→   775→   775→   775→            ))}
+   276→   776→   776→   776→          </div>
+   277→   777→   777→   777→
+   278→   778→   778→   778→          {/* Portfolio grid - ФИЛЬТРУЕТСЯ С WebP */}
+   279→   779→   779→   779→          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+   280→   780→   780→   780→            {filteredPortfolio.map((item, index) => (
+   281→   781→   781→   781→              <div
+   282→   782→   782→   782→                key={`${item.category}-${index}`}
+   283→   783→   783→   783→                className="group relative aspect-square rounded-xl overflow-hidden bg-[#141418] animate-on-scroll"
+   284→   784→   784→   784→                style={{ transitionDelay: `${index * 80}ms` }}
+   285→   785→   785→   785→              >
+   286→   786→   786→   786→                <picture>
+   287→   787→   787→   787→                  <source srcSet={item.src} type="image/webp" />
+   288→   788→   788→   788→                  <img
+   289→   789→   789→   789→                    src={item.fallback}
+   290→   790→   790→   790→                    alt={item.alt}
+   291→   791→   791→   791→                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+   292→   792→   792→   792→                    loading="lazy"
+   293→   793→   793→   793→                  />
+   294→   794→   794→   794→                </picture>
+   295→   795→   795→   795→                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+   296→   796→   796→   796→                  <div className="absolute bottom-3 left-3 right-3">
+   297→   797→   797→   797→                    <p className="text-sm font-medium">{item.alt}</p>
+   298→   798→   798→   798→                    <p className="text-xs text-gray-400">ЭстетикБро</p>
+   299→   799→   799→   799→                  </div>
+   300→   800→   800→   800→                </div>
+   301→   801→   801→   801→              </div>
+   302→   802→   802→   802→            ))}
+   303→   803→   803→   803→          </div>
+   304→   804→   804→   804→
+   305→   805→   805→   805→          {/* Empty state for filter */}
+   306→   806→   806→   806→          {filteredPortfolio.length === 0 && (
+   307→   807→   807→   807→            <div className="text-center py-12">
+   308→   808→   808→   808→              <Camera className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+   309→   809→   809→   809→              <p className="text-gray-400">В этой категории пока нет работ</p>
+   310→   810→   810→   810→            </div>
+   311→   811→   811→   811→          )}
+   312→   812→   812→   812→        </div>
+   313→   813→   813→   813→      </section>
+   314→   814→   814→   814→
+   315→   815→   815→   815→      {/* Advantages Section */}
+   316→   816→   816→   816→      <section id="advantages" className="py-20 md:py-32 bg-[#0A0A0A] relative">
+   317→   817→   817→   817→        <div className="absolute inset-0 diagonal-lines opacity-50 pointer-events-none"></div>
+   318→   818→   818→   818→        
+   319→   819→   819→   819→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   320→   820→   820→   820→          {/* Section header */}
+   321→   821→   821→   821→          <div className="text-center mb-16 animate-on-scroll">
+   322→   822→   822→   822→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+   323→   823→   823→   823→              Почему выбирают <span className="text-[#2EA8FF]">нас</span>
+   324→   824→   824→   824→            </h2>
+   325→   825→   825→   825→            <p className="text-gray-400 max-w-2xl mx-auto">
+   326→   826→   826→   826→              Не просто слова — реальные преимущества для каждого клиента.
+   327→   827→   827→   827→            </p>
+   328→   828→   828→   828→          </div>
+   329→   829→   829→   829→
+   330→   830→   830→   830→          {/* Advantages grid */}
+   331→   831→   831→   831→          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+   332→   832→   832→   832→            {advantages.map((adv, index) => (
+   333→   833→   833→   833→              <div
+   334→   834→   834→   834→                key={index}
+   335→   835→   835→   835→                className="flex items-start gap-4 p-6 rounded-xl bg-white/[0.02] border border-white/5 card-hover animate-on-scroll"
+   336→   836→   836→   836→                style={{ transitionDelay: `${index * 100}ms` }}
+   337→   837→   837→   837→              >
+   338→   838→   838→   838→                <div className="w-12 h-12 shrink-0 rounded-lg bg-[#2EA8FF]/10 flex items-center justify-center text-[#2EA8FF]">
+   339→   839→   839→   839→                  {adv.icon}
+   340→   840→   840→   840→                </div>
+   341→   841→   841→   841→                <div>
+   342→   842→   842→   842→                  <h3 className="font-semibold mb-1">{adv.text}</h3>
+   343→   843→   843→   843→                </div>
+   344→   844→   844→   844→              </div>
+   345→   845→   845→   845→            ))}
+   346→   846→   846→   846→          </div>
+   347→   847→   847→   847→        </div>
+   348→   848→   848→   848→      </section>
+   349→   849→   849→   849→
+   350→   850→   850→   850→      {/* Reviews Section */}
+   351→   851→   851→   851→      <section id="reviews" className="py-20 md:py-32 bg-[#0D0D0F]">
+   352→   852→   852→   852→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   353→   853→   853→   853→          {/* Section header */}
+   354→   854→   854→   854→          <div className="text-center mb-16 animate-on-scroll">
+   355→   855→   855→   855→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+   356→   856→   856→   856→              Отзывы <span className="text-[#2EA8FF]]">клиентов</span>
+   357→   857→   857→   857→            </h2>
+   358→   858→   858→   858→            <p className="text-gray-400 max-w-2xl mx-auto">
+   359→   859→   859→   859→              Что говорят те, кто уже доверил нам свой автомобиль.
+   360→   860→   860→   860→            </p>
+   361→   861→   861→   861→          </div>
+   362→   862→   862→   862→
+   363→   863→   863→   863→          {/* Reviews grid - С ИМЕНAMI */}
+   364→   864→   864→   864→          <div className="grid md:grid-cols-3 gap-6">
+   365→   865→   865→   865→            {reviews.map((review, index) => (
+   366→   866→   866→   866→              <div
+   367→   867→   867→   867→                key={index}
+   368→   868→   868→   868→                className="p-6 md:p-8 rounded-2xl bg-[#141418] border border-white/5 card-hover animate-on-scroll"
+   369→   869→   869→   869→                style={{ transitionDelay: `${index * 150}ms` }}
+   370→   870→   870→   870→              >
+   371→   871→   871→   871→                {/* Stars */}
+   372→   872→   872→   872→                <div className="flex gap-1 mb-4">
+   373→   873→   873→   873→                  {[...Array(review.rating)].map((_, i) => (
+   374→   874→   874→   874→                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+   375→   875→   875→   875→                  ))}
+   376→   876→   876→   876→                </div>
+   377→   877→   877→   877→                
+   378→   878→   878→   878→                {/* Review text */}
+   379→   879→   879→   879→                <p className="text-gray-300 mb-6 leading-relaxed">
+   380→   880→   880→   880→                  "{review.text}"
+   381→   881→   881→   881→                </p>
+   382→   882→   882→   882→                
+   383→   883→   883→   883→                {/* Author & Service */}
+   384→   884→   884→   884→                <div className="pt-4 border-t border-white/5">
+   385→   885→   885→   885→                  <p className="font-medium">{review.author}</p>
+   386→   886→   886→   886→                  <p className="text-sm text-[#2EA8FF]">{review.service}</p>
+   387→   887→   887→   887→                </div>
+   388→   888→   888→   888→              </div>
+   389→   889→   889→   889→            ))}
+   390→   890→   890→   890→          </div>
+   391→   891→   891→   891→
+   392→   892→   892→   892→          {/* Links to review platforms - РЕАЛЬНЫЕ ССЫЛКИ */}
+   393→   893→   893→   893→          <div className="mt-12 flex flex-wrap justify-center gap-6 animate-on-scroll">
+   394→   894→   894→   894→            <a
+   395→   895→   895→   895→              href={CONTACTS.yandexMaps}
+   396→   896→   896→   896→              target="_blank"
+   397→   897→   897→   897→              rel="noopener noreferrer"
+   398→   898→   898→   898→              className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#2EA8FF]/30 transition-all"
+   399→   899→   899→   899→            >
+   400→   900→   900→   900→              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+   401→   901→   901→   901→              <div className="text-left">
+   402→   902→   902→   902→                <p className="text-sm font-medium">Яндекс Карты</p>
+   403→   903→   903→   903→                <p className="text-xs text-gray-400">4.8 · 15 отзывов</p>
+   404→   904→   904→   904→              </div>
+   405→   905→   905→   905→            </a>
+   406→   906→   906→   906→            <a
+   407→   907→   907→   907→              href={CONTACTS.gis2}
+   408→   908→   908→   908→              target="_blank"
+   409→   909→   909→   909→              rel="noopener noreferrer"
+   410→   910→   910→   910→              className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#2EA8FF]/30 transition-all"
+   411→   911→   911→   911→            >
+   412→   912→   912→   912→              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+   413→   913→   913→   913→              <div className="text-left">
+   414→   914→   914→   914→                <p className="text-sm font-medium">2ГИС</p>
+   415→   915→   915→   915→                <p className="text-xs text-gray-400">5.0 · 24 отзыва</p>
+   416→   916→   916→   916→              </div>
+   417→   917→   917→   917→            </a>
+   418→   918→   918→   918→          </div>
+   419→   919→   919→   919→        </div>
+   420→   920→   920→   920→      </section>
+   421→   921→   921→   921→
+   422→   922→   922→   922→      {/* Training Section */}
+   423→   923→   923→   923→      <section id="training" className="py-20 md:py-32 bg-[#0A0A0A] relative overflow-hidden">
+   424→   924→   924→   924→        <div className="absolute inset-0 bg-gradient-to-r from-[#2EA8FF]/5 via-transparent to-[#2EA8FF]/5 pointer-events-none"></div>
+   425→   925→   925→   925→        
+   426→   926→   926→   926→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   427→   927→   927→   927→          <div className="grid lg:grid-cols-2 gap-12 items-center">
+   428→   928→   928→   928→            {/* Content */}
+   429→   929→   929→   929→            <div className="animate-on-scroll">
+   430→   930→   930→   930→              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EA8FF]/10 rounded-full text-[#2EA8FF] text-sm font-medium mb-6">
+   431→   931→   931→   931→                <GraduationCap className="w-4 h-4" />
+   432→   932→   932→   932→                Обучение
+   433→   933→   933→   933→              </div>
+   434→   934→   934→   934→              
+   435→   935→   935→   935→              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+   436→   936→   936→   936→                Освой <span className="text-[#2EA8FF]">детейлинг</span> профессионально
+   437→   937→   937→   937→              </h2>
+   438→   938→   938→   938→              
+   439→   939→   939→   939→              <p className="text-gray-400 text-lg mb-8 leading-relaxed">
+   440→   940→   940→   940→                Студия «ЭстетикБро» проводит обучение детейлингу для тех, кто хочет освоить востребованную профессию. 
+   441→   941→   941→   941→                Теория + практика на реальных автомобилях. Выдаём сертификат по окончании курса.
+   442→   942→   942→   942→              </p>
+   443→   943→   943→   943→              
+   444→   944→   944→   944→              <ul className="space-y-4 mb-8">
+   445→   945→   945→   945→                {[
+   446→   946→   946→   946→                  'Индивидуальный график обучения',
+   447→   947→   947→   947→                  'Практика на реальных проектах',
+   448→   948→   948→   948→                  'Материалы и инструменты включены',
+   449→   949→   949→   949→                  'Помощь в трудоустройстве'
+   450→   950→   950→   950→                ].map((item, index) => (
+   451→   951→   951→   951→                  <li key={index} className="flex items-center gap-3">
+   452→   952→   952→   952→                    <Check className="w-5 h-5 text-[#2EA8FF]" />
+   453→   953→   953→   953→                    <span className="text-gray-300">{item}</span>
+   454→   954→   954→   954→                  </li>
+   455→   955→   955→   955→                ))}
+   456→   956→   956→   956→              </ul>
+   457→   957→   957→   957→              
+   458→   958→   958→   958→              <button
+   459→   959→   959→   959→                onClick={() => {
+   460→   960→   960→   960→                  setFormData(prev => ({ ...prev, service: 'Обучение детейлингу' }))
+   461→   961→   961→   961→                  scrollToSection('contacts')
+   462→   962→   962→   962→                }}
+   463→   963→   963→   963→                className="px-8 py-4 bg-[#2EA8FF] text-black font-bold rounded-xl neon-glow neon-glow-hover hover:bg-[#1E90FF] transition-all inline-flex items-center gap-2"
+   464→   964→   964→   964→              >
+   465→   965→   965→   965→                Узнать про обучение
+   466→   966→   966→   966→                <ArrowRight className="w-5 h-5" />
+   467→   967→   967→   967→              </button>
+   468→   968→   968→   968→            </div>
+   469→   969→   969→   969→
+   470→   970→   970→   970→            {/* Image */}
+   471→   971→   971→   971→            <div className="relative animate-on-scroll" style={{ transitionDelay: '200ms' }}>
+   472→   972→   972→   972→              <div className="relative rounded-2xl overflow-hidden">
+   473→   973→   973→   973→                <picture>
+   474→   974→   974→   974→                  <source srcSet="/images/portfolio/webp/IMG_9680.webp" type="image/webp" />
+   475→   975→   975→   975→                  <img
+   476→   976→   976→   976→                    src="/images/portfolio/IMG_9680.jpeg"
+   477→   977→   977→   977→                    alt="Обучение детейлингу в студии ЭстетикБро"
+   478→   978→   978→   978→                    className="w-full aspect-[4/3] object-cover"
+   479→   979→   979→   979→                    loading="lazy"
+   480→   980→   980→   980→                  />
+   481→   981→   981→   981→                </picture>
+   482→   982→   982→   982→                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent"></div>
+   483→   983→   983→   983→                
+   484→   984→   984→   984→                {/* Stats overlay */}
+   485→   985→   985→   985→                <div className="absolute bottom-6 left-6 right-6 grid grid-cols-2 gap-4">
+   486→   986→   986→   986→                  <div className="p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-center">
+   487→   987→   987→   987→                    <p className="text-2xl font-bold text-[#2EA8FF]">50+</p>
+   488→   988→   988→   988→                    <p className="text-xs text-gray-400">выпускников</p>
+   489→   989→   989→   989→                  </div>
+   490→   990→   990→   990→                  <div className="p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-center">
+   491→   991→   991→   991→                    <p className="text-2xl font-bold text-[#2EA8FF]">98%</p>
+   492→   992→   992→   992→                    <p className="text-xs text-gray-400">трудоустройство</p>
+   493→   993→   993→   993→                  </div>
+   494→   994→   994→   994→                </div>
+   495→   995→   995→   995→              </div>
+   496→   996→   996→   996→            </div>
+   497→   997→   997→   997→          </div>
+   498→   998→   998→   998→        </div>
+   499→   999→   999→   999→      </section>
+   500→  1000→  1000→  1000→
+
+[showing lines 1-500 of 502; use offset=501 with limit to continue reading]

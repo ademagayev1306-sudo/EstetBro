@@ -960,10 +960,10 @@ export default function Home() {
       </section>
 
       {/* ПОЧЕМУ МЫ - USP */}
-      <section id="why-us" className="pt-5 lg:pt-8 pb-3 lg:pb-5 bg-white">
+      <section id="why-us" className="py-0 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-12 animate-on-scroll">
+          <div className="text-center mb-6 animate-on-scroll">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
               <Award className="w-4 h-4" />
               Почему выбирают нас
@@ -995,14 +995,14 @@ export default function Home() {
       </section>
 
       {/* ГАРАНТИИ - ДОВЕРИЕ */}
-      <section className="pt-4 lg:pt-6 pb-4 lg:pb-6 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
+      <section className="py-0 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
         {/* Pattern overlay */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")', backgroundRepeat: 'repeat' }}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-12 animate-on-scroll">
+          <div className="text-center mb-6 animate-on-scroll">
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
               Наши гарантии
             </h2>
@@ -1025,10 +1025,10 @@ export default function Home() {
       </section>
 
       {/* Services Section - БОЛЬ → РЕШЕНИЕ */}
-      <section id="services" className="pt-5 lg:pt-8 pb-3 lg:pb-5 bg-gradient-to-b from-white to-gray-50">
+      <section id="services" className="py-0 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-12 animate-on-scroll">
+          <div className="text-center mb-6 animate-on-scroll">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
               <Sparkles className="w-4 h-4" />
               Решаем ваши проблемы
@@ -1088,10 +1088,10 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section - Наши Работы */}
-      <section id="portfolio" className="pt-4 lg:pt-6 pb-4 lg:pb-6 bg-white">
+      <section id="portfolio" className="py-0 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-12 animate-on-scroll">
+          <div className="text-center mb-6 animate-on-scroll">
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
               Наши <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">работы</span>
             </h2>

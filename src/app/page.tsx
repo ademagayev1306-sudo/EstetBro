@@ -918,13 +918,13 @@ export default function Home() {
       </section>
 
       {/* ПРОЦЕСС РАБОТЫ - ЭМОЦИИ */}
-      <section id="process" className="py-14 lg:py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      <section id="process" className="py-8 lg:py-12 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(37,99,235,0.03),transparent)]"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Section header */}
-          <div className="text-center mb-40 animate-on-scroll">
+          <div className="text-center mb-10 animate-on-scroll">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
               <Timer className="w-4 h-4" />
               Как мы работаем
@@ -960,7 +960,7 @@ export default function Home() {
       </section>
 
       {/* ПОЧЕМУ МЫ - USP */}
-      <section id="why-us" className="pt-10 lg:pt-14 pb-6 lg:pb-10 bg-white">
+      <section id="why-us" className="pt-5 lg:pt-8 pb-3 lg:pb-5 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-12 animate-on-scroll">
@@ -995,7 +995,7 @@ export default function Home() {
       </section>
 
       {/* ГАРАНТИИ - ДОВЕРИЕ */}
-      <section className="pt-8 lg:pt-10 pb-8 lg:pb-10 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
+      <section className="pt-4 lg:pt-6 pb-4 lg:pb-6 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
         {/* Pattern overlay */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")', backgroundRepeat: 'repeat' }}></div>
@@ -1025,7 +1025,7 @@ export default function Home() {
       </section>
 
       {/* Services Section - БОЛЬ → РЕШЕНИЕ */}
-      <section id="services" className="pt-10 lg:pt-14 pb-6 lg:pb-10 bg-gradient-to-b from-white to-gray-50">
+      <section id="services" className="pt-5 lg:pt-8 pb-3 lg:pb-5 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-12 animate-on-scroll">
@@ -1088,7 +1088,7 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section - Наши Работы */}
-      <section id="portfolio" className="pt-8 lg:pt-12 pb-8 lg:pb-12 bg-white">
+      <section id="portfolio" className="pt-4 lg:pt-6 pb-4 lg:pb-6 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-12 animate-on-scroll">

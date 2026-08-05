@@ -752,7 +752,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - ЭМОЦИОНАЛЬНЫЙ */}
-      <section id="hero" className="relative py-12 lg:py-20 overflow-hidden">
+      <section id="hero" className="relative py-6 lg:py-12 overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 hero-bg">
           <img 
@@ -918,18 +918,18 @@ export default function Home() {
       </section>
 
       {/* ПРОЦЕСС РАБОТЫ - ЭМОЦИИ */}
-      <section id="process" className="py-12 lg:py-16 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      <section id="process" className="py-6 lg:py-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(37,99,235,0.03),transparent)]"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Section header */}
-          <div className="text-center mb-8 animate-on-scroll">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-3">
+          <div className="text-center mb-6 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-2">
               <Timer className="w-4 h-4" />
               Как мы работаем
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-3">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-2">
               4 простых шага <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">к новой машине</span>
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
@@ -960,10 +960,10 @@ export default function Home() {
       </section>
 
       {/* ПОЧЕМУ МЫ - USP */}
-      <section id="why-us" className="py-10 lg:py-14 bg-white">
+      <section id="why-us" className="py-6 lg:py-8 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-10 animate-on-scroll">
+          <div className="text-center mb-5 animate-on-scroll">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
               <Award className="w-4 h-4" />
               Почему выбирают нас
@@ -986,7 +986,7 @@ export default function Home() {
                 <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-indigo-50 group-hover:from-blue-600 group-hover:to-indigo-600 rounded-2xl flex items-center justify-center mb-6 transition-all text-blue-600 group-hover:text-white shadow-sm group-hover:shadow-lg">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                <h3 className="text-xl font-bold mb-1">{item.title}</h3>
                 <p className="text-gray-500 leading-relaxed">{item.description}</p>
               </div>
             ))}
@@ -1002,7 +1002,7 @@ export default function Home() {
         </div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-8 animate-on-scroll">
+          <div className="text-center mb-4 animate-on-scroll">
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
               Наши гарантии
             </h2>
@@ -1025,10 +1025,10 @@ export default function Home() {
       </section>
 
       {/* Services Section - БОЛЬ → РЕШЕНИЕ */}
-      <section id="services" className="py-12 lg:py-16 bg-gradient-to-b from-white to-gray-50">
+      <section id="services" className="py-6 lg:py-10 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-10 animate-on-scroll">
+          <div className="text-center mb-5 animate-on-scroll">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
               <Sparkles className="w-4 h-4" />
               Решаем ваши проблемы
@@ -1084,37 +1084,15 @@ export default function Home() {
               </div>
             ))}
           </div>
-
-          {/* CTA - Бесплатная консультация */}
-          <div className="mt-8 animate-on-scroll">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 rounded-2xl border border-blue-200">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-                  <Phone className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900 text-lg">Не уверены что нужно?</div>
-                  <div className="text-sm text-gray-600">Получите бесплатную консультацию — подберём решение</div>
-                </div>
-              </div>
-              <button
-                onClick={() => scrollToSection('contacts')}
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl btn-primary whitespace-nowrap glow-animation flex items-center gap-2"
-              >
-                Узнать стоимость за 2 минуты
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
         </div>
       </section>
 
       {/* Portfolio Section - Наши Работы */}
-      <section id="portfolio" className="py-14 lg:py-20 bg-white">
+      <section id="portfolio" className="py-6 lg:py-10 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-8 animate-on-scroll">
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-3">
+          <div className="text-center mb-4 animate-on-scroll">
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-1">
               Наши <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">работы</span>
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
@@ -1159,11 +1137,11 @@ export default function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section id="reviews" className="py-14 lg:py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section id="reviews" className="py-6 lg:py-10 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-10 animate-on-scroll">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-50 rounded-full text-yellow-700 text-sm font-semibold mb-3">
+          <div className="text-center mb-5 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-50 rounded-full text-yellow-700 text-sm font-semibold mb-1">
               <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
               Рейтинг 4.9 на Яндекс Картах
             </div>
@@ -1231,11 +1209,11 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-14 lg:py-20 bg-white">
+      <section id="faq" className="py-6 lg:py-10 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-10 animate-on-scroll">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-3">
+          <div className="text-center mb-5 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-1">
               <HelpCircle className="w-4 h-4" />
               Частые вопросы
             </div>
@@ -1296,7 +1274,7 @@ export default function Home() {
       </section>
 
       {/* Contacts Section */}
-      <section id="contacts" className="py-14 lg:py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section id="contacts" className="py-6 lg:py-10 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Left - Info */}
@@ -1599,7 +1577,7 @@ export default function Home() {
 
               {/* Legal links */}
               <div className="pt-6 border-t border-gray-800 space-y-2">
-                <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-3">Юридическая информация</p>
+                <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-1">Юридическая информация</p>
                 <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors">Политика конфиденциальности</a>
                 <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors">Согласие на обработку данных</a>
               </div>
@@ -1642,7 +1620,7 @@ export default function Home() {
         <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:block">
           <div className="sticky-form visible bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 w-72">
             <div className="text-center mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 glow-animation">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-1 glow-animation">
                 <Phone className="w-6 h-6 text-white" />
               </div>
               <p className="font-bold text-gray-900">Запишитесь сейчас!</p>

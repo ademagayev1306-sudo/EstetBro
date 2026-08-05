@@ -732,7 +732,7 @@ export default function Home() {
                   onClick={() => scrollToSection(item)}
                   className="block w-full text-left text-lg text-gray-700 font-medium hover:text-blue-600 transition-colors"
                 >
-                  {({ services: 'Услуги', process: 'Процесс', whyus: 'Преимущества', portfolio: 'Работы', reviews: 'Отзывы', faq: 'FAQ', contacts: 'Контакты' } as Record<string, string>)[item] || item}
+                  {({ services: 'Услуги', process: 'Процесс', 'why-us': 'Преимущества', portfolio: 'Работы', reviews: 'Отзывы', faq: 'FAQ', contacts: 'Контакты' } as Record<string, string>)[item] || item}
                 </button>
               ))}
               <div className="pt-6 border-t border-gray-100 space-y-4">
@@ -918,7 +918,7 @@ export default function Home() {
       </section>
 
       {/* ПРОЦЕСС РАБОТЫ - ЭМОЦИИ */}
-      <section id="process" className="py-8 lg:py-12 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      <section id="process" className="py-10 lg:py-14 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(37,99,235,0.03),transparent)]"></div>
         
@@ -960,7 +960,7 @@ export default function Home() {
       </section>
 
       {/* ПОЧЕМУ МЫ - USP */}
-      <section id="why-us" className="py-0 bg-white">
+      <section id="why-us" className="py-10 lg:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-6 animate-on-scroll">
@@ -995,7 +995,7 @@ export default function Home() {
       </section>
 
       {/* ГАРАНТИИ - ДОВЕРИЕ */}
-      <section className="py-0 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
+      <section className="py-10 lg:py-14 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
         {/* Pattern overlay */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")', backgroundRepeat: 'repeat' }}></div>
@@ -1025,7 +1025,7 @@ export default function Home() {
       </section>
 
       {/* Services Section - БОЛЬ → РЕШЕНИЕ */}
-      <section id="services" className="py-0 bg-gradient-to-b from-white to-gray-50">
+      <section id="services" className="py-10 lg:py-14 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-6 animate-on-scroll">
@@ -1088,7 +1088,7 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section - Наши Работы */}
-      <section id="portfolio" className="py-0 bg-white">
+      <section id="portfolio" className="py-10 lg:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-6 animate-on-scroll">
@@ -1525,7 +1525,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-16 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12 mb-42">
+          <div className="grid md:grid-cols-3 gap-12 mb-12">
             {/* Company info */}
             <div>
               <div className="flex items-center gap-3 mb-6">

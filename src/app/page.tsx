@@ -4,8 +4,8 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { 
   Shield, Sparkles, Gem, Phone, MapPin, Star, ChevronUp, Menu, X, Check, ArrowRight,
   MessageCircle, Send, Monitor, Wrench, ShieldCheck, Volume2, PaintBucket, Paintbrush, Wind,
-  Camera, Award, ThumbsUp, Car, HelpCircle, Calendar, Users, TrendingUp, Zap,
-  Play, Quote, CheckCircle2, BadgePercent, ArrowDown, Timer
+  Camera, Award, ThumbsUp, Car, HelpCircle, Calendar, Zap,
+  Quote, CheckCircle2, BadgePercent, ArrowDown, Timer
 } from 'lucide-react'
 
 // ============================================
@@ -45,8 +45,6 @@ const services = [
     solution: 'Компьютерная диагностика',
     description: 'Полная диагностика всех систем автомобиля. Выявляем скрытые проблемы до того, как они станут дорогим ремонтом.',
     price: '1 500 ₽',
-    duration: '30 мин',
-    popular: false
   },
   {
     icon: <Sparkles className="w-6 h-6" />,
@@ -54,8 +52,6 @@ const services = [
     solution: 'Детейлинг салона и кузова',
     description: 'Комплексное преображение: химчистка, полировка, защита. Машина как новая — внутри и снаружи.',
     price: '12 000 ₽',
-    duration: '4+ часов',
-    popular: true
   },
   {
     icon: <Wrench className="w-6 h-6" />,
@@ -63,8 +59,6 @@ const services = [
     solution: 'Выпрямление вмятин',
     description: 'Убираем вмятины, сохраняя заводское ЛКП. Никакого шпаклевания и перекраса.',
     price: '5 000 ₽',
-    duration: 'от 2 часов',
-    popular: false
   },
   {
     icon: <ShieldCheck className="w-6 h-6" />,
@@ -72,8 +66,6 @@ const services = [
     solution: 'Антикоррозийная обработка',
     description: 'Надёжная защита кузова и днища от ржавчины. Сохраняем машину на годы.',
     price: '18 000 ₽',
-    duration: '5+ часов',
-    popular: true
   },
   {
     icon: <Paintbrush className="w-6 h-6" />,
@@ -81,8 +73,6 @@ const services = [
     solution: 'Полировка',
     description: 'Возвращаем глубину цвета и зеркальный блеск. Удаляем царапины и голограммы.',
     price: '16 000 ₽',
-    duration: '3+ часов',
-    popular: false
   },
   {
     icon: <Wind className="w-6 h-6" />,
@@ -90,8 +80,6 @@ const services = [
     solution: 'Тонирование',
     description: 'Сертифицированные плёнки по ГОСТ. Комфорт и стиль для ваших стёкол.',
     price: '3 000 ₽',
-    duration: '1+ часа',
-    popular: false
   },
   {
     icon: <PaintBucket className="w-6 h-6" />,
@@ -99,8 +87,6 @@ const services = [
     solution: 'Виниловые плёнки',
     description: 'Любой цвет! Матовый, глянцевый, хром. Полный ребрендинг за один день.',
     price: '48 000 ₽',
-    duration: 'от 8 часов',
-    popular: true,
     featured: true
   },
   {
@@ -109,8 +95,6 @@ const services = [
     solution: 'Защитные плёнки PPF',
     description: 'Невидимая броня для кузова. Защита от камней, песка, веток.',
     price: '48 000 ₽',
-    duration: '6+ часов',
-    popular: true,
     featured: true
   },
   {
@@ -119,8 +103,6 @@ const services = [
     solution: 'Антихром',
     description: 'Чёрный глянец или карбон вместо старого хрома. Современный стиль.',
     price: '1 500 ₽',
-    duration: '2+ часа',
-    popular: false
   },
   {
     icon: <Volume2 className="w-6 h-6" />,
@@ -128,8 +110,6 @@ const services = [
     solution: 'Шумоизоляция',
     description: 'Тишина и комфорт. Музыка заиграет по-новому, разговоры станут спокойными.',
     price: '3 000 ₽',
-    duration: '4+ часов',
-    popular: false
   }
 ]
 
@@ -453,17 +433,24 @@ export default function Home() {
           transform: translateY(0);
         }
 
-        /* Stagger children */
+        /* Stagger children - все элементы становятся видимыми */
         .stagger-children > * {
           opacity: 0;
           transform: translateY(20px);
           transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        .stagger-children.animate-in > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
-        .stagger-children.animate-in > *:nth-child(2) { transition-delay: 100ms; opacity: 1; transform: translateY(0); }
-        .stagger-children.animate-in > *:nth-child(3) { transition-delay: 200ms; opacity: 1; transform: translateY(0); }
-        .stagger-children.animate-in > *:nth-child(4) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+        /* При скролле - ВСЕ элементы появляются */
+        .stagger-children.animate-in > * {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Задержка для первых 4 (остальные появляются сразу) */
+        .stagger-children.animate-in > *:nth-child(1) { transition-delay: 0ms; }
+        .stagger-children.animate-in > *:nth-child(2) { transition-delay: 100ms; }
+        .stagger-children.animate-in > *:nth-child(3) { transition-delay: 200ms; }
+        .stagger-children.animate-in > *:nth-child(4) { transition-delay: 300ms; }
 
         /* Card hover */
         .card-soft {

@@ -427,7 +427,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
+    <div className="bg-white text-gray-900 overflow-x-hidden">
       {/* Custom styles */}
       <style jsx global>{`
         :root {
@@ -752,7 +752,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - ЭМОЦИОНАЛЬНЫЙ */}
-      <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <section id="hero" className="relative py-12 lg:py-20 overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 hero-bg">
           <img 
@@ -769,10 +769,10 @@ export default function Home() {
         <div className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center justify-items-center">
             {/* Left content */}
-            <div className="space-y-8">
+            <div className="space-y-5 lg:space-y-8">
               {/* Badge with animation */}
               <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-full border border-blue-200/50 animate-on-scroll">
                 <span className="relative flex h-3 w-3">
@@ -828,7 +828,7 @@ export default function Home() {
               </div>
 
               {/* Stats with animated counters */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200/80 animate-on-scroll" style={{ transitionDelay: '400ms' }}>
+              <div className="grid grid-cols-3 gap-4 lg:gap-6 pt-4 lg:pt-8 border-t border-gray-200/80 animate-on-scroll" style={{ transitionDelay: '400ms' }}>
                 <div className="text-center">
                   <AnimatedCounter target={500} suffix="+" />
                   <div className="text-sm text-gray-500 mt-1 font-medium">авто обслужили</div>
@@ -845,7 +845,7 @@ export default function Home() {
             </div>
 
             {/* Right content - Interactive card */}
-            <div className="relative animate-on-scroll float-animation" style={{ transitionDelay: '250ms' }}>
+            <div className="relative animate-on-scroll float-animation lg:block hidden" style={{ transitionDelay: '250ms' }}>
               <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 rounded-3xl p-8 shadow-2xl shadow-blue-900/10 border border-blue-200/50 overflow-hidden">
                 {/* Background decoration */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/30 rounded-full blur-2xl"></div>
@@ -910,8 +910,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:flex flex-col items-center gap-2 text-gray-400">
+        {/* Scroll indicator - only on desktop */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce hidden lg:flex flex-col items-center gap-2 text-gray-400">
           <span className="text-xs font-medium">Листайте вниз</span>
           <ChevronUp className="w-5 h-5 rotate-180" />
         </div>

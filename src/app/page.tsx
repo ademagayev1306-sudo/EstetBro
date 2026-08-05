@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { 
   Shield, Sparkles, Gem, Phone, MapPin, Star, ChevronUp, Menu, X, Check, ArrowRight,
-  MessageCircle, Send, Monitor, Wrench, ShieldCheck, Volume2, PaintBucket, Paintbrush, Wind
+  MessageCircle, Send, Monitor, Wrench, ShieldCheck, Volume2, PaintBucket, Paintbrush, Wind,
+  Clock, Camera, Award, ThumbsUp, Car, HelpCircle, Calendar
 } from 'lucide-react'
 
 // ============================================
@@ -13,7 +14,7 @@ const CONTACTS = {
   phone: '+7 (951) 777-78-89',
   phoneRaw: '+79517777889',
   vk: 'https://m.vk.com/estetbroavto',
-  whatsapp: 'https://wa.me/79517777889',
+  whatsapp: 'https://wa.me/79517777889?text=Здравствуйте!%20Хочу%20записаться%20на%20услугу',
   yandexMaps: 'https://yandex.ru/navi/org/estetikbro/183327682404?si=27jg87bq7mr92ynyaq02ge6q9c',
   gis2: 'https://2gis.ru/chelyabinsk/geo/70000001111004704',
   address: '454048, Челябинская обл., г. Челябинск, ул. Худякова, 10',
@@ -35,71 +36,79 @@ const portfolioItems: PortfolioItem[] = [
   { src: '/images/portfolio/webp/IMG_9741.webp', fallback: '/images/portfolio/IMG_9741.jpeg', category: 'films', alt: 'Виниловая плёнка — полный ребрендинг авто' },
 ]
 
-// Services data - УСЛУГИ С ЦЕНАМИ (АКЦЕНТ НА ПЛЁНКИ!)
+// Services data - БОЛЬ → РЕШЕНИЕ
 const services = [
   {
     icon: <Monitor className="w-6 h-6" />,
-    title: 'Компьютерная диагностика',
-    description: 'Полная диагностика всех систем автомобиля современным оборудованием',
+    pain: 'Проблемы с электроникой?',
+    solution: 'Компьютерная диагностика',
+    description: 'Полная диагностика всех систем автомобиля. Выявляем скрытые проблемы до того, как они станут дорогим ремонтом.',
     price: '1 500 ₽',
     duration: '30 мин',
     popular: false
   },
   {
     icon: <Sparkles className="w-6 h-6" />,
-    title: 'Детейлинг салона и кузова',
-    description: 'Комплексный детейлинг: химчистка, полировка, защита всех поверхностей',
+    pain: 'Салон потерял свежесть?',
+    solution: 'Детейлинг салона и кузова',
+    description: 'Комплексное преображение: химчистка, полировка, защита. Машина как новая — внутри и снаружи.',
     price: '12 000 ₽',
     duration: '4+ часов',
     popular: true
   },
   {
     icon: <Wrench className="w-6 h-6" />,
-    title: 'Выпрямление вмятин',
-    description: 'Ремонт вмятин без покраски — сохраняем заводское ЛКП',
+    pain: 'Вмятины без покраски?',
+    solution: 'Выпрямление вмятин',
+    description: 'Убираем вмятины, сохраняя заводское ЛКП. Никакого шпаклевания и перекраса.',
     price: '5 000 ₽',
     duration: 'от 2 часов',
     popular: false
   },
   {
     icon: <ShieldCheck className="w-6 h-6" />,
-    title: 'Антикоррозийная обработка',
-    description: 'Надёжная защита от ржавчины для кузова и днища автомобиля',
+    pain: 'Боитесь коррозии?',
+    solution: 'Антикоррозийная обработка',
+    description: 'Надёжная защита кузова и днища от ржавчины. Сохраняем машину на годы.',
     price: '18 000 ₽',
     duration: '5+ часов',
     popular: true
   },
   {
     icon: <Paintbrush className="w-6 h-6" />,
-    title: 'Полировка',
-    description: 'Удаление царапин, голограмм, восстановление заводского блеска',
+    pain: 'Царапины и потускневший лак?',
+    solution: 'Полировка',
+    description: 'Возвращаем глубину цвета и зеркальный блеск. Удаляем царапины и голограммы.',
     price: '16 000 ₽',
     duration: '3+ часов',
     popular: false
   },
   {
     icon: <Wind className="w-6 h-6" />,
-    title: 'Тонирование',
-    description: 'Сертифицированные плёнки для стёкол и фар. Светопропускание по ГОСТ',
+    pain: 'Яркое солнце мешает?',
+    solution: 'Тонирование',
+    description: 'Сертифицированные плёнки по ГОСТ. Комфорт и стиль для ваших стёкол.',
     price: '3 000 ₽',
     duration: '1+ часа',
     popular: false
   },
   {
-    // АКЦЕНТ НА ПЛЁНКИ!
+    // ХИТ ПРОДАЖ!
     icon: <PaintBucket className="w-6 h-6" />,
-    title: 'Виниловые плёнки',
-    description: 'Полный ребрендинг авто! Любой цвет, текстура, матовый/глянцевый. Измени облик машины!',
+    pain: 'Хотите изменить облик авто?',
+    solution: 'Виниловые плёнки',
+    description: 'Любой цвет! Матовый, глянцевый, хром. Полный ребрендинг за один день.',
     price: '48 000 ₽',
     duration: 'от 8 часов',
     popular: true,
     featured: true
   },
   {
-    // АКЦЕНТ НА ПЛЁНКИ!
+    // ХИТ ПРОДАЖ!
     icon: <Shield className="w-6 h-6" />,
-    title: 'Защитные плёнки PPF',
-    description: 'Невидимая броня для кузова! Защита от камней, царапин, сколов. Гарантия качества!',
+    pain: 'Боитесь сколов на трассе?',
+    solution: 'Защитные плёнки PPF',
+    description: 'Невидимая броня для кузова. Защита от камней, песка, веток.',
     price: '48 000 ₽',
     duration: '6+ часов',
     popular: true,
@@ -107,23 +116,59 @@ const services = [
   },
   {
     icon: <Gem className="w-6 h-6" />,
-    title: 'Антихром',
-    description: 'Хромирование элементов. Гарантия на покрытие до 3 лет',
+    pain: 'Хром потускнел?',
+    solution: 'Антихром',
+    description: 'Чёрный глянец или карбон вместо старого хрома. Современный стиль.',
     price: '1 500 ₽',
     duration: '2+ часа',
     popular: false
   },
   {
     icon: <Volume2 className="w-6 h-6" />,
-    title: 'Шумоизоляция',
-    description: 'Профессиональная шумоизоляция салона и багажника. Тишина в машине!',
+    pain: 'Шум в салоне утомляет?',
+    solution: 'Шумоизоляция',
+    description: 'Тишина и комфорт. Музыка заиграет по-новому, разговоры станут спокойными.',
     price: '3 000 ₽',
     duration: '4+ часов',
     popular: false
   }
 ]
 
-// Reviews data - НОВЫЕ ОТЗЫВЫ
+// Почему выбирают нас - USP
+const whyUs = [
+  {
+    icon: <Award className="w-6 h-6" />,
+    title: 'Сертифицированные материалы',
+    description: 'Работаем только с проверенными брендами. Гарантия качества на все материалы.'
+  },
+  {
+    icon: <Camera className="w-6 h-6" />,
+    title: 'Фотоотчёт каждого этапа',
+    description: 'Фотографируем процесс от начала до конца. Вы видите всю работу.'
+  },
+  {
+    icon: <ShieldCheck className="w-6 h-6" />,
+    title: 'Гарантия на все работы',
+    description: 'Даём официальную гарантию. Если что-то не так — исправим бесплатно.'
+  },
+  {
+    icon: <Car className="w-6 h-6" />,
+    title: 'Закрытый бокс для авто',
+    description: 'Машина под надёжной охраной. Никаких случайных повреждений.'
+  },
+  {
+    icon: <ThumbsUp className="w-6 h-6" />,
+    title: 'Рейтинг 4.9 на Яндекс Картах',
+    description: 'Более 19 отзывов и 99% довольных клиентов. Проверьте сами!'
+  },
+  {
+    icon: <Phone className="w-6 h-6" />,
+    title: 'Бесплатная консультация',
+    description: 'Ответим на все вопросы. Расскажем что нужно именно вашей машине.'
+  }
+]
+
+// Reviews data
 const reviews = [
   {
     text: 'Сделала шумоизоляцию в детейлинге - и будто машину поменяла! Раньше на трассе орала с пассажирами, а теперь разговариваем шёпотом. Музыка заиграла совершенно по-новому: появились басы и детали, которых раньше не было. Машина перестала звучать как "жестяная банка" - глухие хлопки дверей, приятный мотор. Пропала усталость после часа за рулём. Ребята сделали аккуратно, ничего не отвалилось и не скрипит. Лучший апгрейд за свои деньги!',
@@ -148,6 +193,38 @@ const reviews = [
   }
 ]
 
+// FAQ данные
+const faqs = [
+  {
+    question: 'Сколько длится оклейка виниловой плёнкой?',
+    answer: 'Полная оклейка кузова занимает 1-2 рабочих дня. Частичная оклейка (капот, крыша) — несколько часов. Точные сроки зависят от сложности работы.'
+  },
+  {
+    question: 'Можно ли оставить машину на время работ?',
+    answer: 'Да, конечно! Ваш автомобиль будет находиться в закрытом тёплом боксе под охраной. Также можем организовать временную замену автомобиля при необходимости.'
+  },
+  {
+    question: 'Какая гарантия на работы?',
+    answer: 'Даём письменную гарантию на все виды работ: на плёнки — до 2 лет, на полировку и керамику — до 1 года, на антикоррозию — до 5 лет. При возникновении проблем исправим бесплатно.'
+  },
+  {
+    question: 'Что если плёнка отклеится или повредится?',
+    answer: 'При использовании качественных материалов и правильной установке такое случается крайне редко. Но если это произошло — просто привезите машину, мы заменим плёнку бесплатно в рамках гарантии.'
+  },
+  {
+    question: 'Нужно ли записываться заранее?',
+    answer: 'Рекомендуем записываться за 2-3 дня, чтобы гарантировать удобное время. Однако при наличии свободных окон принимаем и без записи. Звоните — уточним!'
+  },
+  {
+    question: 'Можно ли получить точную стоимость заранее?',
+    answer: 'Да! Прислайте фото автомобиля или приезжите на бесплатную диагностику — рассчитаем точную стоимость без скрытых платежей. Цена, которую назвали — останется такой же.'
+  },
+  {
+    question: 'Работаете ли вы с юридическими лицами?',
+    answer: 'Да, работаем с компаниями и автопарками. Оплата по безналичному расчёту с НДС. Возможны индивидуальные условия для постоянных клиентов.'
+  }
+]
+
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -158,6 +235,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -259,7 +337,7 @@ export default function Home() {
       setTimeout(() => {
         setFormSubmitted(false)
         setFormData({ name: '', phone: '', service: '', comment: '' })
-      }, 4000)
+      }, 10000)
 
     } catch (error) {
       console.error('Submit error:', error)
@@ -271,7 +349,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
-      {/* Custom styles - ТОЛЬКО ГОЛУБОЙ АКЦЕНТ */}
+      {/* Custom styles */}
       <style jsx global>{`
         :root {
           --accent: #2563eb;
@@ -286,7 +364,6 @@ export default function Home() {
           scroll-behavior: smooth;
         }
 
-        /* Smooth fade-in animation */
         .animate-on-scroll {
           opacity: 0;
           transform: translateY(24px);
@@ -299,7 +376,6 @@ export default function Home() {
           transform: translateY(0);
         }
 
-        /* Image hover effect */
         .img-hover {
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -308,7 +384,6 @@ export default function Home() {
           transform: scale(1.03);
         }
 
-        /* Button hover */
         .btn-primary {
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           position: relative;
@@ -335,7 +410,6 @@ export default function Home() {
           box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3);
         }
 
-        /* Card hover */
         .card-soft {
           transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -345,7 +419,6 @@ export default function Home() {
           box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
         }
 
-        /* Featured card (for films) - ГОЛУБОЙ АКЦЕНТ */
         .card-featured {
           background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
           border: 2px solid #2563eb;
@@ -355,14 +428,12 @@ export default function Home() {
           box-shadow: 0 25px 50px rgba(37, 99, 235, 0.25);
         }
 
-        /* Hero parallax */
         .hero-bg {
           background-attachment: fixed;
           background-size: cover;
           background-position: center;
         }
 
-        /* Floating animation */
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-15px); }
@@ -372,7 +443,6 @@ export default function Home() {
           animation: float 4s ease-in-out infinite;
         }
 
-        /* Glow effect for featured items - ГОЛУБОЙ */
         @keyframes glow {
           0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.3); }
           50% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.5); }
@@ -380,6 +450,26 @@ export default function Home() {
 
         .glow-animation {
           animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+          0%, 100% { border-color: rgba(37, 99, 235, 0.5); }
+          50% { border-color: rgba(37, 99, 235, 1); }
+        }
+
+        .pulse-border {
+          animation: pulse-border 2s ease-in-out infinite;
+        }
+
+        /* FAQ accordion */
+        .faq-content {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease-out;
+        }
+
+        .faq-content.open {
+          max-height: 500px;
         }
       `}</style>
 
@@ -412,8 +502,10 @@ export default function Home() {
             <nav className="hidden lg:flex items-center gap-9">
               {[
                 { id: 'services', label: 'Услуги' },
+                { id: 'why-us', label: 'Преимущества' },
                 { id: 'portfolio', label: 'Работы' },
                 { id: 'reviews', label: 'Отзывы' },
+                { id: 'faq', label: 'FAQ' },
                 { id: 'contacts', label: 'Контакты' }
               ].map((item) => (
                 <button
@@ -437,7 +529,7 @@ export default function Home() {
                 onClick={() => scrollToSection('contacts')}
                 className="px-7 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-semibold rounded-full btn-primary shadow-lg shadow-blue-600/25"
               >
-                Записаться на услугу
+                Записаться
               </button>
             </div>
 
@@ -455,13 +547,13 @@ export default function Home() {
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-white/98 backdrop-blur-md border-t border-gray-100 shadow-xl">
             <div className="px-6 py-8 space-y-6">
-              {['services', 'portfolio', 'reviews', 'contacts'].map((item) => (
+              {['services', 'why-us', 'portfolio', 'reviews', 'faq', 'contacts'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
                   className="block w-full text-left text-lg text-gray-700 font-medium hover:text-blue-600 transition-colors"
                 >
-                  {{ services: 'Услуги', portfolio: 'Работы', reviews: 'Отзывы', contacts: 'Контакты' }[item]}
+                  {{ services: 'Услуги', 'why-us': 'Преимущества', portfolio: 'Работы', reviews: 'Отзывы', faq: 'FAQ', contacts: 'Контакты' }[item]}
                 </button>
               ))}
               <div className="pt-6 border-t border-gray-100 space-y-4">
@@ -480,7 +572,7 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section - С НОВЫМ ФОНОМ IMG_9746 */}
+      {/* Hero Section - УСИЛЕННЫЙ */}
       <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 hero-bg">
@@ -493,7 +585,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90"></div>
         </div>
 
-        {/* Decorative elements - ГОЛУБЫЕ */}
+        {/* Decorative elements */}
         <div className="absolute top-20 right-20 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
 
@@ -504,19 +596,19 @@ export default function Home() {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-full border border-blue-200/50 animate-on-scroll">
                 <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-                <span className="text-sm text-blue-700 font-semibold">№1 детейлинг в Челябинске</span>
+                <span className="text-sm text-blue-700 font-semibold">Детейлинг, защитные плёнки и полировка в Челябинске</span>
               </div>
 
-              {/* Main heading */}
+              {/* Main heading - КОНКРЕТНЫЙ */}
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight animate-on-scroll" style={{ transitionDelay: '100ms' }}>
-                Превращаем авто<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600">в произведение</span><br />
-                искусства
+                Профессиональный детейлинг<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600">с гарантией результата</span>
               </h1>
 
-              {/* Subheading */}
+              {/* Subheading - СТАТИСТИКА ДОВЕРИЯ */}
               <p className="text-xl text-gray-600 leading-relaxed max-w-lg animate-on-scroll" style={{ transitionDelay: '200ms' }}>
-                Профессиональный детейлинг, <strong className="text-gray-800">виниловые и защитные плёнки</strong>, полировка. Ваша машина заслуживает идеального вида!
+                Виниловые и защитные плёнки, полировка, детейлинг. 
+                <strong className="text-gray-800"> Более 500 автомобилей • рейтинг 4.9 • опыт 5 лет</strong>
               </p>
 
               {/* CTA Buttons */}
@@ -556,7 +648,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right content - Featured Service Card - ГОЛУБОЙ */}
+            {/* Right content - Featured Service Card + СРОЧНОСТЬ */}
             <div className="relative animate-on-scroll float-animation" style={{ transitionDelay: '250ms' }}>
               <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 rounded-3xl p-8 shadow-2xl shadow-blue-900/10 border border-blue-200/50">
                 {/* Header */}
@@ -565,8 +657,8 @@ export default function Home() {
                     <Star className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-gray-900">ХИТ СЕЗОНА!</h3>
-                    <p className="text-blue-700 font-semibold">Плёнки для вашего авто</p>
+                    <h3 className="text-2xl font-black text-gray-900">Популярные услуги</h3>
+                    <p className="text-blue-700 font-semibold">Выбирают чаще всего</p>
                   </div>
                 </div>
 
@@ -579,7 +671,7 @@ export default function Home() {
                     <div>
                       <div className="font-bold text-gray-900">Виниловые плёнки</div>
                       <div className="text-blue-700 font-semibold text-lg">48 000 ₽</div>
-                      <div className="text-sm text-gray-600">Любой цвет! Полный ребрендинг!</div>
+                      <div className="text-sm text-gray-600">Измени облик машины!</div>
                     </div>
                   </div>
 
@@ -590,9 +682,18 @@ export default function Home() {
                     <div>
                       <div className="font-bold text-gray-900">Защитные PPF</div>
                       <div className="text-blue-700 font-semibold text-lg">48 000 ₽</div>
-                      <div className="text-sm text-gray-600">Невидимая броня для кузова!</div>
+                      <div className="text-sm text-gray-600">Невидимая броня!</div>
                     </div>
                   </div>
+                </div>
+
+                {/* СРОЧНОСТЬ */}
+                <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                  <div className="flex items-center gap-2 text-amber-800 font-semibold mb-1">
+                    <Calendar className="w-5 h-5" />
+                    На этой неделе осталось 4 свободных окна
+                  </div>
+                  <div className="text-sm text-amber-700">Запишитесь сейчас, чтобы не ждать</div>
                 </div>
 
                 <button
@@ -603,7 +704,7 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* Decorative glow - ГОЛУБОЙ */}
+              {/* Decorative glow */}
               <div className="absolute -top-4 -right-4 w-32 h-32 bg-blue-300/30 rounded-full blur-2xl"></div>
               <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-indigo-300/30 rounded-full blur-2xl"></div>
             </div>
@@ -611,20 +712,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+      {/* ПОЧЕМУ МЫ - USP */}
+      <section id="why-us" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section header */}
+          <div className="text-center mb-16 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
+              <Award className="w-4 h-4" />
+              Почему выбирают нас
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
+              6 причин доверить авто <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">нам</span>
+            </h2>
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              Мы не просто делаем детейлинг — мы создаём долгосрочные отношения с каждым клиентом
+            </p>
+          </div>
+
+          {/* USP Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {whyUs.map((item, index) => (
+              <div
+                key={index}
+                className="group p-8 bg-white rounded-2xl card-soft animate-on-scroll border border-gray-100 hover:border-blue-200"
+                style={{ transitionDelay: `${index * 80}ms` }}
+              >
+                <div className="w-14 h-14 bg-blue-50 group-hover:bg-blue-600 rounded-2xl flex items-center justify-center mb-6 transition-colors text-blue-600 group-hover:text-white">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                <p className="text-gray-500 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section - БОЛЬ → РЕШЕНИЕ */}
+      <section id="services" className="py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-16 animate-on-scroll">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
               <Sparkles className="w-4 h-4" />
-              Полный спектр услуг
+              Решаем ваши проблемы
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
               Наши <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">услуги</span> и цены
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Профессиональный уход за вашим автомобилем. <strong className="text-blue-600">Особый акцент на плёночные работы!</strong>
+              Каждая услуга решает конкретную проблему вашего автомобиля
             </p>
           </div>
 
@@ -632,7 +769,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {services.map((service, index) => (
               <div
-                key={service.title}
+                key={service.solution}
                 className={`group p-6 bg-white rounded-2xl card-soft animate-on-scroll border ${
                   service.featured 
                     ? 'card-featured border-blue-300 glow-animation' 
@@ -640,6 +777,11 @@ export default function Home() {
                 }`}
                 style={{ transitionDelay: `${index * 60}ms` }}
               >
+                {/* БОЛЬ */}
+                <div className="text-sm text-blue-600 font-medium mb-2 italic">
+                  {service.pain}
+                </div>
+                
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors ${
                   service.featured 
                     ? 'bg-blue-600 text-white' 
@@ -654,7 +796,8 @@ export default function Home() {
                   </span>
                 )}
                 
-                <h3 className="text-base font-bold mb-2">{service.title}</h3>
+                {/* РЕШЕНИЕ */}
+                <h3 className="text-base font-bold mb-2">{service.solution}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed mb-4">{service.description}</p>
                 
                 <div className="flex items-end justify-between pt-4 border-t border-gray-100">
@@ -669,21 +812,21 @@ export default function Home() {
             ))}
           </div>
 
-          {/* CTA for films - ГОЛУБОЙ */}
+          {/* CTA - Бесплатная консультация */}
           <div className="mt-12 text-center animate-on-scroll">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200">
               <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
-                <PaintBucket className="w-6 h-6 text-white" />
+                <Phone className="w-6 h-6 text-white" />
               </div>
               <div className="text-left">
-                <div className="font-bold text-gray-900">Хотите изменить облик авто?</div>
-                <div className="text-sm text-gray-600">Виниловые и защитные плёнки — наша специализация!</div>
+                <div className="font-bold text-gray-900">Не уверены что нужно?</div>
+                <div className="text-sm text-gray-600">Получите бесплатную консультацию — подберём решение под ваш бюджет</div>
               </div>
               <button
                 onClick={() => scrollToSection('contacts')}
                 className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-full btn-primary whitespace-nowrap"
               >
-                Рассчитать стоимость
+                Узнать стоимость за 2 минуты
               </button>
             </div>
           </div>
@@ -691,7 +834,7 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section - Наши Работы */}
-      <section id="portfolio" className="py-24 lg:py-32">
+      <section id="portfolio" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-12 animate-on-scroll">
@@ -733,7 +876,7 @@ export default function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section id="reviews" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+      <section id="reviews" className="py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section header */}
           <div className="text-center mb-16 animate-on-scroll">
@@ -794,8 +937,63 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-4xl mx-auto px-6">
+          {/* Section header */}
+          <div className="text-center mb-16 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
+              <HelpCircle className="w-4 h-4" />
+              Частые вопросы
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
+              Ответы на <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">вопросы</span>
+            </h2>
+            <p className="text-lg text-gray-500">
+              Всё что вы хотели узнать перед записью
+            </p>
+          </div>
+
+          {/* FAQ Accordion */}
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl border border-gray-200 overflow-hidden animate-on-scroll card-soft"
+                style={{ transitionDelay: `${index * 60}ms` }}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+                >
+                  <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
+                  <ChevronUp className={`w-5 h-5 text-blue-600 transition-transform shrink-0 ${openFaq === index ? 'rotate-180' : ''}`} />
+                </button>
+                <div className={`faq-content ${openFaq === index ? 'open' : ''}`}>
+                  <div className="px-6 pb-5 text-gray-600 leading-relaxed">
+                    {faq.answer}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA after FAQ */}
+          <div className="mt-12 text-center animate-on-scroll">
+            <p className="text-gray-600 mb-4">Не нашли ответ на свой вопрос?</p>
+            <button
+              onClick={() => scrollToSection('contacts')}
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl btn-primary inline-flex items-center gap-2"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Спросить напрямую
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Contacts Section */}
-      <section id="contacts" className="py-24 lg:py-32">
+      <section id="contacts" className="py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Left - Info */}
@@ -877,123 +1075,158 @@ export default function Home() {
 
             {/* Right - Form */}
             <div className="animate-on-scroll" style={{ transitionDelay: '150ms' }}>
-              <form onSubmit={handleSubmit} className="p-8 lg:p-10 bg-gradient-to-br from-gray-50 to-blue-50/30 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 space-y-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-                    <Send className="w-5 h-5 text-white" />
+              {!formSubmitted ? (
+                <form onSubmit={handleSubmit} className="p-8 lg:p-10 bg-gradient-to-br from-gray-50 to-blue-50/30 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 space-y-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+                      <Send className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-black">Быстрая заявка</h3>
                   </div>
-                  <h3 className="text-2xl font-black">Быстрая заявка</h3>
-                </div>
-                
-                {/* Name */}
-                <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Ваше имя *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Как к вам обращаться?"
-                    className={`w-full px-5 py-4 rounded-xl border-2 ${formErrors.name ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base`}
-                  />
-                  {formErrors.name && <p className="mt-2 text-sm text-red-500 font-medium">{formErrors.name}</p>}
-                </div>
+                  
+                  {/* Name */}
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Ваше имя *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Как к вам обращаться?"
+                      className={`w-full px-5 py-4 rounded-xl border-2 ${formErrors.name ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base`}
+                    />
+                    {formErrors.name && <p className="mt-2 text-sm text-red-500 font-medium">{formErrors.name}</p>}
+                  </div>
 
-                {/* Phone */}
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Телефон *
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+7 (___) ___-__-__"
-                    className={`w-full px-5 py-4 rounded-xl border-2 ${formErrors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base`}
-                  />
-                  {formErrors.phone && <p className="mt-2 text-sm text-red-500 font-medium">{formErrors.phone}</p>}
-                </div>
+                  {/* Phone */}
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Телефон *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="+7 (___) ___-__-__"
+                      className={`w-full px-5 py-4 rounded-xl border-2 ${formErrors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base`}
+                    />
+                    {formErrors.phone && <p className="mt-2 text-sm text-red-500 font-medium">{formErrors.phone}</p>}
+                  </div>
 
-                {/* Service */}
-                <div>
-                  <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Интересующая услуга
-                  </label>
-                  <select
-                    id="service"
-                    value={formData.service}
-                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                    className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base cursor-pointer"
+                  {/* Service */}
+                  <div>
+                    <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Интересующая услуга
+                    </label>
+                    <select
+                      id="service"
+                      value={formData.service}
+                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base cursor-pointer"
+                    >
+                      <option value="">Выберите услугу...</option>
+                      <option value="Виниловые плёнки (ХИТ!)">Виниловые плёнки (ХИТ!)</option>
+                      <option value="Защитные плёнки PPF (ХИТ!)">Защитные плёнки PPF (ХИТ!)</option>
+                      {services.filter(s => !s.featured).map((s) => (
+                        <option key={s.solution} value={s.solution}>{s.solution}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Comment */}
+                  <div>
+                    <label htmlFor="comment" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Комментарий
+                    </label>
+                    <textarea
+                      id="comment"
+                      rows={3}
+                      value={formData.comment}
+                      onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+                      placeholder="Марка авто, желаемое время, вопросы..."
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all text-base"
+                    />
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-4.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-lg rounded-xl btn-primary disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25"
                   >
-                    <option value="">Выберите услугу...</option>
-                    <option value="Виниловые плёнки (ХИТ!)">Виниловые плёнки (ХИТ!)</option>
-                    <option value="Защитные плёнки PPF (ХИТ!)">Защитные плёнки PPF (ХИТ!)</option>
-                    {services.filter(s => !s.featured).map((s) => (
-                      <option key={s.title} value={s.title}>{s.title}</option>
-                    ))}
-                  </select>
-                </div>
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        Отправка...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        Отправить заявку
+                      </>
+                    )}
+                  </button>
 
-                {/* Comment */}
-                <div>
-                  <label htmlFor="comment" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Комментарий
-                  </label>
-                  <textarea
-                    id="comment"
-                    rows={3}
-                    value={formData.comment}
-                    onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
-                    placeholder="Марка авто, желаемое время, вопросы..."
-                    className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all text-base"
-                  />
-                </div>
-
-                {/* Submit */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-lg rounded-xl btn-primary disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      Отправка...
-                    </>
-                  ) : formSubmitted ? (
-                    <>
-                      <Check className="w-5 h-5" />
-                      Заявка отправлена!
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      Отправить заявку
-                    </>
+                  {submitError && (
+                    <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+                      <p className="text-sm text-red-600 font-medium text-center">{submitError}</p>
+                    </div>
                   )}
-                </button>
 
-                {submitError && (
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
-                    <p className="text-sm text-red-600 font-medium text-center">{submitError}</p>
+                  <p className="text-xs text-gray-400 text-center leading-relaxed">
+                    Нажимая кнопку, вы соглашаетесь с{' '}
+                    <a href="#" className="underline hover:text-gray-600">политикой конфиденциальности</a>
+                    {' '}и обработкой персональных данных
+                  </p>
+                </form>
+              ) : (
+                /* СТРАНИЦА СПАСИБО */
+                <div className="p-8 lg:p-10 bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl shadow-xl border border-green-200 text-center space-y-6">
+                  <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto">
+                    <Check className="w-10 h-10 text-white" />
                   </div>
-                )}
+                  
+                  <h3 className="text-3xl font-black text-gray-900">Спасибо!</h3>
+                  
+                  <div className="space-y-3 text-gray-600">
+                    <p className="text-lg">Мы уже получили вашу заявку.</p>
+                    <p>Обычно связываемся в течение <strong className="text-green-600">10–15 минут</strong>.</p>
+                  </div>
 
-                <p className="text-xs text-gray-400 text-center leading-relaxed">
-                  Нажимая кнопку, вы соглашаетесь с{' '}
-                  <a href="#" className="underline hover:text-gray-600">политикой конфиденциальности</a>
-                  {' '}и обработкой персональных данных
-                </p>
-              </form>
+                  <div className="pt-6 space-y-4">
+                    <a
+                      href={CONTACTS.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-xl btn-primary flex items-center justify-center gap-2 shadow-lg"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Написать в WhatsApp
+                    </a>
+                    
+                    <a
+                      href={`tel:${CONTACTS.phoneRaw}`}
+                      className="w-full py-4 border-2 border-green-300 text-green-700 font-bold rounded-xl hover:bg-green-50 transition-all flex items-center justify-center gap-2"
+                    >
+                      <Phone className="w-5 h-5" />
+                      Позвонить прямо сейчас
+                    </a>
+                  </div>
+
+                  <p className="text-sm text-gray-400 pt-4">
+                    Или просто ожидайте нашего звонка
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer - С АВТООБНОВЛЕНИЕМ ГОДА */}
+      {/* Footer */}
       <footer className="py-16 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
@@ -1059,7 +1292,7 @@ export default function Home() {
           {/* Divider */}
           <div className="border-t border-gray-800 pt-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              {/* Copyright - АВТООБНОВЛЕНИЕ ГОДА */}
+              {/* Copyright */}
               <div className="text-gray-500 text-sm">
                 © {currentYear} ЭстетикБро. Все права защищены.
               </div>

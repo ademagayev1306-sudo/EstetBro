@@ -1,0 +1,502 @@
+   500→   500→        }
+   501→   501→
+   502→   502→        /* Button primary */
+   503→   503→        .btn-primary {
+   504→   504→          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+   505→   505→          position: relative;
+   506→   506→          overflow: hidden;
+   507→   507→        }
+   508→   508→
+   509→   509→        .btn-primary::before {
+   510→   510→          content: '';
+   511→   511→          position: absolute;
+   512→   512→          top: 0;
+   513→   513→          left: -100%;
+   514→   514→          width: 100%;
+   515→   515→          height: 100%;
+   516→   516→          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+   517→   517→          transition: left 0.5s;
+   518→   518→        }
+   519→   519→
+   520→   520→        .btn-primary:hover::before {
+   521→   521→          left: 100%;
+   522→   522→        }
+   523→   523→
+   524→   524→        .btn-primary:hover {
+   525→   525→          transform: translateY(-3px);
+   526→   526→          box-shadow: 0 20px 40px rgba(37, 99, 235, 0.35);
+   527→   527→        }
+   528→   528→
+   529→   529→        /* Hero parallax */
+   530→   530→        .hero-bg {
+   531→   531→          background-attachment: fixed;
+   532→   532→          background-size: cover;
+   533→   533→          background-position: center;
+   534→   534→        }
+   535→   535→
+   536→   536→        /* Float animation */
+   537→   537→        @keyframes float {
+   538→   538→          0%, 100% { transform: translateY(0px); }
+   539→   539→          50% { transform: translateY(-15px); }
+   540→   540→        }
+   541→   541→
+   542→   542→        .float-animation {
+   543→   543→          animation: float 4s ease-in-out infinite;
+   544→   544→        }
+   545→   545→
+   546→   546→        /* Glow pulse */
+   547→   547→        @keyframes glow-pulse {
+   548→   548→          0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.3); }
+   549→   549→          50% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.5), 0 0 60px rgba(37, 99, 235, 0.2); }
+   550→   550→        }
+   551→   551→
+   552→   552→        .glow-animation {
+   553→   553→          animation: glow-pulse 2s ease-in-out infinite;
+   554→   554→        }
+   555→   555→
+   556→   556→        /* Pulse ring */
+   557→   557→        @keyframes pulse-ring {
+   558→   558→          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5); }
+   559→   559→          70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+   560→   560→          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+   561→   561→        }
+   562→   562→
+   563→   563→        .pulse-ring {
+   564→   564→          animation: pulse-ring 2s ease-in-out infinite;
+   565→   565→        }
+   566→   566→
+   567→   567→        /* Image hover zoom */
+   568→   568→        .img-hover-zoom {
+   569→   569→          overflow: hidden;
+   570→   570→        }
+   571→   571→
+   572→   572→        .img-hover-zoom img {
+   573→   573→          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+   574→   574→        }
+   575→   575→
+   576→   576→        .img-hover-zoom:hover img {
+   577→   577→          transform: scale(1.08);
+   578→   578→        }
+   579→   579→
+   580→   580→        /* FAQ accordion */
+   581→   581→        .faq-content {
+   582→   582→          max-height: 0;
+   583→   583→          overflow: hidden;
+   584→   584→          transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+   585→   585→        }
+   586→   586→
+   587→   587→        .faq-content.open {
+   588→   588→          max-height: 500px;
+   589→   589→        }
+   590→   590→
+   591→   591→        /* Sticky form slide */
+   592→   592→        .sticky-form {
+   593→   593→          transform: translateX(120%);
+   594→   594→          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+   595→   595→        }
+   596→   596→
+   597→   597→        .sticky-form.visible {
+   598→   598→          transform: translateX(0);
+   599→   599→        }
+   600→   600→
+   601→   601→        /* Gradient text animation */
+   602→   602→        @keyframes gradient-shift {
+   603→   603→          0% { background-position: 0% 50%; }
+   604→   604→          50% { background-position: 100% 50%; }
+   605→   605→          100% { background-position: 0% 50%; }
+   606→   606→        }
+   607→   607→
+   608→   608→        .gradient-text-animated {
+   609→   609→          background-size: 200% auto;
+   610→   610→          animation: gradient-shift 3s ease infinite;
+   611→   611→        }
+   612→   612→
+   613→   613→        /* Process line connector */
+   614→   614→        .process-line {
+   615→   615→          position: relative;
+   616→   616→        }
+   617→   617→
+   618→   618→        .process-line::after {
+   619→   619→          content: '';
+   620→   620→          position: absolute;
+   621→   621→          left: 24px;
+   622→   622→          top: 60px;
+   623→   623→          bottom: -20px;
+   624→   624→          width: 2px;
+   625→   625→          background: linear-gradient(to bottom, #2563eb, #dbeafe);
+   626→   626→        }
+   627→   627→
+   628→   628→        .process-line:last-child::after {
+   629→   629→          display: none;
+   630→   630→        }
+   631→   631→
+   632→   632→        /* Trust badge shine */
+   633→   633→        @keyframes shine {
+   634→   634→          0% { left: -100%; }
+   635→   635→          100% { left: 100%; }
+   636→   636→        }
+   637→   637→
+   638→   638→        .trust-badge::after {
+   639→   639→          content: '';
+   640→   640→          position: absolute;
+   641→   641→          top: 0;
+   642→   642→          left: -100%;
+   643→   643→          width: 50%;
+   644→   644→          height: 100%;
+   645→   645→          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+   646→   646→          animation: shine 3s ease-in-out infinite;
+   647→   647→        }
+   648→   648→      `}</style>
+   649→   649→
+   650→   650→      {/* Progress bar on scroll */}
+   651→   651→      <div className={`fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 z-[60] transition-all duration-150 ${isScrolled ? 'w-full' : 'w-0'}`} style={{ width: isScrolled ? `${Math.min((typeof window !== 'undefined' ? window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100 : 0), 100)}%` : '0%' }} />
+   652→   652→
+   653→   653→      {/* Header */}
+   654→   654→      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+   655→   655→        isScrolled ? 'bg-white/98 backdrop-blur-lg shadow-xl shadow-gray-900/5' : 'bg-transparent'
+   656→   656→      }`}>
+   657→   657→        <div className="max-w-7xl mx-auto px-6">
+   658→   658→          <div className="flex items-center justify-between h-20">
+   659→   659→            {/* Logo */}
+   660→   660→            <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
+   661→   661→              <img 
+   662→   662→                src="/logo.png" 
+   663→   663→                alt="ЭстетикБро — Детейлинг центр" 
+   664→   664→                className="w-11 h-11 object-contain rounded-xl shadow-sm hover:scale-105 transition-transform"
+   665→   665→              />
+   666→   666→              <div className="flex flex-col">
+   667→   667→                <span className={`text-lg font-bold tracking-tight transition-colors ${
+   668→   668→                  isScrolled ? 'text-gray-900' : 'text-gray-900'
+   669→   669→                }`}>
+   670→   670→                  Эстетик<span className="text-blue-600">Бро</span>
+   671→   671→                </span>
+   672→   672→                <span className="text-[10px] text-gray-400 tracking-widest uppercase hidden sm:block font-medium">
+   673→   673→                  Детейлинг центр
+   674→   674→                </span>
+   675→   675→              </div>
+   676→   676→            </div>
+   677→   677→
+   678→   678→            {/* Desktop Navigation */}
+   679→   679→            <nav className="hidden lg:flex items-center gap-8">
+   680→   680→              {[
+   681→   681→                { id: 'services', label: 'Услуги' },
+   682→   682→                { id: 'process', label: 'Процесс' },
+   683→   683→                { id: 'why-us', label: 'Преимущества' },
+   684→   684→                { id: 'portfolio', label: 'Работы' },
+   685→   685→                { id: 'reviews', label: 'Отзывы' },
+   686→   686→                { id: 'faq', label: 'FAQ' }
+   687→   687→              ].map((item) => (
+   688→   688→                <button
+   689→   689→                  key={item.id}
+   690→   690→                  onClick={() => scrollToSection(item.id)}
+   691→   691→                  className={`text-sm font-medium transition-all hover:text-blue-600 relative group ${
+   692→   692→                    isScrolled ? 'text-gray-600' : 'text-gray-700'
+   693→   693→                  }`}
+   694→   694→                >
+   695→   695→                  {item.label}
+   696→   696→                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full" />
+   697→   697→                </button>
+   698→   698→              ))}
+   699→   699→            </nav>
+   700→   700→
+   701→   701→            {/* CTA Button */}
+   702→   702→            <div className="hidden md:flex items-center gap-5">
+   703→   703→              <a href={`tel:${CONTACTS.phoneRaw}`} className="text-sm text-gray-500 hover:text-blue-600 transition-colors font-medium flex items-center gap-1">
+   704→   704→                <Phone className="w-4 h-4" />
+   705→   705→                {CONTACTS.phone}
+   706→   706→              </a>
+   707→   707→              <button
+   708→   708→                onClick={() => scrollToSection('contacts')}
+   709→   709→                className="px-7 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-semibold rounded-full btn-primary shadow-lg shadow-blue-600/25 pulse-ring"
+   710→   710→              >
+   711→   711→                Записаться
+   712→   712→              </button>
+   713→   713→            </div>
+   714→   714→
+   715→   715→            {/* Mobile menu button */}
+   716→   716→            <button
+   717→   717→              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+   718→   718→              className="lg:p-2 text-gray-700 hover:text-blue-600 transition-colors"
+   719→   719→            >
+   720→   720→              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+   721→   721→            </button>
+   722→   722→          </div>
+   723→   723→        </div>
+   724→   724→
+   725→   725→        {/* Mobile Menu */}
+   726→   726→        {isMobileMenuOpen && (
+   727→   727→          <div className="lg:hidden bg-white/98 backdrop-blur-md border-t border-gray-100 shadow-xl animate-in">
+   728→   728→            <div className="px-6 py-8 space-y-6">
+   729→   729→              {['services', 'process', 'why-us', 'portfolio', 'reviews', 'faq', 'contacts'].map((item) => (
+   730→   730→                <button
+   731→   731→                  key={item}
+   732→   732→                  onClick={() => scrollToSection(item)}
+   733→   733→                  className="block w-full text-left text-lg text-gray-700 font-medium hover:text-blue-600 transition-colors"
+   734→   734→                >
+   735→   735→                  {({ services: 'Услуги', process: 'Процесс', whyus: 'Преимущества', portfolio: 'Работы', reviews: 'Отзывы', faq: 'FAQ', contacts: 'Контакты' } as Record<string, string>)[item] || item}
+   736→   736→                </button>
+   737→   737→              ))}
+   738→   738→              <div className="pt-6 border-t border-gray-100 space-y-4">
+   739→   739→                <a href={`tel:${CONTACTS.phoneRaw}`} className="block text-blue-600 font-bold text-lg">
+   740→   740→                  {CONTACTS.phone}
+   741→   741→                </a>
+   742→   742→                <button
+   743→   743→                  onClick={() => scrollToSection('contacts')}
+   744→   744→                  className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-full btn-primary"
+   745→   745→                >
+   746→   746→                  Записаться на услугу
+   747→   747→                </button>
+   748→   748→              </div>
+   749→   749→            </div>
+   750→   750→          </div>
+   751→   751→        )}
+   752→   752→      </header>
+   753→   753→
+   754→   754→      {/* Hero Section - ЭМОЦИОНАЛЬНЫЙ */}
+   755→   755→      <section id="hero" className="relative py-6 lg:py-12 overflow-hidden">
+   756→   756→        {/* Background Image with Overlay */}
+   757→   757→        <div className="absolute inset-0 hero-bg">
+   758→   758→          <img 
+   759→   759→            src="/images/hero-bg-2.png" 
+   760→   760→            alt="Детейлинг автомобилей" 
+   761→   761→            className="w-full h-full object-cover"
+   762→   762→          />
+   763→   763→          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/96 to-white/85"></div>
+   764→   764→          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90"></div>
+   765→   765→        </div>
+   766→   766→
+   767→   767→        {/* Animated decorative elements */}
+   768→   768→        <div className="absolute top-20 right-20 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+   769→   769→        <div className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+   770→   770→        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+   771→   771→
+   772→   772→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   773→   773→          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center justify-items-center">
+   774→   774→            {/* Left content */}
+   775→   775→            <div className="space-y-5 lg:space-y-8">
+   776→   776→              {/* Badge with animation */}
+   777→   777→              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-full border border-blue-200/50 animate-on-scroll">
+   778→   778→                <span className="relative flex h-3 w-3">
+   779→   779→                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+   780→   780→                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+   781→   781→                </span>
+   782→   782→                <span className="text-sm text-blue-700 font-semibold">Детейлинг, защитные плёнки и полировка в Челябинске</span>
+   783→   783→              </div>
+   784→   784→
+   785→   785→              {/* Main heading - emotional */}
+   786→   786→              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight animate-on-scroll" style={{ transitionDelay: '100ms' }}>
+   787→   787→                Профессиональный детейлинг<br />
+   788→   788→                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 gradient-text-animated">с гарантией результата</span>
+   789→   789→              </h1>
+   790→   790→
+   791→   791→              {/* Subheading with trust signals */}
+   792→   792→              <div className="space-y-4 animate-on-scroll" style={{ transitionDelay: '200ms' }}>
+   793→   793→                <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
+   794→   794→                  Виниловые и защитные плёнки, полировка, детейлинг.
+   795→   795→                </p>
+   796→   796→                
+   797→   797→                {/* Inline trust badges */}
+   798→   798→                <div className="flex flex-wrap items-center gap-4 text-sm">
+   799→   799→                  <span className="flex items-center gap-1.5 text-gray-700 font-semibold">
+   800→   800→                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+   801→   801→                    Рейтинг 4.9
+   802→   802→                  </span>
+   803→   803→                  <span className="w-1.5 h-1.5 bg-gray-300 rounded-full"></span>
+   804→   804→                  <span className="text-gray-600 font-medium">500+ автомобилей</span>
+   805→   805→                  <span className="w-1.5 h-1.5 bg-gray-300 rounded-full"></span>
+   806→   806→                  <span className="text-gray-600 font-medium">5 лет опыта</span>
+   807→   807→                </div>
+   808→   808→              </div>
+   809→   809→
+   810→   810→              {/* CTA Buttons with emotion */}
+   811→   811→              <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-on-scroll" style={{ transitionDelay: '300ms' }}>
+   812→   812→                <button
+   813→   813→                  onClick={() => scrollToSection('contacts')}
+   814→   814→                  className="px-8 py-4.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-2xl btn-primary inline-flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-600/30 glow-animation"
+   815→   815→                >
+   816→   816→                  Записаться на услугу
+   817→   817→                  <ArrowRight className="w-5 h-5" />
+   818→   818→                </button>
+   819→   819→                <a
+   820→   820→                  href={CONTACTS.whatsapp}
+   821→   821→                  target="_blank"
+   822→   822→                  rel="noopener noreferrer"
+   823→   823→                  className="px-8 py-4.5 border-2 border-gray-200 text-gray-700 font-bold rounded-2xl hover:border-green-400 hover:bg-green-50 transition-all inline-flex items-center justify-center gap-2 text-lg group"
+   824→   824→                >
+   825→   825→                  <MessageCircle className="w-5 h-5 group-hover:text-green-600 transition-colors" />
+   826→   826→                  WhatsApp
+   827→   827→                </a>
+   828→   828→              </div>
+   829→   829→
+   830→   830→              {/* Stats with animated counters */}
+   831→   831→              <div className="grid grid-cols-3 gap-4 lg:gap-6 pt-4 lg:pt-8 border-t border-gray-200/80 animate-on-scroll" style={{ transitionDelay: '400ms' }}>
+   832→   832→                <div className="text-center">
+   833→   833→                  <AnimatedCounter target={500} suffix="+" />
+   834→   834→                  <div className="text-sm text-gray-500 mt-1 font-medium">авто обслужили</div>
+   835→   835→                </div>
+   836→   836→                <div className="text-center">
+   837→   837→                  <AnimatedCounter target={5} suffix=" лет" />
+   838→   838→                  <div className="text-sm text-gray-500 mt-1 font-medium">на рынке</div>
+   839→   839→                </div>
+   840→   840→                <div className="text-center">
+   841→   841→                  <div className="text-4xl md:text-5xl font-black text-gray-900">4.9</div>
+   842→   842→                  <div className="text-sm text-gray-500 mt-1 font-medium">рейтинг</div>
+   843→   843→                </div>
+   844→   844→              </div>
+   845→   845→            </div>
+   846→   846→
+   847→   847→            {/* Right content - Interactive card */}
+   848→   848→            <div className="relative animate-on-scroll float-animation lg:block hidden" style={{ transitionDelay: '250ms' }}>
+   849→   849→              <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 rounded-3xl p-8 shadow-2xl shadow-blue-900/10 border border-blue-200/50 overflow-hidden">
+   850→   850→                {/* Background decoration */}
+   851→   851→                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/30 rounded-full blur-2xl"></div>
+   852→   852→                <div className="absolute bottom-0 left-0 w-24 h-24 bg-indigo-200/30 rounded-full blur-2xl"></div>
+   853→   853→                
+   854→   854→                <div className="relative z-10">
+   855→   855→                  {/* Header */}
+   856→   856→                  <div className="flex items-center gap-3 mb-6">
+   857→   857→                    <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30">
+   858→   858→                      <Star className="w-6 h-6 text-white" />
+   859→   859→                    </div>
+   860→   860→                    <div>
+   861→   861→                      <h3 className="text-2xl font-black text-gray-900">Популярные услуги</h3>
+   862→   862→                      <p className="text-blue-700 font-semibold text-sm">Выбирают чаще всего</p>
+   863→   863→                    </div>
+   864→   864→                  </div>
+   865→   865→
+   866→   866→                  {/* Film services highlight */}
+   867→   867→                  <div className="space-y-4 mb-6">
+   868→   868→                    <div className="group flex items-start gap-4 p-4 bg-white/80 rounded-xl hover:bg-white transition-all cursor-pointer hover:shadow-md">
+   869→   869→                      <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center shrink-0 shadow-md">
+   870→   870→                        <PaintBucket className="w-5 h-5 text-white" />
+   871→   871→                      </div>
+   872→   872→                      <div className="flex-1">
+   873→   873→                        <div className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Виниловые плёнки</div>
+   874→   874→                        <div className="text-blue-700 font-semibold text-lg">48 000 ₽</div>
+   875→   875→                        <div className="text-sm text-gray-600">Измени облик машины!</div>
+   876→   876→                      </div>
+   877→   877→                    </div>
+   878→   878→
+   879→   879→                    <div className="group flex items-start gap-4 p-4 bg-white/80 rounded-xl hover:bg-white transition-all cursor-pointer hover:shadow-md">
+   880→   880→                      <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shrink-0 shadow-md">
+   881→   881→                        <Shield className="w-5 h-5 text-white" />
+   882→   882→                      </div>
+   883→   883→                      <div className="flex-1">
+   884→   884→                        <div className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Защитные PPF</div>
+   885→   885→                        <div className="text-blue-700 font-semibold text-lg">48 000 ₽</div>
+   886→   886→                        <div className="text-sm text-gray-600">Невидимая броня!</div>
+   887→   887→                      </div>
+   888→   888→                    </div>
+   889→   889→                  </div>
+   890→   890→
+   891→   891→                  {/* СРОЧНОСТЬ + эмоция */}
+   892→   892→                  <div className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl relative overflow-hidden trust-badge">
+   893→   893→                    <div className="flex items-center gap-2 text-amber-800 font-semibold mb-1">
+   894→   894→                      <Calendar className="w-5 h-5" />
+   895→   895→                      На этой неделе осталось 4 свободных окна
+   896→   896→                    </div>
+   897→   897→                    <div className="text-sm text-amber-700">Запишитесь сейчас, чтобы не ждать</div>
+   898→   898→                  </div>
+   899→   899→
+   900→   900→                  <button
+   901→   901→                    onClick={() => scrollToSection('services')}
+   902→   902→                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl btn-primary glow-animation flex items-center justify-center gap-2"
+   903→   903→                  >
+   904→   904→                    Смотреть все услуги
+   905→   905→                    <ArrowDown className="w-4 h-4" />
+   906→   906→                  </button>
+   907→   907→                </div>
+   908→   908→              </div>
+   909→   909→            </div>
+   910→   910→          </div>
+   911→   911→        </div>
+   912→   912→
+   913→   913→        {/* Scroll indicator - only on desktop */}
+   914→   914→        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce hidden lg:flex flex-col items-center gap-2 text-gray-400">
+   915→   915→          <span className="text-xs font-medium">Листайте вниз</span>
+   916→   916→          <ChevronUp className="w-5 h-5 rotate-180" />
+   917→   917→        </div>
+   918→   918→      </section>
+   919→   919→
+   920→   920→      {/* ПРОЦЕСС РАБОТЫ - ЭМОЦИИ */}
+   921→   921→      <section id="process" className="py-6 lg:py-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+   922→   922→        {/* Background decoration */}
+   923→   923→        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(37,99,235,0.03),transparent)]"></div>
+   924→   924→        
+   925→   925→        <div className="max-w-7xl mx-auto px-6 relative z-10">
+   926→   926→          {/* Section header */}
+   927→   927→          <div className="text-center mb-6 animate-on-scroll">
+   928→   928→            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-2">
+   929→   929→              <Timer className="w-4 h-4" />
+   930→   930→              Как мы работаем
+   931→   931→            </div>
+   932→   932→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-2">
+   933→   933→              4 простых шага <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">к новой машине</span>
+   934→   934→            </h2>
+   935→   935→            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+   936→   936→              Прозрачный процесс от первой встречи до счастливого владельца обновлённого авто
+   937→   937→            </p>
+   938→   938→          </div>
+   939→   939→
+   940→   940→          {/* Process steps */}
+   941→   941→          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 stagger-children animate-on-scroll">
+   942→   942→            {processSteps.map((step, index) => (
+   943→   943→              <div key={index} className="relative group">
+   944→   944→                {/* Step number badge */}
+   945→   945→                <div className="absolute -top-4 -left-2 w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-black text-sm shadow-lg shadow-blue-600/30 z-10">
+   946→   946→                  {step.step}
+   947→   947→                </div>
+   948→   948→                
+   949→   949→                <div className="pt-8 pl-8 pr-4 pb-6 bg-white rounded-2xl border border-gray-100 card-soft h-full process-line">
+   950→   950→                  <div className="w-12 h-12 bg-blue-50 group-hover:bg-blue-600 rounded-xl flex items-center justify-center mb-4 transition-colors text-blue-600 group-hover:text-white">
+   951→   951→                    {step.icon}
+   952→   952→                  </div>
+   953→   953→                  <h3 className="text-lg font-bold mb-2">{step.title}</h3>
+   954→   954→                  <p className="text-gray-500 text-sm leading-relaxed">{step.description}</p>
+   955→   955→                </div>
+   956→   956→              </div>
+   957→   957→            ))}
+   958→   958→          </div>
+   959→   959→        </div>
+   960→   960→      </section>
+   961→   961→
+   962→   962→      {/* ПОЧЕМУ МЫ - USP */}
+   963→   963→      <section id="why-us" className="py-6 lg:py-8 bg-white">
+   964→   964→        <div className="max-w-7xl mx-auto px-6">
+   965→   965→          {/* Section header */}
+   966→   966→          <div className="text-center mb-5 animate-on-scroll">
+   967→   967→            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-700 text-sm font-semibold mb-4">
+   968→   968→              <Award className="w-4 h-4" />
+   969→   969→              Почему выбирают нас
+   970→   970→            </div>
+   971→   971→            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
+   972→   972→              6 причин доверить авто <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">нам</span>
+   973→   973→            </h2>
+   974→   974→            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+   975→   975→              Мы не просто делаем детейлинг — создаём долгосрочные отношения
+   976→   976→            </p>
+   977→   977→          </div>
+   978→   978→
+   979→   979→          {/* USP Grid */}
+   980→   980→          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children animate-on-scroll">
+   981→   981→            {whyUs.map((item, index) => (
+   982→   982→              <div
+   983→   983→                key={index}
+   984→   984→                className="group p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl card-soft border border-gray-100 hover:border-blue-200"
+   985→   985→              >
+   986→   986→                <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-indigo-50 group-hover:from-blue-600 group-hover:to-indigo-600 rounded-2xl flex items-center justify-center mb-6 transition-all text-blue-600 group-hover:text-white shadow-sm group-hover:shadow-lg">
+   987→   987→                  {item.icon}
+   988→   988→                </div>
+   989→   989→                <h3 className="text-xl font-bold mb-1">{item.title}</h3>
+   990→   990→                <p className="text-gray-500 leading-relaxed">{item.description}</p>
+   991→   991→              </div>
+   992→   992→            ))}
+   993→   993→          </div>
+   994→   994→        </div>
+   995→   995→      </section>
+   996→   996→
+   997→   997→      {/* ГАРАНТИИ - ДОВЕРИЕ */}
+   998→   998→      <section className="py-10 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
+   999→   999→        {/* Pattern overlay */}
+
+[showing lines 500-999 of 1672; use offset=1000 with limit to continue reading]
